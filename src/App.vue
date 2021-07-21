@@ -1,17 +1,7 @@
 <template>
-   <div>
-    <router-link class="link" to='/'>Home</router-link> |
-    <router-link class="link" to='/test'>User </router-link>
+  <div class="bg-gray-200 min-h-screen">
+    <div class="container max-w-md mx-auto bg-white min-h-screen relative">
+      <router-view></router-view>
+    </div>
   </div>
-  <router-view></router-view>
 </template>
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
-
