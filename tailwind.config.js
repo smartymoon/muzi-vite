@@ -1,5 +1,4 @@
 module.exports = {
-  mode:'jit',
   purge: [
     './index.html', 
     './public/**/*.html',
@@ -14,7 +13,7 @@ module.exports = {
 
       gray: {
         100: '#F1F1F1',
-        200: '#F1F3F7',
+        200: '#F7F7F7',
         300: '#E6E6E6', // 分割线
         400: '#CCCCCC', // 分割线2
         500: '#999999', // 次要颜色 500
@@ -30,7 +29,9 @@ module.exports = {
     }
   },
   variants: {
-    extend: {},
+    extend: {
+      borderColor: ['last']
+    },
   },
   plugins: [],
 }

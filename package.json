@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "lodash": "^4.17.21",
+    "mitt": "^3.0.0",
     "vant": "^3.1.4",
     "vue": "^3.0.5",
     "vue-router": "^4.0.10"
@@ -18,6 +20,8 @@
     "@vitejs/plugin-vue": "^1.2.5",
     "@vue/compiler-sfc": "^3.0.5",
     "autoprefixer": "^10.3.1",
+    "babel-plugin-lodash": "^3.3.4",
+    "lodash-webpack-plugin": "^0.11.6",
     "postcss": "^8.3.5",
     "tailwindcss": "^2.2.4",
     "vite": "^2.4.3",
