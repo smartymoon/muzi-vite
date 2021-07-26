@@ -28,19 +28,21 @@
           <h2 class="text-sm font-bold">{{ item.title }}</h2>
           <div class="mt-2 grid grid-cols-3 gap-x-2 gap-y-3">
             <div v-for="(msg,idx) in item.content" :key="idx">
-              <base-square>
-                <van-image width="100%" height="100%" :src="msg.simage" radius="7" lazy-load>
-                  <template v-slot:loading>
-                    <van-loading type="spinner" size="20" />
-                  </template>
-                </van-image>
-              </base-square>
-              <p 
-                class="mt-1 h-8 overflow-hidden overflow-ellipsis text-xs" 
-                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
-              >
-                {{ msg.sname }}
-              </p>
+              <router-link :to="'/search/list?countryCode='+content[sIndex].scountry+'?secondClass='+msg.sfuncid">
+                <base-square>
+                  <van-image width="100%" height="100%" :src="msg.simage" radius="7" lazy-load>
+                    <template v-slot:loading>
+                      <van-loading type="spinner" size="20" />
+                    </template>
+                  </van-image>
+                </base-square>
+                <p 
+                  class="mt-1 h-8 overflow-hidden overflow-ellipsis text-xs" 
+                  style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
+                >
+                  {{ msg.sname }}
+                </p>
+              </router-link>
             </div>
           </div>
         </div>

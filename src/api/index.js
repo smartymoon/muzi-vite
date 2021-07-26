@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // const baseURL = 'http://13.114.161.29:8888/muzimed_mobile/'         //服务器
-const baseURL = 'http://192.168.50.236:8888/muzimed_mobile/'        //本地/李明
-// const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
+// const baseURL = 'http://192.168.50.236:8888/muzimed_mobile/'        //本地/李明
+const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
 
 const http = axios.create({
   baseURL,

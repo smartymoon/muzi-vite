@@ -10,7 +10,7 @@
     >
       <slot :list="localList" />
     </van-list>
-    <van-empty v-show="localList.length === 0" :description="descriptionTips" class="mt-36" />
+    <van-empty :image="emptyImg" v-show="localList.length === 0" :description="descriptionTips" class="mt-36" />
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default {
     descriptionTips: {
       type: String,
       default: '列表为空'
+    },
+    emptyImg: {
+      type: String,
+      default:'default'
     },
     url: {
       type: String,

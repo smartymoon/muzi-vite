@@ -2,7 +2,7 @@
   <div class="relative py-12 min-h-screen">
     <!-- header/search -->
     <div class="fixed top-0 max-w-md w-full px-4 flex items-center z-50 bg-red-400">
-      <div @click="back">
+      <div @click="$emit('back')">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
@@ -54,28 +54,25 @@
 <script>
 import { ref } from 'vue';
 import { Dialog } from 'vant'
-import { uniq } from 'lodash'
-import { useRouter } from 'vue-router'
+import { useRouter,useRoute } from 'vue-router'
 export default {
-  setup() {
+  emits:['back'],
+  setup(props,{ attrs, slots, emit }) {
     const showHistory = ref(sessionStorage.getItem('history')? true:false)
     const router = useRouter()
     const searchValue = ref('')
-    const historyList =  ref(sessionStorage.getItem('history') ? uniq(sessionStorage.getItem('history').split(',').reverse()) : [])
-    console.log(historyList.value)
+    const historyList =  ref(sessionStorage.getItem('history') ? sessionStorage.getItem('history').split(',').reverse() : [])
     return {
       showHistory,
       searchValue,
       historyList,
-      // 返回
-      back() { router.go(-1) },
       // 获取焦点
       getFocus() { searchValue.value = '' },
       // 搜索
       onSearch(value) {
-        historyList.value.push(value)
+        historyList.value.push(value) 
         sessionStorage.setItem('history',historyList.value)
-        router.push({ path: '/search/list', query: { drug: value } })
+        router.push({ path: '/search', query: { drug: value } })
       },
       // 点击历史标签
       clickHistory(item) {
@@ -96,7 +93,8 @@ export default {
 }
 </script>
 <style>
-  .van-search {
-    height: 3rem;
+  .van-search{
+    padding-top: 7px;
+    padding-bottom: 7px;
   }
 </style>

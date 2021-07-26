@@ -20,12 +20,20 @@ const router = new createRouter({
 			component:() => import('../views/search/index.vue')
 		},
 		{
+			path:'/search/list',
+			component:() => import('../views/search/list.vue')
+		},
+		{
 			path:'/cart',
 			component:() => import('../views/cart/index.vue')
 		},
 		{
 			path:'/mine',
 			component:() => import('../views/mine/index.vue')
+		},
+		{
+			path:'/login',
+			component:() => import('../views/login/index.vue')
 		},
 	]
 })
