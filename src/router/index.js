@@ -5,23 +5,11 @@ const router = new createRouter({
 	routes:[
 		{
 			path:'/',
-			redirect:'/home'
-		},
-		{
-			path:'/home',
 			component:() => import('../views/home/index.vue')
 		},
     {
 			path:'/type',
 			component:() => import('../views/type/index.vue')
-		},
-		{
-			path:'/search',
-			component:() => import('../views/search/index.vue')
-		},
-		{
-			path:'/search/list',
-			component:() => import('../views/search/list.vue')
 		},
 		{
 			path:'/cart',
@@ -30,6 +18,18 @@ const router = new createRouter({
 		{
 			path:'/mine',
 			component:() => import('../views/mine/index.vue')
+		},
+		{
+			path:'/detail',
+			component:() => import('../views/detail/index.vue')
+		},
+		{
+			path:'/search',
+			component:() => import('../views/search/index.vue')
+		},
+		{
+			path:'/search/list',
+			component:() => import('../views/search/list.vue')
 		},
 		{
 			path:'/login',

@@ -94,8 +94,7 @@ export default {
         }).then(() => {
           localStorage.removeItem('history')
           showHistory.value = false
-        }).catch(() => { 
-        })
+        }).catch(() => { /**/ })
       }
     }
   }

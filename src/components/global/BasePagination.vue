@@ -64,7 +64,7 @@ export default {
       Object.assign(newParams, props.params, { currentPage: currentPage.value, size:size.value })
 
       api.get(props.url, pickBy(newParams)).then((res)=>{
-        console.log(res.data.data)
+        // console.log(res.data.data)
         if (more) {
           localList.value.push(...res.data.data.records)
         } else {
