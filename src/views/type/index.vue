@@ -1,7 +1,7 @@
 <template>
   <div class="relative py-12 bg-white">
     <!-- header -->
-    <muzi-header />
+    <muzi-header showLogo />
     <!-- nav -->
     <div v-if="content.length > 0" class="fixed left-0 bg-gray-200 h-full overflow-y-hidden" style="width:30%">
       <div v-for="i in content.length" :key="i">
@@ -28,7 +28,7 @@
           <h2 class="text-sm font-bold">{{ item.title }}</h2>
           <div class="mt-2 grid grid-cols-3 gap-x-2 gap-y-3">
             <div v-for="(msg,idx) in item.content" :key="idx">
-              <router-link :to="'/search/list?countryCode='+content[sIndex].scountry+'?secondClass='+msg.sfuncid">
+              <div @click="toList(content[sIndex].scountry,msg.sfuncid)" :to="'/search/list?countryCode='+content[sIndex].scountry+'&secondClass='+msg.sfuncid">
                 <base-square>
                   <van-image width="100%" height="100%" :src="msg.simage" radius="7" lazy-load>
                     <template v-slot:loading>
@@ -36,13 +36,13 @@
                     </template>
                   </van-image>
                 </base-square>
-                <p 
+                <p
                   class="mt-1 h-8 overflow-hidden overflow-ellipsis text-xs" 
                   style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
                 >
                   {{ msg.sname }}
                 </p>
-              </router-link>
+              </div>
             </div>
           </div>
         </div>
@@ -56,6 +56,7 @@
 <script>
 import { ref } from 'vue';
 import api from '../../api/index.js'
+import { useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
@@ -66,15 +67,19 @@ export default {
     MuziFooter
   },
   setup() {
+    const router = useRouter()
     const sIndex = ref(0)
     const content = ref([])
     api.get("/open/home/get_nav_class").then((res)=>{
-      console.log(res.data.data)
       content.value = res.data.data
     })
     return {
       sIndex,
-      content
+      content,
+      toList(countryId,sfuncid) {
+        sessionStorage.setItem('searchFrom','/type')
+        router.push({ path:'/search/list?countryCode=' + countryId + '&secondClass=' + sfuncid })
+      }
     }
   }
 }

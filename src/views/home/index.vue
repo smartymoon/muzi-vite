@@ -1,7 +1,7 @@
 <template>
   <div class="relative py-12">
     <!-- header -->
-    <muzi-header />
+    <muzi-header showLogo />
     <!-- tab -->
     <van-tabs 
       v-model:active="active" 

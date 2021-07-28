@@ -25,7 +25,7 @@ http.interceptors.response.use((res) => {
 
 const api = {}
 
-api.get = function(url,params){
+api.get = function(url,params) {
   if (params) {
     return new Promise((resolve,reject) => {
       http({method: "get", url: url, params:params}).then((res)=>{ resolve(res ) })

@@ -38,8 +38,10 @@ const router = new createRouter({
 	]
 })
 
+// to：目标路由对象；
+// from：即将要离开的路由对象；
 router.beforeEach((to,from,next) => {
-	console.log(to,from,111);
+	// console.log(from.path,next);
 	next();
 })
 

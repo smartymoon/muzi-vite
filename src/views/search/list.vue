@@ -1,7 +1,7 @@
 <template>
-  <div v-if="!showSearch" class="relative py-12 min-h-screen">
+  <div class="relative py-12 min-h-screen">
     <!-- header -->
-    <muzi-header showBack @search="toSearch" />
+    <muzi-header :backUrl="searchFrom" />
     <!-- list -->
     <div class="mt-3 px-4">
       <base-pagination
@@ -21,36 +21,31 @@
       </base-pagination>
     </div>
   </div>
-  <muzi-search v-else @back="toBack" @confirm="confirm" />
 </template>
 
 <script>
 import { ref } from 'vue';
 import BasePagination from '../../components/global/BasePagination.vue'
 import MuziHeader from '../../components/MuziHeader.vue'
-import MuziSearch from '../../components/MuziSearch.vue'
 import MuziCard from '../../components/MuziCard.vue'
 import { useRoute,useRouter } from 'vue-router'
 export default {
   components: {
     BasePagination,
     MuziHeader,
-    MuziSearch,
     MuziCard
   },
   setup() {
-    console.log('sss',useRoute().query.drug)
-    const showSearch = ref(false)
     const params = ref({
       searchContent: useRoute().query.drug,
-      countryCode: useRoute().query.countryId
+      sclass: useRoute().query.id,
+      countryCode: useRoute().query.countryCode,
+      onefunctioncategory:useRoute().query.secondClass
     })
-    console.log(params.value)
+    const searchFrom = sessionStorage.getItem('searchFrom')
     return {
-      showSearch,
       params,
-      toSearch() { showSearch.value = true },
-      toBack() { showSearch.value = false }
+      searchFrom
     }
   }
 }

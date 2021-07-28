@@ -23,7 +23,9 @@ import {
   Loading,
   List,
   Empty,
-  Search
+  Search,
+  Field,
+  CellGroup 
 } from 'vant'
 
 const app = createApp(App)
@@ -32,4 +34,20 @@ app.component('BaseSquare', BaseSquare)
 app.component('BasePagination', BasePagination)
 
 
-app.use(router).use(Button).use(VanImage).use(Lazyload).use(Tab).use(Tabs).use(Swipe).use(SwipeItem).use(Sticky).use(Loading).use(List).use(Empty).use(Search).mount('#app')
+app
+  .use(router)
+  .use(Button)
+  .use(VanImage)
+  .use(Lazyload)
+  .use(Tab)
+  .use(Tabs)
+  .use(Swipe)
+  .use(SwipeItem)
+  .use(Sticky)
+  .use(Loading)
+  .use(List)
+  .use(Empty)
+  .use(Search)
+  .use(Field)
+  .use(CellGroup)
+  .mount("#app");
