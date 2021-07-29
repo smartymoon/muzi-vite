@@ -14,38 +14,59 @@
       <van-tabs 
         v-model:active="active"
         line-width="50%"
-        duration="0.1"
+        duration="0.05"
         class="mt-20" 
       >
         <!-- 手机号密码登录 -->
-        <van-tab title="账号密码登录" class="w-full pt-8 space-y-5">
+        <van-tab title="账号密码登录" class="w-full pt-8 space-y-4">
           <!-- 输入手机号，调起手机号键盘 -->
           <div class="border-b border-gray-300">
-            <van-field v-model="state.tel" type="tel" label="手机号" placeholder="请输入您的手机号" />
+            <van-field 
+              v-model="state.tel" 
+              type="tel"
+              center
+              clearable 
+              label-width="4rem" 
+              label="账号" 
+              placeholder="请输入您的手机号" 
+            />
           </div>
           <!-- 输入密码 -->
           <form class="border-b border-gray-300">
-            <van-field v-model="state.pwd" type="password" label="密码" autocomplete=“off” placeholder="请输入您的密码" />
+            <van-field 
+              v-model="state.pwd" 
+              type="password"
+              center
+              clearable 
+              label-width="4rem" 
+              label="密码" 
+              autocomplete=“off” 
+              placeholder="请输入您的密码" 
+            />
           </form>
         </van-tab>
         <!-- 验证码登录 -->
         <van-tab title="验证码登录" class="w-full pt-8 space-y-4">
           <!-- 输入手机号，调起手机号键盘 -->
           <div class="border-b border-gray-300">
-            <van-field v-model="state2.tel" type="tel" label="手机号" placeholder="请输入您的手机号" />
+            <van-field 
+              v-model="state2.tel" 
+              type="tel"
+              center
+              clearable 
+              label-width="4rem" label="手机号" maxlength="11" placeholder="请输入您的手机号" />
           </div>
           <!-- 验证码输入 -->
           <div class="border-b border-gray-300">
             <van-field
               v-model="state2.sms"
+              type="number"
               center
               clearable
+              label-width="4rem"
               label="验证码"
               placeholder="请输入短信验证码"
             >
-              <template #button>
-                <van-button size="mini" type="primary" round color="#F23030">发送验证码</van-button>
-              </template>
             </van-field>
           </div>
         </van-tab>
@@ -73,27 +94,42 @@ export default {
     const active = ref(0)
     const state = reactive({ tel:'', pwd:'' })
     const state2 = reactive({ tel:'', sms:'' })
-    const transform = function(phone){
+    const check = ref(false)
+
+    const transform = function(phone,value,text) {
+      if (phone.length === 0 || value.length === 0) {
+        console.log(text)
+        Toast.fail(text+'不能为空')
+        return
+      }
       let phonereg = 11 && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
       if(!phonereg.test(phone)) {
         Toast.fail('手机号格式不正确')
-        return false
-      }else {
-        return true
+        return
       }
+      check.value = true
     }
     return {
       active,
       state,
       state2,
+      check,
       transform,
       login() {
         if(active.value === 0) {
-          transform(state.tel)
-          if (transform(state.tel)) { console.log('sdfg') }
-        } else {
-          transform(state2.tel)
-          if (transform(state.tel)) { console.log('sdfg') }
+          transform(state.tel, state.pwd, '账号密码')
+          if(check.value){
+            // ...
+            console.log('sdfsdfsdf')
+            check.value = false
+          }
+        }
+        if(active.value === 1){
+          transform(state2.tel, state2.sms, '手机号验证码')
+          if(check.value){
+            // ...
+            check.value = false
+          }
         }
       }
     }

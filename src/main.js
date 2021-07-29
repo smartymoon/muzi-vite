@@ -25,7 +25,11 @@ import {
   Empty,
   Search,
   Field,
-  CellGroup 
+  CellGroup,
+  Rate,
+  ActionBar,
+  ActionBarIcon,
+  ActionBarButton 
 } from 'vant'
 
 const app = createApp(App)
@@ -50,4 +54,8 @@ app
   .use(Search)
   .use(Field)
   .use(CellGroup)
+  .use(Rate)
+  .use(ActionBar)
+  .use(ActionBarIcon)
+  .use(ActionBarButton)
   .mount("#app");

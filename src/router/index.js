@@ -20,7 +20,7 @@ const router = new createRouter({
 			component:() => import('../views/mine/index.vue')
 		},
 		{
-			path:'/detail',
+			path:'/detail/:id',
 			component:() => import('../views/detail/index.vue')
 		},
 		{

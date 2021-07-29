@@ -157,7 +157,7 @@ export default {
         router.push({ path: '/search/list', query: { id: scode }})
       },
       clickCard(id) {
-        router.push({ path: '/detail', query: { id: id }})
+        router.push({ path: '/detail/'+ id})
       }
     }
   }

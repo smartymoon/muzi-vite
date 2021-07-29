@@ -2,5 +2,6 @@
   "cSpell.words": [
     "vite",
     "vitejs"
-  ]
+  ],
+  "totvsLanguageServer.welcomePage": false
 }
