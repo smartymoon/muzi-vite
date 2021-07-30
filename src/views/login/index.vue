@@ -3,7 +3,7 @@
     <!-- header -->
     <muzi-header title="登录" backUrl="/" />
     <!-- content -->
-    <div class="px-8 pt-20 text-center">
+    <main class="px-8 pt-20 text-center">
       <!-- logo -->
       <van-image width="70" height="70" src="/src/assets/images/logo.png" lazy-load>
         <template v-slot:loading>
@@ -16,6 +16,7 @@
         line-width="50%"
         duration="0.05"
         class="mt-20" 
+        @change="changeTab"
       >
         <!-- 手机号密码登录 -->
         <van-tab title="账号密码登录" class="w-full pt-8 space-y-4">
@@ -23,12 +24,14 @@
           <div class="border-b border-gray-300">
             <van-field 
               v-model="state.tel" 
-              type="tel"
+              type="digit"
+              maxlength="11"
               center
               clearable 
               label-width="4rem" 
               label="账号" 
               placeholder="请输入您的手机号" 
+              @update:model-value="changeTel"
             />
           </div>
           <!-- 输入密码 -->
@@ -39,7 +42,8 @@
               center
               clearable 
               label-width="4rem" 
-              label="密码" 
+              label="密码"
+              maxlength="15" 
               autocomplete=“off” 
               placeholder="请输入您的密码" 
             />
@@ -51,86 +55,123 @@
           <div class="border-b border-gray-300">
             <van-field 
               v-model="state2.tel" 
-              type="tel"
+              type="digit"
               center
               clearable 
-              label-width="4rem" label="手机号" maxlength="11" placeholder="请输入您的手机号" />
+              label-width="4rem" 
+              label="手机号" 
+              maxlength="11" 
+              placeholder="请输入您的手机号"
+              @update:model-value="changeTel2" 
+            />
           </div>
           <!-- 验证码输入 -->
-          <div class="border-b border-gray-300">
+          <div class="border-b border-gray-300 flex items-center">
             <van-field
               v-model="state2.sms"
-              type="number"
+              type="digit"
               center
-              clearable
+              maxlength="4"
               label-width="4rem"
               label="验证码"
               placeholder="请输入短信验证码"
             >
             </van-field>
+            <sms-button :tel="state2.tel" />
           </div>
         </van-tab>
       </van-tabs>
       <!-- 注册， 忘记密码 -->
       <div class="w-full text-sm flex items-center justify-between mb-7">
-        <p class="w-20 text-left py-4">注册</p>
-        <p class="w-20 text-right py-4">忘记密码</p>
+        <router-link to="/login/register" class="w-20 text-left py-4">注册</router-link>
+        <router-link to="/login/forgetpwd" class="w-20 text-right py-4">忘记密码</router-link>
       </div>
       <!-- loginButton -->
-      <van-button block round color="#F23030" @click="login">登录</van-button>
-    </div>
+      <van-button block round color="#F23030" :loading="loginLoading" @click="login">登录</van-button>
+    </main>
   </div>
 </template>
 
 <script>
 import { reactive, ref } from 'vue'
+import api from '../../api/index.js'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
+import SmsButton from './component/SmsButton.vue'
 export default {
   components: {
-    MuziHeader
+    MuziHeader,
+    SmsButton
   },
   setup() {
     const active = ref(0)
-    const state = reactive({ tel:'', pwd:'' })
-    const state2 = reactive({ tel:'', sms:'' })
-    const check = ref(false)
-
-    const transform = function(phone,value,text) {
-      if (phone.length === 0 || value.length === 0) {
-        console.log(text)
-        Toast.fail(text+'不能为空')
-        return
+    const changeTab = function(index){
+      if(index === 0) {
+        state2.sms = ''
+        localStorage.getItem('phone') ? state.tel = localStorage.getItem('phone')  : state2.tel = ''
+      } else {
+        state.pwd = ''
+        localStorage.getItem('phone') ? state2.tel = localStorage.getItem('phone')  : state.tel = ''
       }
-      let phonereg = 11 && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
-      if(!phonereg.test(phone)) {
-        Toast.fail('手机号格式不正确')
-        return
-      }
-      check.value = true
     }
+
+    const state = reactive({ 
+      tel:localStorage.getItem('phone') ? localStorage.getItem('phone'):'', 
+      pwd:'' 
+    })
+
+    const state2 = reactive({ 
+      tel:localStorage.getItem('phone') ? localStorage.getItem('phone'):'', 
+      sms:'' 
+    })
+    const storagePhone = function(value) {
+      if(value.length === 11) {
+        localStorage.setItem('phone',value)
+      } else {
+        if (localStorage.getItem('phone')) { localStorage.removeItem('phone') }
+      }
+    }
+    // 手机号校验
+    const checkPhone = function(tel) {
+      let phonereg = 11 && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
+      return !!phonereg.test(tel)
+    }
+    const loginLoading = ref(false)
     return {
       active,
+      changeTab,
       state,
       state2,
-      check,
-      transform,
+      changeTel(value) { storagePhone(value) },
+      changeTel2(value) { storagePhone(value) },
+      loginLoading,
+      // 登录
       login() {
+        loginLoading.value = true
+        let postData = {}
+        // 账号密码登录
         if(active.value === 0) {
-          transform(state.tel, state.pwd, '账号密码')
-          if(check.value){
-            // ...
-            console.log('sdfsdfsdf')
-            check.value = false
-          }
+          if (state.tel.length === 0 || state.pwd.length === 0) { Toast.fail('账号密码不能为空'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
+          if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
+          Object.assign(postData,{ captcha: '', loginType: true, password: state.pwd, phone: state.tel })
         }
-        if(active.value === 1){
-          transform(state2.tel, state2.sms, '手机号验证码')
-          if(check.value){
-            // ...
-            check.value = false
-          }
+        // 手机号验证码登录
+        if(active.value === 1) {
+          if (state2.tel.length === 0 || state2.sms.length === 0) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
+          if (!checkPhone(state2.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
+          Object.assign(postData, { captcha: state2.sms, loginType: false, password: '', phone: state2.tel })
         }
+        // 发起post登录请求
+        api.post("/open/login", postData).then((res) => {
+          console.log(res.data)
+          if(res.data.code === 20000) {
+            Toast.success(res.data.msg) 
+          } else {
+            Toast.fail(res.data.msg)
+            if(res.data.msg === '用户不存在') { localStorage.removeItem('phone'); state.tel = state2.tel = '' }
+          } 
+        })
+        setTimeout( () => { loginLoading.value = false }, 1000 )
       }
     }
   }

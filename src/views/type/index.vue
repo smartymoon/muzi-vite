@@ -78,7 +78,7 @@ export default {
       content,
       toList(countryId,sfuncid) {
         sessionStorage.setItem('searchFrom','/type')
-        router.push({ path:'/search/list?countryCode=' + countryId + '&secondClass=' + sfuncid })
+        router.push({ path:'/search/list', query: { countryCode: countryId, secondClass: sfuncid } })
       }
     }
   }

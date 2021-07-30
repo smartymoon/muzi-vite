@@ -25,16 +25,22 @@ http.interceptors.response.use((res) => {
 
 const api = {}
 
-api.get = function(url,params) {
+api.get = function(url, params) {
   if (params) {
     return new Promise((resolve,reject) => {
-      http({method: "get", url: url, params:params}).then((res)=>{ resolve(res ) })
+      http({ method: "get", url: url, params:params }).then((res)=>{ resolve(res ) })
     })
   } else {
     return new Promise((resolve,reject) => {
-      return http({method: "get", url: url}).then((res)=>{ resolve(res) })
+      http({ method: "get", url: url }).then((res)=>{ resolve(res) })
     })
   }
+}
+
+api.post = function(url, data) {
+  return new Promise((resolve,reject) => {
+    http({ method: "post", url: url, data:data }).then((res) => { resolve(res) })
+  })
 }
 
 export default api;

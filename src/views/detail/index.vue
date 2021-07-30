@@ -60,37 +60,37 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    watch(() => route.params, async newParams => { router.go(0) })
-
-    // 获取轮播图
+    watch(() => route.params, async newParams => { 
+      if(newParams.id){
+        getDetail()
+        window.scrollTo(0,0)
+      } 
+    })
+    // 获取轮播图,详情信息,评论,更多推荐,详情图
     const banners = ref([])
-    api.get("/open/product_detail/get_product_images",{ id: route.params.id }).then((res)=>{ 
-      banners.value = res.data.data
-    })
-    
-    // 获取详情信息
     const info = ref({})
-    api.get("/open/product_detail/get_product_info",{ id: route.params.id }).then((res)=>{ 
-      info.value = res.data.data
-    })
-
-    // 获取评论
     const comments = ref([])
-    api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ 
-      comments.value = res.data.data
-    })
-
-    // 获取更多推荐
     const moreList = ref([])
-    api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res)=>{ 
-      moreList.value = res.data.data
-    })
-    
-    // 获取详情图
     const detailImg = ref('')
-    api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ 
-      detailImg.value = res.data.data.simage
-    })
+
+    const getDetail = function() {
+      api.get("/open/product_detail/get_product_images",{ id: route.params.id }).then((res)=>{ 
+        banners.value = res.data.data
+      })
+      api.get("/open/product_detail/get_product_info",{ id: route.params.id }).then((res)=>{ 
+        info.value = res.data.data
+      })
+      api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ 
+        comments.value = res.data.data
+      })
+      api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res)=>{ 
+        moreList.value = res.data.data
+      })
+      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ 
+        detailImg.value = res.data.data.simage
+      })
+    }
+    getDetail()
 
     return {
       back() { router.go(-1) },
