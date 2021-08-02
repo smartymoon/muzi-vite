@@ -1,7 +1,7 @@
 <template>
   <div class="relative py-12 min-h-screen">
     <!-- header -->
-    <muzi-header :backUrl="searchFrom" />
+    <muzi-header :backUrl="searchFrom" :placeholder="params.searchContent ? params.searchContent : '请输入您要搜索的药品、品牌'" />
     <!-- list -->
     <div class="mt-3 px-4">
       <base-pagination

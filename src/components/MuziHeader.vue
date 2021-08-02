@@ -11,7 +11,7 @@
       <router-link to="/search">
       </router-link>
       <div class="w-full h-full flex items-center px-3 bg-white rounded-2xl" @click="search">
-        <p class="text-xs">搜索药品、品牌</p>
+        <p class="text-xs">{{ placeholder }}</p>
         <img src="/src/assets/images/search.png" class="w-4 h-4 ml-auto text-gray-500">
       </div>
     </div>
@@ -37,6 +37,10 @@ export default {
     backUrl: {
       type: String,
       default:''
+    },
+    placeholder: {
+      type: String,
+      default: '搜索药品、品牌'
     }
   },
   setup(props) {

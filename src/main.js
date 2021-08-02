@@ -1,14 +1,19 @@
-import {
-  createApp
-} from 'vue'
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router/index.js";
 import './index.css'
 import 'vant/lib/index.css';
 
+const app = createApp(App)
+
+
 // 全局组件
 import BaseSquare from './components/global/BaseSquare.vue'
 import BasePagination from './components/global/BasePagination.vue'
+
+app.component('BaseSquare', BaseSquare)
+app.component('BasePagination', BasePagination)
+
 
 // vant插件
 import {
@@ -29,14 +34,12 @@ import {
   Rate,
   ActionBar,
   ActionBarIcon,
-  ActionBarButton 
+  ActionBarButton,
+  SubmitBar,
+  Checkbox, 
+  CheckboxGroup,
+  Stepper,
 } from 'vant'
-
-const app = createApp(App)
-
-app.component('BaseSquare', BaseSquare)
-app.component('BasePagination', BasePagination)
-
 
 app
   .use(router)
@@ -58,4 +61,8 @@ app
   .use(ActionBar)
   .use(ActionBarIcon)
   .use(ActionBarButton)
+  .use(SubmitBar)
+  .use(Checkbox)
+  .use(CheckboxGroup)
+  .use(Stepper)
   .mount("#app");

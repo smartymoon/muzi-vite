@@ -94,6 +94,7 @@
 
 <script>
 import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import api from '../../api/index.js'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
@@ -104,6 +105,7 @@ export default {
     SmsButton
   },
   setup() {
+    const router = useRouter()
     const active = ref(0)
     const changeTab = function(index){
       if(index === 0) {
@@ -164,8 +166,15 @@ export default {
         // 发起post登录请求
         api.post("/open/login", postData).then((res) => {
           console.log(res.data)
-          if(res.data.code === 20000) {
-            Toast.success(res.data.msg) 
+          if(res.data.code === 20000 && res.data.msg === '成功') {
+            localStorage.setItem('token', res.data.data.token)
+            localStorage.setItem("id", res.data.data.user.id)
+            Toast.success(res.data.msg)
+            if(sessionStorage.getItem('loginFrom')) {
+              router.push({ path: sessionStorage.getItem('loginFrom')})
+            } else {
+              router.push({ path: '/'})
+            }
           } else {
             Toast.fail(res.data.msg)
             if(res.data.msg === '用户不存在') { localStorage.removeItem('phone'); state.tel = state2.tel = '' }

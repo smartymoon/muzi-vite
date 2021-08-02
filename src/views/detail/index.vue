@@ -13,7 +13,7 @@
     <!-- 轮播图 -->
     <base-square>
       <div class="w-full h-full bg-white">
-        <van-swipe class="w-full h-full bg-gray-400" :autoplay="3000" indicator-color="#f23030" lazy-render>
+        <van-swipe ref="swipeRef" class="w-full h-full bg-gray-400" :autoplay="3000" indicator-color="#f23030" lazy-render>
           <van-swipe-item v-for="image in banners" :key="image" class="w-full h-full">
             <img :src="image" class="w-full h-full" />
           </van-swipe-item>
@@ -58,11 +58,13 @@ export default {
     DtlFooter
   },
   setup() {
+    const swipeRef = ref(null)
     const router = useRouter()
     const route = useRoute()
     watch(() => route.params, async newParams => { 
       if(newParams.id){
         getDetail()
+        swipeRef.value.swipeTo(0)
         window.scrollTo(0,0)
       } 
     })
@@ -93,6 +95,7 @@ export default {
     getDetail()
 
     return {
+      swipeRef,
       back() { router.go(-1) },
       banners,
       info,

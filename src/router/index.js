@@ -46,11 +46,16 @@ const router = new createRouter({
 	]
 })
 
-// to：目标路由对象；
-// from：即将要离开的路由对象；
+// 路由守卫
 router.beforeEach((to,from,next) => {
-	// console.log(from.path,next);
-	next();
+	if (!window.localStorage.getItem("token")) {
+		let blackRouter = ['/cart', '/mine']
+		if (blackRouter.includes(to.path)) { 
+			sessionStorage.setItem('loginFrom',to.path)
+			next('/login')
+		}
+	}
+	next()
 })
 
 export default router;

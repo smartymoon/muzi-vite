@@ -1,8 +1,8 @@
 import axios from 'axios';
-
 // const baseURL = 'http://13.114.161.29:8888/muzimed_mobile/'         //服务器
 // const baseURL = 'http://192.168.50.236:8888/muzimed_mobile/'        //本地/李明
-const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
+// const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
+const baseURL = import.meta.env.VITE_APP_URL      // 测试/开发
 
 const http = axios.create({
   baseURL,
@@ -11,14 +11,14 @@ const http = axios.create({
 
 // 在发起请求时进行拦截，获取token
 http.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token")
+  req.headers.Authorization = window.localStorage.getItem("token")
   return req
 })
 
 // 当获取服务器返回的信息时进行的处理
 http.interceptors.response.use((res) => {
-  if(res.data.code === '20002'){
-    console.log('失效了')
+  if(res.data.code === 20002){
+    console.log('api/index.js------ res 20002',res.data)
   }
   return res
 })
