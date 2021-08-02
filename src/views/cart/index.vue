@@ -42,7 +42,7 @@
     </main>
     <!-- submit -->
     <van-submit-bar class="mb-12 border-t border-b" currency="HK$" :price="3050" button-text="去结算" @submit="onSubmit">
-      <van-checkbox v-model="checked">全选</van-checkbox>
+      <van-checkbox v-model="checkAll">全选</van-checkbox>
     </van-submit-bar>
     <!-- footer -->
     <muzi-footer :footerIndex="2" />
