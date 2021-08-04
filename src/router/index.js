@@ -24,12 +24,20 @@ const router = new createRouter({
 			component:() => import('../views/detail/index.vue')
 		},
 		{
+			path:'/confirmorder',
+			component:() => import('../views/confirmorder/index.vue')
+		},
+		{
 			path:'/search',
 			component:() => import('../views/search/index.vue')
 		},
 		{
 			path:'/search/list',
 			component:() => import('../views/search/list.vue')
+		},
+		{
+			path:'/shiming',
+			component:() => import('../views/shiming/index.vue')
 		},
 		{
 			path:'/login',
@@ -48,7 +56,7 @@ const router = new createRouter({
 
 // 路由守卫
 router.beforeEach((to,from,next) => {
-	if (!window.localStorage.getItem("token")) {
+	if (!window.sessionStorage.getItem("token")) {
 		let blackRouter = ['/cart', '/mine']
 		if (blackRouter.includes(to.path)) { 
 			sessionStorage.setItem('loginFrom',to.path)

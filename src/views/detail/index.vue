@@ -61,6 +61,8 @@ export default {
     const swipeRef = ref(null)
     const router = useRouter()
     const route = useRoute()
+    sessionStorage.removeItem('orderList')
+    sessionStorage.setItem('drugId', route.params.id)
     watch(() => route.params, async newParams => { 
       if(newParams.id){
         getDetail()

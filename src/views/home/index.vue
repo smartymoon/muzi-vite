@@ -48,12 +48,12 @@
               <h2 class="col-span-2 leading-4">自有品牌</h2>
               <div v-for="(msg, idx) in hotList" :key="idx">
                 <base-square>
-                  <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" />
+                  <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" @click="toDetail(msg.id)" />
                 </base-square>
               </div>
               <div v-for="(msg, idx) in brandList" :key="idx">
                 <base-square>
-                  <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" />
+                  <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" @click="toDetail(msg.id)" />
                 </base-square>
               </div>
             </div>
@@ -68,7 +68,7 @@
               <template v-slot:default="slotProps">
                 <div class="w-full grid grid-cols-2 gap-x-4 gap-y-3">
                   <div v-for="(msg,idx) in slotProps.list" :key="idx">
-                    <muzi-card :msg="msg" @click="clickCard(msg.id)" />
+                    <muzi-card :msg="msg" @click="toDetail(msg.id)" />
                   </div>
                 </div>
               </template>
@@ -156,9 +156,7 @@ export default {
         sessionStorage.setItem('searchFrom','/')
         router.push({ path: '/search/list', query: { id: scode }})
       },
-      clickCard(id) {
-        router.push({ path: '/detail/'+ id})
-      }
+      toDetail(id) { router.push({ path: '/detail/'+ id }) }
     }
   }
 }

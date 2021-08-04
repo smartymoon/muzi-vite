@@ -1,7 +1,7 @@
 <template>
   <div class="relative pt-12 bg-white">
     <!-- header -->
-    <muzi-header title="登录" backUrl="/" />
+    <muzi-header title="登录" />
     <!-- content -->
     <main class="px-8 pt-20 text-center">
       <!-- logo -->
@@ -153,13 +153,13 @@ export default {
         let postData = {}
         // 账号密码登录
         if(active.value === 0) {
-          if (state.tel.length === 0 || state.pwd.length === 0) { Toast.fail('账号密码不能为空'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
-          if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
+          if (state.tel.length === 0 || state.pwd.length === 0) { Toast.fail('账号密码不能为空'); setTimeout( () => { loginLoading.value = false }, 500 ); return }
+          if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loginLoading.value = false }, 500 ); return }
           Object.assign(postData,{ captcha: '', loginType: true, password: state.pwd, phone: state.tel })
         }
         // 手机号验证码登录
         if(active.value === 1) {
-          if (state2.tel.length === 0 || state2.sms.length === 0) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
+          if (state2.tel.length === 0 || state2.sms.length === 0) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { loginLoading.value = false }, 500 ); return }
           if (!checkPhone(state2.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loginLoading.value = false }, 1000 ); return }
           Object.assign(postData, { captcha: state2.sms, loginType: false, password: '', phone: state2.tel })
         }
@@ -167,11 +167,14 @@ export default {
         api.post("/open/login", postData).then((res) => {
           console.log(res.data)
           if(res.data.code === 20000 && res.data.msg === '成功') {
-            localStorage.setItem('token', res.data.data.token)
-            localStorage.setItem("id", res.data.data.user.id)
-            Toast.success(res.data.msg)
+            sessionStorage.setItem('token', res.data.data.token)
+            sessionStorage.setItem("id", res.data.data.user.id)
+            api.get("/myidcard/get",{ userid: res.data.data.user.id }).then((res)=>{
+              res.data.code === 20000 ? sessionStorage.setItem('shiming', 1) : sessionStorage.setItem('shiming', 0)
+            })
+            Toast.success('登录成功')
             if(sessionStorage.getItem('loginFrom')) {
-              router.push({ path: sessionStorage.getItem('loginFrom')})
+              // router.push({ path: sessionStorage.getItem('loginFrom')})
             } else {
               router.push({ path: '/'})
             }
@@ -180,7 +183,7 @@ export default {
             if(res.data.msg === '用户不存在') { localStorage.removeItem('phone'); state.tel = state2.tel = '' }
           } 
         })
-        setTimeout( () => { loginLoading.value = false }, 1000 )
+        setTimeout( () => { loginLoading.value = false }, 500 )
       }
     }
   }

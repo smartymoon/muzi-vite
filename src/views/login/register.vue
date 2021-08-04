@@ -93,9 +93,9 @@ export default {
       // 注册
       registered() {
         registerLoading.value = true
-        if(!state.tel || !state.sms) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { registerLoading.value = false }, 1000 ); return }
-        if(!state.pwd) { Toast.fail('密码不能为空'); setTimeout( () => { registerLoading.value = false }, 1000 ); return }
-        if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { registerLoading.value = false }, 1000 ); return }
+        if(!state.tel || !state.sms) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { registerLoading.value = false }, 500 ); return }
+        if(!state.pwd) { Toast.fail('密码不能为空'); setTimeout( () => { registerLoading.value = false }, 500 ); return }
+        if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { registerLoading.value = false }, 500 ); return }
         api.get("/open/register",{ mobile: state.tel, captcha: state.sms, password: state.pwd }).then((res)=>{ 
           if(res.data.code === 20000) {
             Toast.success(res.data.msg)
@@ -103,7 +103,7 @@ export default {
             Toast.fail(res.data.msg)
           }
           if(res.data.msg === '用户已存在，请直接登录' || res.data.msg === '成功'){ router.go(-1) }
-          setTimeout( () => { registerLoading.value = false }, 1000 )
+          setTimeout( () => { registerLoading.value = false }, 500 )
         })
       }
     }

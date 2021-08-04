@@ -21,7 +21,7 @@
             >
               {{ item.stitle }}
             </p>
-            <p class="text-red-400">HK${{ item.iprice }}</p>
+            <p class="text-red-400"><span class="text-xs mr-0.5">HK$</span>{{ item.iprice }}</p>
             <div class="flex items-center justify-between text-xs text-gray-600">
               <p>{{ item.country }}</p>
               <p>已售{{ item.icountsale }}</p>

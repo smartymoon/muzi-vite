@@ -1,48 +1,81 @@
 <template>
-  <div class="relative pb-28">
+  <div class="relative pb-28 min-h-screen">
     <!-- header -->
-    <div class="bg-white h-12 px-4 flex items-center justify-between z-50 rounded-b-2xl">
-      <h1 class="text-lg font-bold">购物车</h1>
-      <p class="text-sm text-gray-600">管理</p>
+    <div class="bg-white h-12 pr-4 pl-2 flex items-center justify-between z-50 rounded-b-2xl">
+      <div class="flex items-center">
+        <div class="p-2" @click="back">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+        <h1 class="text-lg font-bold">购物车</h1>
+      </div>
+      <p class="text-sm" @click="editStatus = !editStatus">{{ editStatus ? '完成': cartList.length > 0 ? '编辑商品' : '' }}</p>
     </div>
     <!-- main -->
     <main class="mt-3.5 space-y-3.5">
-      <div v-for="(item, index) in carList" :key="index" class="bg-white rounded-2xl p-4">
-        <van-checkbox-group v-model="checked" ref="checkboxGroup">
-          <van-checkbox :name="'shop' + index"><p class="text-sm ml-2">{{ item.storename }}</p></van-checkbox>
-          <div class="mt-4 space-y-4">
-            <div v-for="(card, idx) in item.productMain" :key="idx">
-              <van-checkbox :name="'card' + index">
-                <div class="ml-2 flex items-stretch">
-                  <van-image width="100" height="100" :src="card.simage1" radius="5" lazy-load class="flex-shrink-0">
-                    <template v-slot:loading>
-                      <van-loading type="spinner" size="20" />
-                    </template>
-                  </van-image>
-                  <div class="ml-2.5">
-                    <p
-                      class="h-10 overflow-hidden overflow-ellipsis text-sm" 
-                      style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
-                    >
-                      {{ card.stitle }}
-                    </p>
-                    <p class="mt-1 text-red-400"> HK$ {{ card.iprice }}</p>
-                     <van-stepper v-model="card.icount" class="mt-2" />
-                  </div>
-                </div>
-              </van-checkbox>
+      <div v-for="(shop, index) in cartList" :key="index" class="bg-white rounded-2xl p-4">
+        <div class="flex items-center">
+          <van-checkbox 
+            v-model="shop.checkcountry"
+            checked-color="#f23030"
+            class="flex-shrink-0"
+            @click="checkShop(index,shop.checkcountry)" 
+          />
+          <p class="text-sm ml-4 truncate">{{ shop.storename }}</p>
+        </div>
+        <div class="mt-4 space-y-4">
+          <div v-for="(card, idx) in shop.productMain" :key="idx">
+            <div class="flex items-stretch">
+              <van-checkbox 
+                v-model="card.check" 
+                checked-color="#f23030" 
+                class="flex-shrink-0"
+                @click="checkDrug(index,card.check)" 
+              />
+              <van-image width="100" height="100" :src="card.simage1" radius="5" lazy-load class="flex-shrink-0 ml-4" @click="toDetail(card.proid)">
+                <template v-slot:loading>
+                  <van-loading type="spinner" size="20" />
+                </template>
+              </van-image>
+              <div class="ml-2.5">
+                <p
+                  class="h-10 overflow-hidden overflow-ellipsis text-sm" 
+                  style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
+                   @click="toDetail(card.proid)"
+                >
+                  {{ card.stitle }}
+                </p>
+                <p class="mt-1 text-red-400"  @click="toDetail(card.proid)"> HK$ {{ card.iprice }}</p>
+                <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" @change="changeStepper(card.id, card.icount)" />
+              </div>
             </div>
           </div>
-          <!-- 
-            <van-checkbox name="b">复选框 b</van-checkbox>
-            <van-checkbox name="c">复选框 c</van-checkbox>
-          -->          
-        </van-checkbox-group>
+        </div>
+      </div>
+      <!-- empty -->
+      <div v-if="cartList.length === 0" class="px-5 py-10 text-center">
+        <van-image width="100%" height="100%" src="/src/assets/images/cart_empty.png" lazy-load>
+          <template v-slot:loading>
+            <van-loading type="spinner" size="20" />
+          </template>
+        </van-image>
+        <router-link to="/">
+          <button class="mt-8 w-44 py-2.5 rounded-full bg-red-400 text-white text-sm">去逛逛 >></button>
+        </router-link>
       </div>
     </main>
-    <!-- submit -->
-    <van-submit-bar class="mb-12 border-t border-b" currency="HK$" :price="3050" button-text="去结算" @submit="onSubmit">
-      <van-checkbox v-model="checkAll">全选</van-checkbox>
+    <van-submit-bar
+      v-show="cartList.length > 0" 
+      class="mb-12 border-t border-b max-w-md" 
+      currency="HK$"
+      :disabled="editStatus ? false : totalNum === 0 ? true : false"
+      :price="editStatus ? null : totalPrice" 
+      :button-text="editStatus ? '删除' : '去结算('+ totalNum +')'" 
+      :loading="submitLoading"
+      @submit="onSubmit"
+    >
+      <van-checkbox v-model="checked" checked-color="#f23030" @click="checkAll(checked)">全选</van-checkbox>
     </van-submit-bar>
     <!-- footer -->
     <muzi-footer :footerIndex="2" />
@@ -50,7 +83,9 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { Dialog } from 'vant'
+import { useRouter } from 'vue-router'
 import api from '../../api/index.js'
 import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
@@ -60,17 +95,113 @@ export default {
     MuziFooter
   },
   setup() {
-    const carList = ref([])
-    api.get("/cart/getList",{ userid: localStorage.getItem('id') }).then((res)=>{
-      console.log(res.data.data)
-      carList.value = res.data.data
-    })
-    return {
-      carList,
-      onSubmit() {
-
+    sessionStorage.removeItem('drugId')
+    const router = useRouter()
+    const editStatus = ref(false)
+    const cartList = ref([])
+    const checked = ref(false)
+    const submitLoading = ref(false)
+    api.get("/cart/getList",{ userid: sessionStorage.getItem('id') }).then((res) => { 
+      console.log('cartRes',res)
+      if (res.data.code === 20000) {
+        cartList.value = res.data.data 
       }
+    })
+    const totalPrice = computed(() => {
+      let t = 0
+      cartList.value.forEach((item) => {
+        item.productMain.forEach((i) => {
+          if(i.check) { t += i.iprice * i.icount }  
+        })
+      })
+      return t * 100
+    })
+    const totalNum = computed(() => {
+      let n = 0
+      cartList.value.forEach((item) => {
+        item.productMain.forEach((i) => {
+          if(i.check) { n += i.icount }
+        })
+      })
+      return n
+    })
+
+    return {
+      back() { router.go(-1) },
+      editStatus,
+      cartList,
+      checked,
+      totalNum,
+      submitLoading,
+      // 选择店铺
+      checkShop(sIdx,sValue) {
+        cartList.value[sIdx].productMain.forEach(item => item.check = sValue)
+        let c = true
+        cartList.value.forEach((item) => { if(!item.checkcountry) c = false })
+        checked.value = c
+      },
+      // 选择药品
+      checkDrug(sIdx,dValue) {
+        if(!dValue) { 
+          cartList.value[sIdx].checkcountry = false 
+        } else {
+          if (cartList.value[sIdx].productMain.every(item => item.check === true)) { cartList.value[sIdx].checkcountry = true }
+        }
+        let c = true
+        cartList.value.forEach((item) => { if(!item.checkcountry) c = false })
+        checked.value = c
+      },
+      // 全选
+      checkAll(checked) {
+        cartList.value.forEach(item => {
+          item.checkcountry = checked
+          item.productMain.forEach(i => i.check = checked)
+        })
+      },
+      // 步进器
+      changeStepper(id,count) {
+        api.put("/cart/putcount",{ cartid: id, count:count })
+      },
+      toDetail(id) { router.push({ path: '/detail/'+ id }) },
+      // 去结算
+      onSubmit() {
+        submitLoading.value = true
+        let choiceList = []
+        cartList.value.forEach((item, index) => {
+          item.productMain.forEach((i,idx) => {
+            if(i.check) { choiceList.push(cartList.value[index].productMain[idx].id) }
+          })
+        })
+        if(editStatus.value) {
+          Dialog.confirm({
+            message:'确认删除选中的商品吗？'
+          }).then(() => {
+            api.delete("/cart/deleteBatch",{ cartids: choiceList.toString() }).then((res)=>{  router.go(0) })
+            setTimeout( () => { submitLoading.value = false }, 200 )
+          }).catch(() => { submitLoading.value = false })
+        } else {
+          if(sessionStorage.getItem('shiming') === '0') {
+            Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => {
+              submitLoading.value = false 
+              router.push({ path:'/shiming' })
+            })
+          } else {
+            sessionStorage.setItem('orderList', choiceList)
+            setTimeout( () => { submitLoading.value = false }, 100 )
+            router.push({ path:'/confirmorder' })
+          }
+        }
+      },
+      totalPrice
     }
   }
 }
 </script>
+<style>
+.van-submit-bar {
+  left: auto;
+}
+.van-submit-bar__bar {
+  justify-content: space-between;
+}
+</style>

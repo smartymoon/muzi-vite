@@ -14,7 +14,7 @@
       >
         {{ msg.stitle }}
       </p>
-      <p class="mt-0.5 text-red-400 text-lg">HK${{ msg.iprice }}</p>
+      <p class="mt-0.5 text-red-400 text-lg"><span class="text-sm mr-0.5">HK$</span>{{ msg.iprice }}</p>
       <div class="flex items-center justify-between text-gray-600 text-xs">
         <p>{{ msg.country }}</p>
         <p>已售{{msg.icountsale}}</p>

@@ -108,10 +108,10 @@ export default {
       // 注册
       confirm() {
         loading.value = true
-        if(!state.tel || !state.sms) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { loading.value = false }, 1000 ); return }
-        if(!state.pwd || !state.pwd2 ) { Toast.fail('密码不能为空'); setTimeout( () => { loading.value = false }, 1000 ); return }
-        if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loading.value = false }, 1000 ); return }
-        if(state.pwd !== state.pwd2 ) { Toast.fail('两次密码输入不一致'); setTimeout( () => { loading.value = false }, 1000 ); return }
+        if(!state.tel || !state.sms) { Toast.fail('手机号验证码不能为空'); setTimeout( () => { loading.value = false }, 500 ); return }
+        if(!state.pwd || !state.pwd2 ) { Toast.fail('密码不能为空'); setTimeout( () => { loading.value = false }, 500 ); return }
+        if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loading.value = false }, 500 ); return }
+        if(state.pwd !== state.pwd2 ) { Toast.fail('两次密码输入不一致'); setTimeout( () => { loading.value = false }, 500 ); return }
         api.get("/open/resetpassword",{ mobile: state.tel, captcha: state.sms, password: state.pwd }).then((res)=>{ 
           if(res.data.code === 20000) {
             Toast.success(res.data.msg)
@@ -119,7 +119,7 @@ export default {
           } else {
             Toast.fail(res.data.msg)
           }
-          setTimeout( () => { loading.value = false }, 1000 )
+          setTimeout( () => { loading.value = false }, 500 )
         })
       }
     }

@@ -40,12 +40,12 @@ export default {
         smsDisabled.value = smsLoading.value = true
         if(props.tel.length === 0) {
           Toast.fail('手机号不能为空')
-          setTimeout( () => { smsDisabled.value = smsLoading.value = false }, 1000 )
+          setTimeout( () => { smsDisabled.value = smsLoading.value = false }, 500 )
           return 
         }
         if(!checkPhone(props.tel)) { 
           Toast.fail('手机号格式不正确')
-          setTimeout( () => { smsDisabled.value = smsLoading.value = false }, 1000 )
+          setTimeout( () => { smsDisabled.value = smsLoading.value = false }, 500 )
           return 
         }
         api.get("/open/common/send_captcha",{phone: props.tel}).then((res)=>{
@@ -64,7 +64,7 @@ export default {
             },1000)
           } else {
             Toast.fail('发送失败，请重新获取验证码')
-            setTimeout( () => { smsDisabled.value = smsLoading.value = false }, 1000 )
+            setTimeout( () => { smsDisabled.value = smsLoading.value = false }, 500 )
             return
           }
         })

@@ -39,6 +39,7 @@ import {
   Checkbox, 
   CheckboxGroup,
   Stepper,
+  NumberKeyboard,
 } from 'vant'
 
 app
@@ -65,4 +66,5 @@ app
   .use(Checkbox)
   .use(CheckboxGroup)
   .use(Stepper)
+  .use(NumberKeyboard)
   .mount("#app");
