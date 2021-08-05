@@ -62,7 +62,8 @@
 
 <script>
 import { ref, reactive } from 'vue'
-// import api from '../../api/index.js'
+import api from '../../api/index.js'
+import { useRouter } from 'vue-router'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
@@ -70,6 +71,7 @@ export default {
     MuziHeader
   },
   setup() {
+    const router = useRouter()
     const state = reactive({ 
       name: '',
       id: '',
@@ -99,7 +101,20 @@ export default {
         if(!state.name || !state.id || !state.tel ) { Toast.fail('信息输入不全'); setTimeout( () => { loading.value = false }, 500 ); return }
         if (!checkId(state.id)) { Toast.fail('身份证号格式不正确'); setTimeout( () => { loading.value = false }, 500 ); return }
         if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { loading.value = false }, 500 ); return }
-        setTimeout( () => { loading.value = false }, 500 )
+        api.post("/myidcard/post", {
+          itargetid: sessionStorage.getItem("id"),
+          srealname: state.name,
+          scardno: state.id,
+          stelephone: state.tel,
+        }).then((res) => {
+          console.log(res.data)
+          if(res.data.code === 20000) {
+            sessionStorage.setItem('shiming', 1)
+            Toast.success('登录成功')
+            router.push({ path: sessionStorage.getItem('shimingFrom')})
+          } else { Toast.fail(res.data.msg) }
+          setTimeout( () => { loading.value = false }, 500 )
+        })
       }
     }
   }

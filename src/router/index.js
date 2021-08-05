@@ -19,14 +19,32 @@ const router = new createRouter({
 			path:'/mine',
 			component:() => import('../views/mine/index.vue')
 		},
+		// detail => shiming => address => order,
 		{
 			path:'/detail/:id',
 			component:() => import('../views/detail/index.vue')
 		},
 		{
+			path:'/shiming',
+			component:() => import('../views/shiming/index.vue')
+		},
+		{
+			path:'/address',
+			component:() => import('../views/address/index.vue')
+		},
+		{
+			path:'/address/edit',
+			component:() => import('../views/address/edit.vue')
+		},
+		{
+			path:'/address/creat',
+			component:() => import('../views/address/creat.vue')
+		},
+		{
 			path:'/confirmorder',
 			component:() => import('../views/confirmorder/index.vue')
 		},
+		// search
 		{
 			path:'/search',
 			component:() => import('../views/search/index.vue')
@@ -35,10 +53,7 @@ const router = new createRouter({
 			path:'/search/list',
 			component:() => import('../views/search/list.vue')
 		},
-		{
-			path:'/shiming',
-			component:() => import('../views/shiming/index.vue')
-		},
+		// login
 		{
 			path:'/login',
 			component:() => import('../views/login/index.vue')

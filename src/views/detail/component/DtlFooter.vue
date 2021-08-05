@@ -67,7 +67,10 @@ export default {
           });
         } else {
           if(sessionStorage.getItem('shiming') === '0') {
-            Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => { router.push({ path:'/shiming' }) })
+            Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => {
+              sessionStorage.setItem('shimingFrom', route.path) 
+              router.push({ path:'/shiming' }) 
+            })
           } else {
             router.push({ path:'/confirmorder' })
           }

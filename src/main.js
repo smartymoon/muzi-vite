@@ -17,7 +17,9 @@ app.component('BasePagination', BasePagination)
 
 // vant插件
 import {
+  Icon,
   Button,
+  Dialog,
   Image as VanImage,
   Lazyload,
   Tab,
@@ -40,11 +42,16 @@ import {
   CheckboxGroup,
   Stepper,
   NumberKeyboard,
+  AddressList,
+  AddressEdit,
+  Area 
 } from 'vant'
 
 app
+  .use(Icon)
   .use(router)
   .use(Button)
+  .use(Dialog)
   .use(VanImage)
   .use(Lazyload)
   .use(Tab)
@@ -67,4 +74,7 @@ app
   .use(CheckboxGroup)
   .use(Stepper)
   .use(NumberKeyboard)
+  .use(AddressList)
+  .use(AddressEdit)
+  .use(Area)
   .mount("#app");

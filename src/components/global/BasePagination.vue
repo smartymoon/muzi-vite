@@ -1,16 +1,21 @@
 <template>
-  <div>
-    <van-list
-      v-show="localList.length > 0"
-      v-model:loading="loading"
-      :finished="finished"
-      finished-text="没有更多了"
-      :offset="offset"
-      @load="onLoad"
-    >
-      <slot :list="localList" />
-    </van-list>
-    <van-empty :image="emptyImg" v-show="localList.length === 0" :description="descriptionTips" class="mt-36" />
+  <div class="min-h-screen">
+    <div v-show="showLoading" class="text-center">
+      <van-loading size="30">加载中,请稍后...</van-loading>
+    </div>
+    <div v-show="!showLoading">
+      <van-list
+        v-show="localList.length > 0"
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        :offset="offset"
+        @load="onLoad"
+      >
+        <slot :list="localList" />
+      </van-list>
+      <van-empty :image="emptyImg" v-show="localList.length === 0" :description="descriptionTips" class="mt-36" />
+    </div>
   </div>
 </template>
 
@@ -48,6 +53,7 @@ export default {
   },
   setup(props) {
     const BasePaginationMitt = mitt()
+    const showLoading = ref(true)
     const currentPage = ref(1)
     const size = ref(props.size)
     const localList = ref([])
@@ -74,6 +80,7 @@ export default {
         if (res.data.data.current*res.data.data.size >= res.data.data.total) {
           finished.value = true
         }
+        showLoading.value = false
       })
     }
 
@@ -96,6 +103,7 @@ export default {
 
     return {
       BasePaginationMitt,
+      showLoading,
       localList,
       currentPage,
       loading,

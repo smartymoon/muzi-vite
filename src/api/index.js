@@ -1,11 +1,9 @@
 import axios from 'axios';
 import qs from 'qs'
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const baseURL = 'http://13.114.161.29:8888/muzimed_mobile/'         //服务器
+// const baseURL = 'http://13.114.161.29:8888/muzimed_mobile/'         //服务器
 // const baseURL = 'http://192.168.50.236:8888/muzimed_mobile/'        //本地/李明
 // const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
-// const baseURL = import.meta.env.VITE_APP_URL      // 测试/开发
+const baseURL = import.meta.env.VITE_APP_URL      // 测试/开发
 
 const http = axios.create({
   baseURL,
@@ -24,7 +22,7 @@ http.interceptors.response.use((res) => {
     console.log('api/index.js------ res 20002',res.data)
     window.sessionStorage.removeItem("token")
     window.sessionStorage.removeItem("id")
-    router.push({ path:'/login' })
+    window.location.href="/login"
   }
   return res
 })

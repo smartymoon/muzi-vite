@@ -48,7 +48,9 @@ export default {
     const path = useRoute().path
     return {
       path, 
-      back() { props.backUrl ? router.push({ path: props.backUrl }) : router.go(-1) },
+      back() {
+        props.backUrl ? router.push({ path: props.backUrl }) : router.go(-1) 
+      },
       search() {
         if (path !== '/search/list') {
           sessionStorage.setItem('searchFrom',path)

@@ -12,8 +12,12 @@
       </div>
       <p class="text-sm" @click="editStatus = !editStatus">{{ editStatus ? '完成': cartList.length > 0 ? '编辑商品' : '' }}</p>
     </div>
+    
+    <div v-show="showLoading" class="text-center mt-8">
+      <van-loading size="30">加载中,请稍后...</van-loading>
+    </div>
     <!-- main -->
-    <main class="mt-3.5 space-y-3.5">
+    <main v-show="!showLoading" class="mt-3.5 space-y-3.5">
       <div v-for="(shop, index) in cartList" :key="index" class="bg-white rounded-2xl p-4">
         <div class="flex items-center">
           <van-checkbox 
@@ -55,11 +59,7 @@
       </div>
       <!-- empty -->
       <div v-if="cartList.length === 0" class="px-5 py-10 text-center">
-        <van-image width="100%" height="100%" src="/src/assets/images/cart_empty.png" lazy-load>
-          <template v-slot:loading>
-            <van-loading type="spinner" size="20" />
-          </template>
-        </van-image>
+        <img src="/src/assets/images/cart_empty.png">
         <router-link to="/">
           <button class="mt-8 w-44 py-2.5 rounded-full bg-red-400 text-white text-sm">去逛逛 >></button>
         </router-link>
@@ -85,7 +85,7 @@
 <script>
 import { ref, computed } from 'vue';
 import { Dialog } from 'vant'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import api from '../../api/index.js'
 import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
@@ -97,12 +97,15 @@ export default {
   setup() {
     sessionStorage.removeItem('drugId')
     const router = useRouter()
+    const route = useRoute()
+    const showLoading = ref(true)
     const editStatus = ref(false)
     const cartList = ref([])
     const checked = ref(false)
     const submitLoading = ref(false)
     api.get("/cart/getList",{ userid: sessionStorage.getItem('id') }).then((res) => { 
       console.log('cartRes',res)
+      showLoading.value = false
       if (res.data.code === 20000) {
         cartList.value = res.data.data 
       }
@@ -128,6 +131,7 @@ export default {
 
     return {
       back() { router.go(-1) },
+      showLoading,
       editStatus,
       cartList,
       checked,
@@ -182,7 +186,8 @@ export default {
         } else {
           if(sessionStorage.getItem('shiming') === '0') {
             Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => {
-              submitLoading.value = false 
+              submitLoading.value = false
+              sessionStorage.setItem('shimingFrom', route.path)  
               router.push({ path:'/shiming' })
             })
           } else {

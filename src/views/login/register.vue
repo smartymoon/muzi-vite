@@ -98,7 +98,7 @@ export default {
         if (!checkPhone(state.tel)) { Toast.fail('手机号格式不正确'); setTimeout( () => { registerLoading.value = false }, 500 ); return }
         api.get("/open/register",{ mobile: state.tel, captcha: state.sms, password: state.pwd }).then((res)=>{ 
           if(res.data.code === 20000) {
-            Toast.success(res.data.msg)
+            Toast.success('注册成功')
           } else {
             Toast.fail(res.data.msg)
           }

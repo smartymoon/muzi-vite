@@ -114,7 +114,7 @@ export default {
         if(state.pwd !== state.pwd2 ) { Toast.fail('两次密码输入不一致'); setTimeout( () => { loading.value = false }, 500 ); return }
         api.get("/open/resetpassword",{ mobile: state.tel, captcha: state.sms, password: state.pwd }).then((res)=>{ 
           if(res.data.code === 20000) {
-            Toast.success(res.data.msg)
+            Toast.success('修改成功')
             router.go(-1)
           } else {
             Toast.fail(res.data.msg)
