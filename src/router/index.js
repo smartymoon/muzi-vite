@@ -37,10 +37,6 @@ const router = new createRouter({
 			component:() => import('../views/address/edit.vue')
 		},
 		{
-			path:'/address/creat',
-			component:() => import('../views/address/creat.vue')
-		},
-		{
 			path:'/confirmorder',
 			component:() => import('../views/confirmorder/index.vue')
 		},

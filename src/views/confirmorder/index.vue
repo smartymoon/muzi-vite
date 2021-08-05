@@ -140,7 +140,7 @@ export default {
 
       },
       confirmDialog() {
-        router.push({ path: '/address/creat' })
+        router.push({ path: '/address/edit', query: { operation: 'creat' } })
       },
     }
   }

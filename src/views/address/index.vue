@@ -41,8 +41,8 @@ export default {
         address: '浙江省杭州市拱墅区莫干山路 50 号',
       },
     ]
-    const onAdd = () => router.push({ path: '/address/creat' });
-    const onEdit = (item, index) => router.push({ path: '/address/edit' });
+    const onAdd = () => router.push({ path: '/address/edit', query: { operation: 'creat' } });
+    const onEdit = (item, index) => router.push({ path: '/address/edit', query: { operation: 'edit' } });
     return {
       chosenAddressId,
       list,

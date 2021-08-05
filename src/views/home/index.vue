@@ -7,7 +7,7 @@
       <div class="px-4">
         <!-- banner -->
         <van-swipe class="w-full h-40 rounded-md" :autoplay="3000" indicator-color="#f23030" lazy-render>
-          <van-swipe-item v-for="image in banners" :key="image" class="w-full h-full">
+          <van-swipe-item v-for="image in data.banners" :key="image" class="w-full h-full">
             <img :src="image" class="w-full h-full" />
           </van-swipe-item>
         </van-swipe>
@@ -31,7 +31,7 @@
           <!-- kingkong -->
           <div v-if="index === 0" class="mt-2 w-full bg-white rounded-md p-3">
             <div class="grid grid-cols-5 gap-x-4 gap-y-3 text-center">
-              <div v-for="(area,idx) in kingkong" :key="idx">
+              <div v-for="(area,idx) in data.kingkong" :key="idx">
                 <div @click="clickNav(area.scode)">
                   <base-square>
                     <van-image width="100%" height="100%" :src="area.image" lazy-load />
@@ -46,12 +46,12 @@
             <div class="grid grid-cols-4 gap-3">
               <h2 class="col-span-2 leading-4">热品套餐</h2>
               <h2 class="col-span-2 leading-4">自有品牌</h2>
-              <div v-for="(msg, idx) in hotList" :key="idx">
+              <div v-for="(msg, idx) in data.hotList" :key="idx">
                 <base-square>
                   <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" @click="toDetail(msg.id)" />
                 </base-square>
               </div>
-              <div v-for="(msg, idx) in brandList" :key="idx">
+              <div v-for="(msg, idx) in data.brandList" :key="idx">
                 <base-square>
                   <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" @click="toDetail(msg.id)" />
                 </base-square>
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
@@ -112,37 +112,31 @@ export default {
     ]
     const url = ref('/open/home/guess_like')
     const params = ref({})
-    // 获取banners
-    const banners = ref([])
-    api.get("/open/home/get_banner").then((res)=>{ 
-      banners.value = res.data.data
+    const data = reactive({
+      banners: [],
+      kingkong: [],
+      hotList: [],
+      brandList: []
     })
+
+    // 获取banners
+    api.get("/open/home/get_banner").then((res)=>{ data.banners = res.data.data })
 
     // 获取金刚区
-    const kingkong = ref([])
-    api.get("/open/home/get_product_class").then((res)=>{ 
-      kingkong.value = res.data.data
-    })
+    api.get("/open/home/get_product_class").then((res)=>{ data.kingkong = res.data.data })
 
-    // 获取热品套餐，自有品牌
-    const hotList = ref([])
-    api.get("/open/home/get_repin_taocan",{num:2}).then((res)=>{ 
-      hotList.value = res.data.data
-    })
-    const brandList = ref([])
-    api.get("/open/home/get_ziyou_pinpai",{num:2}).then((res)=>{ 
-      brandList.value = res.data.data
-    })
+    // 获取热品套餐
+    api.get("/open/home/get_repin_taocan",{num:2}).then((res)=>{ data.hotList = res.data.data })
+
+    // 获取自有品牌
+    api.get("/open/home/get_ziyou_pinpai",{num:2}).then((res)=>{ data.brandList = res.data.data})
 
     return {
       active,
       tabTitles,
       url,
       params,
-      banners,
-      kingkong,
-      hotList,
-      brandList,
+      data,
       changeTab(name){
         if (name === '00') {
           url.value = '/open/home/guess_like'
