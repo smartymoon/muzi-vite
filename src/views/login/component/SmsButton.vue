@@ -16,6 +16,7 @@
 import { ref } from 'vue'
 import api from '../../../api/index.js'
 import { Toast } from 'vant'
+import { checkPhone } from '/src/until/index.js'
 export default {
   props: {
     tel: {
@@ -24,13 +25,10 @@ export default {
     }
   },
   setup( props ) {
+
     const smsText = ref('发送验证码')
     const smsDisabled = ref(false)
     const smsLoading = ref(false)
-    const checkPhone = function(tel) {
-      let phonereg = 11 && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
-      return !!phonereg.test(tel)
-    }
     return {
       smsText,
       smsDisabled,

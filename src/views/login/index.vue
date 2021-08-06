@@ -96,6 +96,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../../api/index.js'
+import { checkPhone } from '/src/until/index.js'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 import SmsButton from './component/SmsButton.vue'
@@ -132,11 +133,6 @@ export default {
       } else {
         if (localStorage.getItem('phone')) { localStorage.removeItem('phone') }
       }
-    }
-    // 手机号校验
-    const checkPhone = function(tel) {
-      let phonereg = 11 && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
-      return !!phonereg.test(tel)
     }
     const loginLoading = ref(false)
     return {

@@ -64,6 +64,7 @@
 import { ref, reactive } from 'vue'
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
+import { checkId, checkPhone } from '/src/until/index.js'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
@@ -79,16 +80,6 @@ export default {
     })
     const loading = ref(false)
     const showIdKeyboard = ref(false)
-    // 身份证校验
-    const checkId = function(id) {
-      let phonereg = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
-      return !!phonereg.test(id)
-    }
-    // 手机号校验
-    const checkPhone = function(tel) {
-      let phonereg = 11 && /^((13|14|15|16|17|18|19)[0-9]{1}\d{8})$/
-      return !!phonereg.test(tel)
-    }
     return {
       state,
       loading,

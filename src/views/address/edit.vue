@@ -39,6 +39,8 @@
 <script>
 import { reactive, ref } from 'vue'
 import { areaList } from '@vant/area-data'
+import { checkId } from '/src/until/index.js'
+import list from '/src/until/area.js'
 // import api from '../../api/index.js'
 import { useRoute, useRouter } from 'vue-router'
 // import { Toast } from 'vant'
@@ -48,17 +50,13 @@ export default {
     MuziHeader
   },
   setup() {
+    console.log(list)
     const router = useRouter()
     const route = useRoute()
     const isEdit = !!(route.query.operation === 'edit')
     const id = ref('')
     const showIdError = ref(false)
     const showIdKeyboard = ref(false)
-    // 身份证校验
-    const checkId = function(id) {
-      let phonereg = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
-      return !!phonereg.test(id)
-    }
     return {
       areaList,
       isEdit,

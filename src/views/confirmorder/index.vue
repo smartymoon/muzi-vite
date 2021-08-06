@@ -6,14 +6,14 @@
       <!-- address -->
       <router-link to="/address">
         <section class="py-4 pl-4 pr-11 bg-white rounded-b-2xl relative"> 
-          <div v-if="false">
+          <div v-if="showAddress">
             <div class="flex items-center mb-2">
-              <p>安昊程 170****8695</p>
+              <p>{{ addressMsg.slinkman }} {{ addressMsg.smobile }}</p>
               <button class="ml-2 block bg-red-400 rounded-full text-xs px-1 text-white -mt-0.5">默认</button>
             </div>
-            <div style="font-size:13px; line-height:18px">浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室</div>
+            <div style="font-size:13px; line-height:18px">{{ addressMsg.saddressname }} {{ addressMsg.sdetail }}</div>
           </div>
-          <p class="ml-1">请先填写收货地址</p>
+          <p v-else class="ml-1">请先填写收货地址</p>
           <div class="absolute text-xl" style="top:50%; right:16px; transform: translate(0, -50%);">
             <van-icon name="arrow" color="#969799" />
           </div>
@@ -98,11 +98,14 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const addressMsg = ref([])
+    const showAddress = ref(false)
+    const addressMsg = ref({})
     const showAddressDialog = ref(false)
     api.get("/useraddress/getdefault", { userid: sessionStorage.getItem('id')} ).then((res)=>{ 
+      console.log(res.data)
       if(res.data.code === 20000) {
-        addressMsg.value = res.data.data
+        showAddress.value = true
+        Object.assign(addressMsg.value, res.data.data)
       }
       if(res.data.code === 20001) {
         showAddressDialog.value = true
@@ -133,6 +136,7 @@ export default {
     const checkedProxy = ref(true)
     return {
       addressMsg,
+      showAddress,
       showAddressDialog,
       orderList,
       checkedProxy,
