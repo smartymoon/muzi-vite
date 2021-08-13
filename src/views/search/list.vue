@@ -1,7 +1,11 @@
 <template>
   <div class="relative py-12 min-h-screen">
     <!-- header -->
-    <muzi-header :backUrl="searchFrom" :placeholder="params.searchContent ? params.searchContent : '请输入您要搜索的药品、品牌'" />
+    <muzi-header 
+      customBack
+      :placeholder="params.searchContent ? params.searchContent : '请输入您要搜索的药品、品牌'"
+      @back="back"
+    />
     <!-- list -->
     <div class="mt-3 px-4">
       <base-pagination
@@ -44,10 +48,9 @@ export default {
       countryCode: route.query.countryCode,
       onefunctioncategory:route.query.secondClass
     })
-    const searchFrom = sessionStorage.getItem('searchFrom')
     return {
       params,
-      searchFrom,
+      back() { router.push({ path: sessionStorage.getItem('searchFrom') }) },
       toDetail(id) { router.push({ path: '/detail/'+ id }) }
     }
   }

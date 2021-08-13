@@ -1,7 +1,11 @@
 <template>
   <div class="relative py-12">
     <!-- header -->
-    <muzi-header showLogo />
+    <muzi-header showLogo :showBack="false">
+      <router-link to="/user/msg" class="ml-3 mt-1">
+        <van-image src="/src/assets/images/user/notice.png" width="19" height="22" lazy-load fit="cover" class="flex-shrink-0" />
+      </router-link>
+    </muzi-header>
     <!-- swiper -->
     <div class="absolute z-20 w-full" style="top:6.5rem">
       <div class="px-4">
@@ -150,7 +154,9 @@ export default {
         sessionStorage.setItem('searchFrom','/')
         router.push({ path: '/search/list', query: { id: scode }})
       },
-      toDetail(id) { router.push({ path: '/detail/'+ id }) }
+      toDetail(id) { 
+        router.push({ path: '/detail/'+ id }) 
+      }
     }
   }
 }

@@ -52,10 +52,10 @@
       </p>
     </router-link>
     <!-- 我的 -->
-    <router-link to="/mine">
+    <router-link to="/user">
       <div class="w-6 h-6 mx-auto">
         <img 
-          :src="footerIndex === 3 ? '/src/assets/images/footer/mine_s.png':'/src/assets/images/footer/mine.png'" 
+          :src="footerIndex === 3 ? '/src/assets/images/footer/user_s.png':'/src/assets/images/footer/user.png'" 
           alt="" 
           class="w-full h-full"
         >

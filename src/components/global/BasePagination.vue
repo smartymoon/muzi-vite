@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen">
     <div v-show="showLoading" class="text-center">
-      <van-loading size="30">加载中,请稍后...</van-loading>
+      <van-loading size="30" class="py-4">加载中,请稍后...</van-loading>
     </div>
     <div v-show="!showLoading">
       <van-list
@@ -70,7 +70,7 @@ export default {
       Object.assign(newParams, props.params, { currentPage: currentPage.value, size:size.value })
 
       api.get(props.url, pickBy(newParams)).then((res)=>{
-        // console.log(res.data.data)
+        console.log(res.data)
         if (more) {
           localList.value.push(...res.data.data.records)
         } else {

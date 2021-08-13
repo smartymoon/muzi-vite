@@ -170,7 +170,8 @@ export default {
             })
             Toast.success('登录成功')
             if(sessionStorage.getItem('loginFrom')) {
-              router.push({ path: sessionStorage.getItem('loginFrom')})
+              router.replace(sessionStorage.getItem('loginFrom'))
+              router.go(-1)
             } else {
               router.push({ path: '/'})
             }

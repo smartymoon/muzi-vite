@@ -1,9 +1,11 @@
 import axios from 'axios';
+import { Dialog } from 'vant'
+import router from '../router';
 import qs from 'qs'
 // const baseURL = 'http://13.114.161.29:8888/muzimed_mobile/'         //服务器
 // const baseURL = 'http://192.168.50.236:8888/muzimed_mobile/'        //本地/李明
-// const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
- const baseURL = import.meta.env.VITE_APP_URL      // 测试/开发
+// const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'            //测试
+const baseURL = import.meta.env.VITE_APP_URL      // 测试/开发
 
 const http = axios.create({
   baseURL,
@@ -19,10 +21,11 @@ http.interceptors.request.use((req) => {
 // 当获取服务器返回的信息时进行的处理
 http.interceptors.response.use((res) => {
   if(res.data.code === 20002){
-    console.log('api/index.js------ res 20002',res.data)
     window.sessionStorage.removeItem("token")
     window.sessionStorage.removeItem("id")
-    window.location.href="/login"
+    Dialog.alert({ message: '登录时效已过期，请重新登录' }).then(() => {
+      router.push({ path:'/login' })
+    })
   }
   return res
 })
@@ -42,7 +45,6 @@ api.get = function(url, params) {
 }
 
 api.post = function(url, params, useQs=false) {
-  console.log('uuuuuu',useQs)
   let data
   useQs ? data = qs.stringify(params) : data = params
   return new Promise((resolve,reject) => {

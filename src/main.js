@@ -43,7 +43,11 @@ import {
   Stepper,
   NumberKeyboard,
   AddressList,
-  AddressEdit
+  AddressEdit,
+  Picker,
+  Popup,
+  CouponList,
+  ActionSheet 
 } from 'vant'
 
 app
@@ -75,4 +79,8 @@ app
   .use(NumberKeyboard)
   .use(AddressList)
   .use(AddressEdit)
+  .use(Picker)
+  .use(Popup)
+  .use(CouponList)
+  .use(ActionSheet)
   .mount("#app");

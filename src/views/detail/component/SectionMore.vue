@@ -8,7 +8,7 @@
     <!-- content -->
     <div class="mt-4 overflow-x-scroll flex items-center space-x-3">
       <div v-for="(item, index) in list" :key="index" class="flex-shrink-0 rounded-md border w-32">
-        <router-link :to="'/detail/' + item.id">
+        <div @click="toDetail(item.id)">
           <van-image width="127" height="128" :src="item.simage1" lazy-load>
             <template v-slot:loading>
               <van-loading type="spinner" size="20" />
@@ -21,24 +21,32 @@
             >
               {{ item.stitle }}
             </p>
-            <p class="text-red-400"><span class="text-xs mr-0.5">HK$</span>{{ item.iprice }}</p>
+            <p class="text-red-400 text-lg">{{ item.iprice }}<span class="text-xs ml-0.5">港币</span></p>
             <div class="flex items-center justify-between text-xs text-gray-600">
               <p>{{ item.country }}</p>
               <p>已售{{ item.icountsale }}</p>
             </div>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script>
+import { useRouter, useRoute } from 'vue-router'
 export default {
   props: {
     list: {
       type: Array,
       required: true
+    }
+  },
+  setup() {
+    const router = useRouter()
+    const route = useRoute()
+    return {
+      toDetail(id) { router.push({ path: '/detail/'+ id }) }
     }
   }
 }

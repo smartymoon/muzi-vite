@@ -2,10 +2,16 @@
   <div class="relative pt-12 pb-16 min-h-screen">
     <!-- header -->
     <muzi-header title="收货地址" />
+    <div v-show="showLoading" class="text-center py-5">
+      <van-loading size="30">加载中,请稍后...</van-loading>
+    </div>
     <van-address-list
+      v-show="!showLoading"
       v-model="chosenAddressId"
       :list="list"
       default-tag-text="默认"
+      :switchable="switchable"
+      @select="onSelect"
       @add="onAdd"
       @edit="onEdit"
     />
@@ -14,9 +20,8 @@
 
 <script>
 import { ref } from 'vue'
-// import api from '../../api/index.js'
+import api from '../../api/index.js'
 import { useRoute, useRouter } from 'vue-router'
-// import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
@@ -25,29 +30,49 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    const chosenAddressId = ref('1');
-    const list = [
-      {
-        id: '1',
-        name: '张三',
-        tel: '13000000000',
-        address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
-        isDefault: true,
-      },
-      {
-        id: '2',
-        name: '李四',
-        tel: '1310000000',
-        address: '浙江省杭州市拱墅区莫干山路 50 号',
-      },
-    ]
-    const onAdd = () => router.push({ path: '/address/edit', query: { operation: 'creat' } });
-    const onEdit = (item, index) => router.push({ path: '/address/edit', query: { operation: 'edit' } });
+    const switchable = ref(!!!route.query.switchable)
+    const showLoading = ref(true)
+    const list = ref([]) 
+    const chosenAddressId = ref(sessionStorage.getItem('addressId') ? +sessionStorage.getItem('addressId') : null);
+    api.get("useraddress/getList",{ userid: sessionStorage.getItem('id') }).then((res) => { 
+      if(res.data.code === 20000) {
+        console.log(res.data)
+        for(let i = 0; i < res.data.data.length; i++) {
+          list.value[i] = {}
+          list.value[i].id = res.data.data[i].id
+          list.value[i].name = res.data.data[i].slinkman
+          list.value[i].tel = res.data.data[i].smobile
+          list.value[i].address = res.data.data[i].saddressname + res.data.data[i].sdetail
+          if(res.data.data[i].itype === 2) {
+            list.value[i].isDefault = true
+            if(!sessionStorage.getItem('addressId')) chosenAddressId.value = res.data.data[i].id
+          }
+        }
+      }
+      showLoading.value = false
+    })
+    const onAdd = () => {
+      sessionStorage.setItem('addressFrom', route.path)
+      router.push({ path: '/address/edit', query: { operation: 'creat' } })
+    }
+    const onEdit = (item, index) => {
+      sessionStorage.setItem('addressFrom', route.path)
+      router.push({ path: '/address/edit', query: { operation: 'edit', addressId: item.id, addressLength: list.value.length } })
+    }
+    const onSelect = (item, index) => {
+      chosenAddressId.value = item.id
+      sessionStorage.setItem('addressId',item.id)
+      router.replace('/confirmorder')
+      router.go(-1)
+    }
     return {
+      switchable,
+      showLoading,
       chosenAddressId,
       list,
       onAdd,
-      onEdit
+      onEdit,
+      onSelect,
     }
   }
 }

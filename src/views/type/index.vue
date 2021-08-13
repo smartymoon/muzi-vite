@@ -1,7 +1,9 @@
 <template>
   <div class="relative py-12 bg-white">
     <!-- header -->
-    <muzi-header showLogo />
+    <muzi-header showLogo :showBack="false">
+      <p class="ml-2.5 text-sm flex-shrink-0">搜索</p>
+    </muzi-header>
     <!-- loading -->
     <div v-show="showLoading" class="text-center py-4">
       <van-loading size="30">加载中,请稍后...</van-loading>
@@ -33,7 +35,7 @@
             <h2 class="text-sm font-bold">{{ item.title }}</h2>
             <div class="mt-2 grid grid-cols-3 gap-x-2 gap-y-3">
               <div v-for="(msg,idx) in item.content" :key="idx">
-                <div @click="toList(content[sIndex].scountry,msg.sfuncid)" :to="'/search/list?countryCode='+content[sIndex].scountry+'&secondClass='+msg.sfuncid">
+                <div @click="toList(content[sIndex].scountry,msg.sfuncid)">
                   <base-square>
                     <van-image width="100%" height="100%" :src="msg.simage" radius="7" lazy-load>
                       <template v-slot:loading>

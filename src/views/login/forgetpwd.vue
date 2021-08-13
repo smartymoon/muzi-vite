@@ -11,10 +11,10 @@
           type="digit"
           maxlength="11"
           center
-          clearable 
-          label-width="4rem" 
-          label="手机号" 
-          placeholder="请输入您的手机号" 
+          clearable
+          label-width="4rem"
+          label="手机号"
+          placeholder="请输入您的手机号"
           @update:model-value="changeTel"
         />
       </div>
@@ -111,7 +111,8 @@ export default {
         api.get("/open/resetpassword",{ mobile: state.tel, captcha: state.sms, password: state.pwd }).then((res)=>{ 
           if(res.data.code === 20000) {
             Toast.success('修改成功')
-            router.go(-1)
+            router.replace('/login')
+            router.go(-1) 
           } else {
             Toast.fail(res.data.msg)
           }

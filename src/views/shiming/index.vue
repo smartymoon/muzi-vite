@@ -80,6 +80,12 @@ export default {
     })
     const loading = ref(false)
     const showIdKeyboard = ref(false)
+    api.get("/myidcard/get",{ userid: sessionStorage.getItem('id') }).then((res) => { 
+      if(res.data.code === 20000) {
+        state.name = res.data.data.srealname
+        state.id = res.data.data.scardno
+      }
+    })
     return {
       state,
       loading,
@@ -101,10 +107,10 @@ export default {
           console.log(res.data)
           if(res.data.code === 20000) {
             sessionStorage.setItem('shiming', 1)
-            Toast.success('登录成功')
+            Toast.success('认证成功')
             router.push({ path: sessionStorage.getItem('shimingFrom')})
           } else { Toast.fail(res.data.msg) }
-          setTimeout( () => { loading.value = false }, 500 )
+          setTimeout( () => { loading.value = false }, 200 )
         })
       }
     }

@@ -8,4 +8,8 @@ function checkPhone(tel) {
   return !!phonereg.test(tel)
 }
 
-export { checkId, checkPhone }
+function rate(hkd) {
+  return Math.round(hkd * 0.83) 
+}
+
+export { checkId, checkPhone, rate }

@@ -34,13 +34,13 @@
     </main>
 
     <!-- footer -->
-    <dtl-footer />
+    <dtl-footer :iscollect="data.info.iscollect" />
 
   </div>
 </template>
 
 <script>
-import { reactive, ref,watch } from 'vue';
+import { reactive, ref, watch, onMounted } from 'vue';
 import api from '../../api/index.js'
 import { useRoute, useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
@@ -62,13 +62,14 @@ export default {
     const swipeRef = ref(null)
     const router = useRouter()
     const route = useRoute()
-    sessionStorage.removeItem('orderList')
-    sessionStorage.setItem('drugId', route.params.id)
+    onMounted(() => {
+      sessionStorage.removeItem('orderList')
+      sessionStorage.removeItem('addressId')
+    })
     watch(() => route.params, async newParams => { 
       if(newParams.id){
         getDetail()
         swipeRef.value.swipeTo(0)
-        window.scrollTo(0,0)
       } 
     })
     // 获取轮播图,详情信息,评论,更多推荐,详情图
@@ -82,7 +83,10 @@ export default {
 
     const getDetail = function() {
       api.get("/open/product_detail/get_product_images",{ id: route.params.id }).then((res)=>{ data.banners = res.data.data })
-      api.get("/open/product_detail/get_product_info",{ id: route.params.id }).then((res)=>{ data.info = res.data.data })
+      api.get("/open/product_detail/get_product_info",{ id: route.params.id }).then((res)=>{ 
+        console.log(res.data.data)
+        data.info = res.data.data 
+      })
       api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ data.comments = res.data.data })
       api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res)=>{ data.moreList = res.data.data })
       api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ data.detailImg = res.data.data.simage })

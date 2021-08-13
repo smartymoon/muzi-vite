@@ -15,21 +15,52 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Dialog,Toast } from 'vant'
 import api from '/src/api/index.js'
 import { useRouter, useRoute } from 'vue-router'
 export default {
-  setup() {
+  props: {
+    iscollect: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
     const router = useRouter()
     const route = useRoute()
-    const collected = ref(false)
+    const collected = ref(props.iscollect)
+    watch(() => props.iscollect,(value) => {
+      collected.value = value
+    })
+    const collectedLoading = ref(false)
     const cartLoading = ref(false)
     return {
       collected,
-
       // 收藏
-      collect() { collected.value = !collected.value },
+      collect() {
+        let data = {userid: sessionStorage.getItem('id'), productid: route.params.id} 
+        if (!collectedLoading.value) {
+          collectedLoading.value = true
+          if (!collected.value) {
+            api.post("/myfavorite/postCollect", data, true).then((res) => { 
+              if(res.data.code === 20000) { 
+                collected.value = true
+                Toast.success('收藏成功')
+              } else { Toast.fail('添加收藏失败')}
+              setTimeout( () => { collectedLoading.value = false }, 500 )
+            })
+          } else {
+            api.delete("/myfavorite/deleteCollect",data).then((res)=>{ 
+              if(res.data.code === 20000) {
+                collected.value = false
+                Toast.success('取消收藏成功') 
+              } else { Toast.fail('取消收藏失败')}
+              setTimeout( () => { collectedLoading.value = false }, 500 )
+            })
+          }
+        }
+      },
 
       // 加入购物车
       cartLoading,
@@ -45,12 +76,12 @@ export default {
           });
         } else {
           let data = {userid: sessionStorage.getItem('id'), productid: route.params.id} 
-          api.post("/cart/post", data, true).then((res) => { 
+          api.post("/cart/post", data, true).then((res) => {
             if(res.data.code === 20000) { 
-              Toast.success(res.data.msg) 
+              Toast.success('加入成功') 
               setTimeout( () => { cartLoading.value = false }, 500 )
             } else {
-              Toast.success('加入购物车失败')
+              Toast.fail('加入购物车失败')
               setTimeout( () => { cartLoading.value = false }, 500 )
             }
           })
@@ -72,6 +103,7 @@ export default {
               router.push({ path:'/shiming' }) 
             })
           } else {
+            sessionStorage.setItem('drugId', route.params.id)
             router.push({ path:'/confirmorder' })
           }
         }

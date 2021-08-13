@@ -46,11 +46,16 @@
                 <p
                   class="h-10 overflow-hidden overflow-ellipsis text-sm" 
                   style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
-                   @click="toDetail(card.proid)"
+                  @click="toDetail(card.proid)"
                 >
                   {{ card.stitle }}
                 </p>
-                <p class="mt-1 text-red-400"  @click="toDetail(card.proid)"> HK$ {{ card.iprice }}</p>
+                <p 
+                  class="mt-1 text-red-400 text-lg leading-5"  
+                  @click="toDetail(card.proid)"
+                >
+                  {{ card.iprice }} <span class="text-xs">港币</span><span class="text-xs ml-0.5 text-gray-500">约{{ Math.round(card.iprice * 0.83)  }}元</span>
+                </p>
                 <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" @change="changeStepper(card.id, card.icount)" />
               </div>
             </div>
@@ -83,7 +88,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Dialog } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
 import api from '../../api/index.js'
@@ -95,9 +100,12 @@ export default {
     MuziFooter
   },
   setup() {
-    sessionStorage.removeItem('drugId')
     const router = useRouter()
     const route = useRoute()
+    onMounted(() => {
+      sessionStorage.removeItem('drugId')
+      sessionStorage.removeItem('addressId')
+    })
     const showLoading = ref(true)
     const editStatus = ref(false)
     const cartList = ref([])
