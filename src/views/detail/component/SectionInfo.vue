@@ -3,7 +3,7 @@
     <div class="py-0.5 space-y-2">
       <h1 class="font-bold">{{ info.stitle }}</h1>
       <p class="text-red-400 font-semibold text-2xl">
-        {{ info.iprice }}<span class="text-sm ml-1">港币 (约{{ Math.round(info.iprice * 0.83) }}元)</span>
+        {{ info.iprice }}<span class="text-sm ml-1">港币 (约{{ (info.iprice * 0.83).toFixed(1) }}元)</span>
       </p>
       <div class="flex items-center justify-between text-gray-600 text-sm">
         <p>{{ info.brand }}</p>

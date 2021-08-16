@@ -6,7 +6,7 @@
     <div class="w-full h-48 bg-red-400 rounded-b-2xl p-4 text-white">
       <!-- avatar，id，phone，vip -->
       <div class="flex items-center mb-1.5">
-        <van-image width="60" height="60" round src="/src/assets/images/logo.png" lazy-load>
+        <van-image width="60" height="60" round :src="logoImg" lazy-load>
           <template v-slot:loading>
             <van-loading type="spinner" size="20" />
           </template>
@@ -19,7 +19,7 @@
               height="16" 
               radius="2"
               fit="cover"
-              :src="user.userMaintbl.ilevel === 1 ? '/src/assets/images/user/vip_yue.png':'/src/assets/images/user/vip_zun.png'" 
+              :src="user.userMaintbl.ilevel === 1 ? vipYueImg : vipZunImg" 
               lazy-load 
             />
           </div>
@@ -74,6 +74,9 @@
 <script>
 import { reactive } from 'vue';
 import api from '../../api/index.js'
+import logoImg from '../../assets/images/logo.png'
+import vipZunImg from '../../assets/images/user/vip_zun.png'
+import vipYueImg from '../../assets/images/user/vip_yue.png'
 import UserHeader from './component/UserHeader.vue'
 import SectionAsset from './component/SectionAsset.vue'
 import SectionOrders from './component/SectionOrders.vue'
@@ -89,11 +92,14 @@ export default {
   },
   setup() {
     const user = reactive({ userMaintbl: {} })
-    api.get('/myhome/get', {userid: sessionStorage.getItem('id')}).then((res) => {
+    api.get('/myhome/get', { userid: sessionStorage.getItem('id') }).then((res) => {
       console.log('res',res.data.data)
       Object.assign(user, res.data.data)
     })
     return {
+      logoImg,
+      vipZunImg,
+      vipYueImg,
       user
     }
   }

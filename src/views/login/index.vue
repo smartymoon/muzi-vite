@@ -5,7 +5,7 @@
     <!-- content -->
     <main class="px-8 pt-20 text-center">
       <!-- logo -->
-      <van-image width="70" height="70" src="/src/assets/images/logo.png" lazy-load>
+      <van-image width="70" height="70" :src="logoImg" lazy-load>
         <template v-slot:loading>
           <van-loading type="spinner" size="20" />
         </template>
@@ -96,6 +96,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../../api/index.js'
+import logoImg from '../../assets/images/logo.png'
 import { checkPhone } from '/src/until/index.js'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
@@ -136,6 +137,7 @@ export default {
     }
     const loginLoading = ref(false)
     return {
+      logoImg,
       active,
       changeTab,
       state,

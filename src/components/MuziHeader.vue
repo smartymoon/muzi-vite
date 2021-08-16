@@ -9,7 +9,7 @@
       <!-- logo -->
       <van-image
         v-if="showLogo" 
-        src="/src/assets/images/header_logo.png" 
+        :src="logoImg" 
         width="82" 
         height="30" 
         lazy-load 
@@ -18,7 +18,7 @@
       <div v-if="!title" class="flex-grow w-full h-full" :class="showBack ? 'ml-10' : ''">
         <div class="w-full h-full flex items-center space-x-2.5 px-3 bg-white rounded-2xl" @click="search">
           <van-image 
-            src="/src/assets/images/search.png" 
+            :src="searchImg" 
             width="18" 
             height="18" 
             lazy-load
@@ -39,6 +39,8 @@
 
 <script>
 import { useRouter, useRoute } from 'vue-router'
+import logoImg from '../assets/images/header_logo.png'
+import searchImg from '../assets/images/search.png'
 export default {
   props: {
     showLogo: {
@@ -67,6 +69,8 @@ export default {
     const router = useRouter()
     const path = useRoute().path
     return {
+      logoImg,
+      searchImg,
       path, 
       back() { props.customBack ? emit('back') : router.go(-1) },
       search() {

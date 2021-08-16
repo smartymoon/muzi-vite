@@ -11,7 +11,7 @@
       <div v-if="list.length > 0" class="space-y-4">
         <div v-for="(item, index) in list" :key="index">
           <div class="flex items-center space-x-2">
-            <van-image width="35" height="35" src="/src/assets/images/avatar.png" round lazy-load />
+            <van-image width="35" height="35" :src="avatar" round lazy-load />
             <div>
               <p class="text-sm">用户{{ item.userName }}</p>
               <span class="text-xs text-gray-600 mr-1.5">{{ item.time }}</span>
@@ -28,12 +28,17 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import avatar from '../../../assets/images/avatar.png'
 export default {
   props: {
     list: {
       type: Array,
       required: true
+    }
+  },
+  setup() {
+    return {
+      avatar
     }
   }
 }

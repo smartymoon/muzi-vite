@@ -30,7 +30,7 @@
                   @click="toDetail(card.proid)"
                 > 
                   {{ card.iprice }}<span class="text-xs ml-0.5">港币</span>
-                  <span class="text-xs ml-0.5 text-gray-500">约{{ Math.round(card.iprice * 0.83) }}元</span>
+                  <span class="text-xs ml-0.5 text-gray-500">约{{ (card.iprice * 0.83).toFixed(1) }}元</span>
                 </p>
                 <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" @change="changeStepper(card.id, card.icount)" />
               </div>
@@ -247,12 +247,12 @@ export default {
             tprice: totalPrice.value/100
           }
           api.post("/pay/submitorder", data, true).then((res) => { 
-            console.log(res.data)
             if(res.data.code === 20000) {
-              sessionStorage.setItem('suborderid',res.data.data.id)
-              router.push({ path: '/payment' }) 
+              api.post("/pay/orderinfo",{ orderid: res.data.data.orderid }, true).then((res) => {
+                history.pushState(null,null,'/')
+                window.location.href = res.data.data.alipayurl
+              })
             }
-            setTimeout( () => { submitLoading.value = false }, 200 )
           })
         }
       },

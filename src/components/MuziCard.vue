@@ -16,7 +16,7 @@
       </p>
       <p class="text-red-400 text-lg">
         {{ msg.iprice }}<span class="text-xs ml-0.5">港币</span>
-        <span class="text-xs text-gray-500 ml-0.5">约{{ Math.round(msg.iprice * 0.83)  }}元</span>
+        <span class="text-xs text-gray-500 ml-0.5">约{{ (msg.iprice * 0.83).toFixed(1)  }}元</span>
       </p>
       <div class="flex items-center justify-between text-gray-600 text-xs">
         <p>{{ msg.country }}</p>

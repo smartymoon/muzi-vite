@@ -24,7 +24,7 @@
       <!-- content -->
       <div v-if="content.length > 0" class="p-4 ml-auto" style="width:70%">
         <base-square ar="39">
-          <van-image width="100%" height="100%" :src="'/src/assets/images/country/'+content[sIndex].scountry+'.png'" radius="7" lazy-load>
+          <van-image width="100%" height="100%" :src="countryImg[content[sIndex].scountry]" radius="7" lazy-load>
             <template v-slot:loading>
               <van-loading type="spinner" size="20" />
             </template>
@@ -66,6 +66,11 @@ import { ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
+import japanImg from '../../assets/images/country/01.png'
+import koreaImg from '../../assets/images/country/02.png'
+import IndiaImg from '../../assets/images/country/03.png'
+import thailandImg from '../../assets/images/country/05.png'
+import singaporeImg from '../../assets/images/country/06.png'
 import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
 export default {
@@ -80,11 +85,20 @@ export default {
     const sIndex = ref(0)
     const content = ref([])
     api.get("/open/home/get_nav_class").then((res)=>{
+      console.log(res.data.data)
       content.value = res.data.data
       showLoading.value = false
     })
+    const countryImg = {
+      '01': japanImg,
+      '02': koreaImg,
+      '03': IndiaImg,
+      '05': thailandImg,
+      '06': singaporeImg
+    }
     return {
       showLoading,
+      countryImg,
       sIndex,
       content,
       toList(countryId,sfuncid) {

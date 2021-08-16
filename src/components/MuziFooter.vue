@@ -7,7 +7,7 @@
     <router-link to="/">
       <div class="w-6 h-6 mx-auto">
         <img 
-          :src="footerIndex === 0 ? '/src/assets/images/footer/home_s.png':'/src/assets/images/footer/home.png'" 
+          :src="footerIndex === 0 ? HomeSelImg : HomeImg" 
           alt="" 
           class="w-full h-full"
         >
@@ -23,7 +23,7 @@
     <router-link to="/type">
       <div class="w-6 h-6 mx-auto">
         <img 
-          :src="footerIndex === 1 ? '/src/assets/images/footer/type_s.png':'/src/assets/images/footer/type.png'" 
+          :src="footerIndex === 1 ? typeSelImg : typeImg" 
           alt="" 
           class="w-full h-full"
         >
@@ -39,7 +39,7 @@
     <router-link to="/cart">
       <div class="w-6 h-6 mx-auto">
         <img 
-          :src="footerIndex === 2 ? '/src/assets/images/footer/cart_s.png':'/src/assets/images/footer/cart.png'" 
+          :src="footerIndex === 2 ? cartSelImg : cartImg" 
           alt="" 
           class="w-full h-full"
         >
@@ -55,7 +55,7 @@
     <router-link to="/user">
       <div class="w-6 h-6 mx-auto">
         <img 
-          :src="footerIndex === 3 ? '/src/assets/images/footer/user_s.png':'/src/assets/images/footer/user.png'" 
+          :src="footerIndex === 3 ? userSelImg : userImg" 
           alt="" 
           class="w-full h-full"
         >
@@ -71,13 +71,31 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRouter } from "vue-router"
+import HomeImg from '../assets/images/footer/home.png'
+import HomeSelImg from '../assets/images/footer/home_s.png'
+import typeImg from '../assets/images/footer/type.png'
+import typeSelImg from '../assets/images/footer/type_s.png'
+import cartImg from '../assets/images/footer/cart.png'
+import cartSelImg from '../assets/images/footer/cart_s.png'
+import userImg from '../assets/images/footer/user.png'
+import userSelImg from '../assets/images/footer/user_s.png'
 export default {
   props: {
     footerIndex: {
       type: Number,
       default: 0
+    }
+  },
+  setup() {
+    return {
+      HomeImg,
+      HomeSelImg,
+      typeImg,
+      typeSelImg,
+      cartImg,
+      cartSelImg,
+      userImg,
+      userSelImg
     }
   }
 }

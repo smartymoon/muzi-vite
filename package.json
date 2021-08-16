@@ -5,6 +5,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "dev-liming": "vite --mode liming",
+    "dev-prod": "vite --mode prod",
     "build": "vite build",
     "serve": "vite preview"
   },

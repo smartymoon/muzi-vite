@@ -3,7 +3,7 @@
     <!-- header -->
     <muzi-header showLogo :showBack="false">
       <router-link to="/user/msg" class="ml-3 mt-1">
-        <van-image src="/src/assets/images/user/notice.png" width="19" height="22" lazy-load fit="cover" class="flex-shrink-0" />
+        <van-image :src="noticeImg" width="19" height="22" lazy-load fit="cover" class="flex-shrink-0" />
       </router-link>
     </muzi-header>
     <!-- swiper -->
@@ -90,6 +90,7 @@
 import { reactive, ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
+import noticeImg from '../../assets/images/user/notice.png'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import BasePagination from '../../components/global/BasePagination.vue'
 import MuziHeader from '../../components/MuziHeader.vue'
@@ -136,6 +137,7 @@ export default {
     api.get("/open/home/get_ziyou_pinpai",{num:2}).then((res)=>{ data.brandList = res.data.data})
 
     return {
+      noticeImg,
       active,
       tabTitles,
       url,

@@ -2,10 +2,11 @@
   <section class="w-full h-20 bg-white rounded-xl flex items-center justify-around">
     <!-- 待付款 -->
     <router-link to="/myorder?status=1" class="w-1/5 text-center">
-      <van-image width="31" height="26" src="/src/assets/images/user/待付款.png" lazy-load class="relative">
+      <van-image width="31" height="26" :src="waitPayCountImg" lazy-load class="relative">
         <div
           v-if="waitPayCount" 
-          class="absolute right-0 top-0 -mt-1.5 -mr-1.5 w-3 h-3 rounded-full bg-red-400 text-xs text-white leading-3"
+          class="absolute right-0 top-0 -mt-1.5 -mr-2.5 px-0.5 rounded-full bg-red-400 text-xs text-white leading-3"
+          style="min-width: 0.75rem"
         >
           {{ waitPayCount }}
         </div>
@@ -15,10 +16,11 @@
     <div class="w-px h-5 bg-gray-300" />
     <!-- 待发货 -->
     <router-link to="/myorder?status=2" class="w-1/5 text-center">
-      <van-image width="27" height="27" src="/src/assets/images/user/待发货.png" lazy-load class="relative">
+      <van-image width="27" height="27" :src="waitSendCountImg" lazy-load class="relative">
         <div
           v-if="waitSendCount" 
-          class="absolute right-0 top-0 -mt-1.5 -mr-1.5 w-3 h-3 rounded-full bg-red-400 text-xs text-white leading-3"
+          class="absolute right-0 top-0 -mt-1.5 -mr-2.5 px-0.5 rounded-full bg-red-400 text-xs text-white leading-3"
+          style="min-width: 0.75rem"
         >
           {{ waitSendCount }}
         </div>
@@ -28,10 +30,11 @@
     <div class="w-px h-5 bg-gray-300" />
     <!-- 待收货 -->
     <router-link to="/myorder?status=3" class="w-1/5 text-center">
-      <van-image width="34" height="27" src="/src/assets/images/user/待收货.png" lazy-load class="relative">
+      <van-image width="34" height="27" :src="waitReceiptCountImg" lazy-load class="relative">
         <div
           v-if="waitReceiptCount" 
-          class="absolute right-0 top-0 -mt-1.5 -mr-1.5 w-3 h-3 rounded-full bg-red-400 text-xs text-white leading-3"
+          class="absolute right-0 top-0 -mt-1.5 -mr-2.5 px-0.5 rounded-full bg-red-400 text-xs text-white leading-3"
+          style="min-width: 0.75rem"
         >
           {{ waitReceiptCount }}
         </div>
@@ -41,10 +44,11 @@
     <div class="w-px h-5 bg-gray-300" />
     <!-- 待评价 -->
     <router-link to="/myorder?status=5" class="w-1/5 text-center">
-      <van-image width="27" height="23" src="/src/assets/images/user/待评价.png" lazy-load class="relative">
+      <van-image width="27" height="23" :src="waitCommentsCountImg" lazy-load class="relative">
         <div
           v-if="waitCommentsCount" 
-          class="absolute right-0 top-0 -mt-1.5 -mr-1.5 w-3 h-3 rounded-full bg-red-400 text-xs text-white leading-3"
+          class="absolute right-0 top-0 -mt-1.5 -mr-2.5 px-0.5 rounded-full bg-red-400 text-xs text-white leading-3"
+          style="min-width: 0.75rem"
         >
           {{ waitCommentsCount }}
         </div>
@@ -54,10 +58,11 @@
     <div class="w-px h-5 bg-gray-300" />
     <!-- 退款/售后 -->
     <router-link to="/myorder?status=0" class="w-1/5 text-center">
-      <van-image width="28" height="26" src="/src/assets/images/user/售后.png" lazy-load class="relative">
+      <van-image width="28" height="26" :src="waitRefundCountImg" lazy-load class="relative">
         <div
           v-if="waitRefundCount" 
-          class="absolute right-0 top-0 -mt-1.5 -mr-1.5 w-3 h-3 rounded-full bg-red-400 text-xs text-white leading-3"
+          class="absolute right-0 top-0 -mt-1.5 -mr-2.5 px-0.5 rounded-full bg-red-400 text-xs text-white leading-3"
+          style="min-width: 0.75rem"
         >
           {{ waitRefundCount }}
         </div>
@@ -68,6 +73,11 @@
 </template>
 
 <script>
+import waitPayCountImg from '../../../assets/images/user/待付款.png'
+import waitSendCountImg from '../../../assets/images/user/待发货.png'
+import waitReceiptCountImg from '../../../assets/images/user/待收货.png'
+import waitCommentsCountImg from '../../../assets/images/user/待评价.png'
+import waitRefundCountImg from '../../../assets/images/user/售后.png'
 export default {
   props: {
     waitPayCount: {
@@ -90,10 +100,15 @@ export default {
       type: Number,
       defalut: 0
     }
+  },
+  setup() {
+    return {
+      waitPayCountImg,
+      waitSendCountImg,
+      waitReceiptCountImg,
+      waitCommentsCountImg,
+      waitRefundCountImg
+    }
   }
 }
 </script>
-
-<style>
-
-</style>

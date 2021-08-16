@@ -4,12 +4,12 @@ import router from '../router';
 import qs from 'qs'
 // const baseURL = 'http://13.114.161.29:8888/muzimed_mobile/'         //服务器
 // const baseURL = 'http://192.168.50.236:8888/muzimed_mobile/'        //本地/李明
-// const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'            //测试
-const baseURL = import.meta.env.VITE_APP_URL      // 测试/开发
+// const baseURL = 'http://192.168.1.175:8888/muzimed_mobile/'         //测试
+const baseURL = import.meta.env.VITE_APP_URL
 
 const http = axios.create({
   baseURL,
-  timeout:8000,
+  timeout: 8000,
 })
 
 // 在发起请求时进行拦截，获取token

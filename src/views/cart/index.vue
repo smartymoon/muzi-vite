@@ -54,7 +54,7 @@
                   class="mt-1 text-red-400 text-lg leading-5"  
                   @click="toDetail(card.proid)"
                 >
-                  {{ card.iprice }} <span class="text-xs">港币</span><span class="text-xs ml-0.5 text-gray-500">约{{ Math.round(card.iprice * 0.83)  }}元</span>
+                  {{ card.iprice }} <span class="text-xs">港币</span><span class="text-xs ml-0.5 text-gray-500">约{{ (card.iprice * 0.83).toFixed(1) }}元</span>
                 </p>
                 <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" @change="changeStepper(card.id, card.icount)" />
               </div>
@@ -64,7 +64,7 @@
       </div>
       <!-- empty -->
       <div v-if="cartList.length === 0" class="px-5 py-10 text-center">
-        <img src="/src/assets/images/cart_empty.png">
+        <img :src="emptyImg">
         <router-link to="/">
           <button class="mt-8 w-44 py-2.5 rounded-full bg-red-400 text-white text-sm">去逛逛 >></button>
         </router-link>
@@ -92,6 +92,7 @@ import { ref, computed, onMounted } from 'vue';
 import { Dialog } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
 import api from '../../api/index.js'
+import emptyImg from '../../assets/images/cart_empty.png'
 import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
 export default {
@@ -139,6 +140,7 @@ export default {
 
     return {
       back() { router.go(-1) },
+      emptyImg,
       showLoading,
       editStatus,
       cartList,
