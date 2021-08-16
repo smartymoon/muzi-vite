@@ -9,9 +9,10 @@
         <div v-if="list.length > 0" class="mt-3.5 space-y-3.5">
           <order-card :list="list" />
         </div>
-        <div v-if="list.length === 0 && !showLoading">
+        <div v-if="list.length === 0 && !showLoading" class="mt-36">
           <van-empty description="暂无订单" />
         </div>
+        <p v-if="!showLoading && list.length !== 0" class="text-sm text-center py-4 text-gray-500">没有更多了~</p>
       </van-tab>
     </van-tabs>
   </div>
