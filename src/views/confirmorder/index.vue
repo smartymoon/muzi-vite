@@ -83,9 +83,9 @@
     <van-submit-bar
       class="border-t max-w-md" 
       currency="HK$"
-      :price="totalPrice" 
+      :price="totalPrice"
+      :disabled="submitDisbled"
       button-text="去结算"
-      :loading="submitLoading"
       @submit="onSubmit"
     />
     <van-dialog v-model:show="hasAddressDialog" message="您还未设置收货地址，请填写收货地址" @confirm="confirmDialog" />
@@ -109,6 +109,8 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
+    const submitDisbled = ref(true)
+    setTimeout( () => { submitDisbled.value = false }, 200 )
     
     // 订单详情
     const orderList = ref({carts:[]})
@@ -182,9 +184,8 @@ export default {
 
     const hasAddressDialog = ref(false)
 
-    // 提交订单
-    const submitLoading = ref(false)
     return {
+      submitDisbled,
       back() {
         Dialog.confirm({ 
           confirmButtonText: '继续支付', 
@@ -231,11 +232,10 @@ export default {
       showProxy() {
         Dialog({ confirmButtonText: '关闭', title: '进口个人申报委托', message: '本人承诺所购买商品系个人合理自用，不会进行二次销售，针对境外（包括保税区等特殊监管区域）发货的各种商品，现委托商家或其委托的物流商代理申报、代缴税款等通关事宜，本人保证遵守《海关法》和国家相关法律法规，保证所提供的收件人身份信息和收货信息真实完整，无侵犯他人权益的行为，并督促保证代缴义务人足额支付应缴税款。以上委托关系系如实填写，本人愿意接受海关及其他监管部门的监管，并承担相应法律责任。' })
       },
-      submitLoading,
       onSubmit() {
-        submitLoading.value = true
+        submitDisbled.value = true
         if (!checkedProxy.value) {
-          submitLoading.value = false
+          submitDisbled.value = false
           Dialog({ title: '请选择同意进口个人申报委托' })
         } else {
           let data = {

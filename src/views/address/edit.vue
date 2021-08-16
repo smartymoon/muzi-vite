@@ -8,8 +8,9 @@
     <van-address-edit
       v-show="!showLoading || !isEdit"
       :show-set-default="!!(addressFrom !== '/confirmorder') && !!(addressLength !== 1)"
-      :show-delete="isEdit && addressLength !== 1"
+      :show-delete="isEdit && addressLength !== 1 && showDelete"
       tel-maxlength="11"
+      :tel-validator="telValidator"
       :show-area="false"
       :show-detail="false"
       :address-info="info"
@@ -68,7 +69,7 @@
 
 <script>
 import { reactive, ref } from 'vue'
-import { checkId } from '/src/until/index.js'
+import { checkId, checkPhone } from '/src/until/index.js'
 import api from '../../api/index.js'
 import { useRoute, useRouter } from 'vue-router'
 // import { Toast } from 'vant'
@@ -83,11 +84,12 @@ export default {
     const showLoading = ref(true)
     const addressFrom = sessionStorage.getItem('addressFrom')
     const addressLength = +route.query.addressLength
+    const showDelete = ref(true)
     const isEdit = !!(route.query.operation === 'edit')
     const info = reactive({
       name: '',
       tel: '',
-      isDefault: null,
+      isDefault: true,
     })
     const msg = reactive({
       id: '',
@@ -101,6 +103,7 @@ export default {
       dtl: '',
       showDtlError: false
     })
+    const telValidator = (tel) => { return checkPhone(tel) }
     api.get("/open/common/get_address_select" ).then((res)=>{ msg.areaList = res.data.data })
     if(isEdit) {
       api.get('/useraddress/get', { addressid: route.query.addressId} ).then((res) => {
@@ -114,6 +117,9 @@ export default {
           msg.cityscode = res.data.data.saddresscode
           msg.dtl = res.data.data.sdetail
           info.isDefault = !!(res.data.data.itype === 2)
+          if(res.data.data.itype === 2) {
+            showDelete.value = false
+          }
         }
         showLoading.value = false
       })
@@ -125,6 +131,7 @@ export default {
       showLoading,
       addressFrom,
       addressLength,
+      showDelete,
       isEdit,
       info,
       msg,
@@ -154,6 +161,7 @@ export default {
           router.go(-1)
         })
       },
+      telValidator,
       onSave(e) {
         saving.value = true
         if(!msg.id || !checkId(msg.id)) { saving.value = false; msg.showIdError = true; return }
@@ -174,8 +182,10 @@ export default {
           api.put("/useraddress/put", data).then((res) => console.log(res.data))  // 不好用 ？？？
         } else {
           api.post("/useraddress/post", data).then((res) => {
-            router.replace(addressFrom)
-            router.go(-1)
+            if(res.data.code === 20000) {
+              router.replace(addressFrom)
+              router.go(-1)
+            }
           })
         }
         setTimeout( () => { saving.value = false }, 500 )

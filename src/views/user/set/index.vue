@@ -58,7 +58,9 @@
         <van-icon name="arrow" color="#999999" class="ml-auto" />
       </div>
     </div>
-
+    <div class="p-12">
+      <van-button block round color="#F23030" @click="quit">退出登录</van-button>
+    </div>
   </div>
 </template>
 
@@ -106,6 +108,11 @@ export default {
       },
       toArticle(title, content) {
         router.push({ path: '/user/set/article', query: { title: title, content: content} })
+      },
+      quit() {
+        sessionStorage.removeItem('token')
+        router.replace('/login')
+        router.go(-1)
       }
     }
   }

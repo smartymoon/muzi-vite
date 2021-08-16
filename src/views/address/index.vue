@@ -1,7 +1,7 @@
 <template>
   <div class="relative pt-12 pb-16 min-h-screen">
     <!-- header -->
-    <muzi-header title="收货地址" />
+    <muzi-header title="收货地址" customBack @back="back" />
     <div v-show="showLoading" class="text-center py-5">
       <van-loading size="30">加载中,请稍后...</van-loading>
     </div>
@@ -21,6 +21,7 @@
 <script>
 import { ref } from 'vue'
 import api from '../../api/index.js'
+import { Dialog } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
@@ -70,6 +71,13 @@ export default {
       showLoading,
       chosenAddressId,
       list,
+      back() {
+        if(!chosenAddressId.value && switchable.value) {
+          Dialog.alert({ message: '请选择一个收货地址' })
+        } else {
+          router.go(-1)
+        }
+      },
       onAdd,
       onEdit,
       onSelect,
