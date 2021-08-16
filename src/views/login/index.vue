@@ -175,7 +175,7 @@ export default {
               router.replace(sessionStorage.getItem('loginFrom'))
               router.go(-1)
             } else {
-              router.push({ path: '/'})
+              router.push({ path: '/home'})
             }
           } else {
             Toast.fail(res.data.msg)
