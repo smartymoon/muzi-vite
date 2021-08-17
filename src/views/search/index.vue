@@ -90,7 +90,7 @@ export default {
       // 清空历史记录
       deleteHistory() {
         Dialog.confirm({
-          message:'确认删除全部历史记录？'
+          title:'确认删除全部历史记录？'
         }).then(() => {
           localStorage.removeItem('history')
           showHistory.value = false

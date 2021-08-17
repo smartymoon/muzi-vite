@@ -132,6 +132,10 @@ const router = new createRouter({
 			path:'/myorder',
 			component:() => import('../views/myorder/index.vue')
 		},
+		{
+			path:'/myorder/detail',
+			component:() => import('../views/myorder/detail.vue')
+		},
 
 		// ----------登录----------
 		{

@@ -109,6 +109,7 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
+    console.log(sessionStorage.getItem('orderList'))
     const submitDisbled = ref(true)
     setTimeout( () => { submitDisbled.value = false }, 200 )
     
@@ -120,7 +121,7 @@ export default {
       orderObj.data = { userid: sessionStorage.getItem('id'), cartids: sessionStorage.getItem('orderList') }
     }
     api.get(orderObj.url, orderObj.data).then((res) => {
-      console.log(res.data.data) 
+      console.log(res.data) 
       if(res.data.code === 20000) {
         orderList.value = Object.assign(orderList.value, res.data.data)
       }
@@ -249,7 +250,6 @@ export default {
           api.post("/pay/submitorder", data, true).then((res) => { 
             if(res.data.code === 20000) {
               api.post("/pay/orderinfo",{ orderid: res.data.data.orderid }, true).then((res) => {
-                history.pushState(null,null,'/')
                 window.location.href = res.data.data.alipayurl
               })
             }

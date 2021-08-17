@@ -19,19 +19,92 @@
             {{ msg.productname }}
           </p>
           <p class="text-gray-500">x{{ msg.icount }}</p>
-          <p class="text-lg text-red-400">{{ msg.iprice }} <span class="text-xs">港币</span> <span class="text-xs text-gray-500">约{{ (msg.iprice * 0.83).toFixed(1) }}元</span> </p>
+          <p class="text-lg text-red-400">{{ msg.iprice }} <span class="text-xs">港币</span> <span class="text-xs text-gray-500">约{{ (msg.iprice * 0.83).toFixed(1) }}元</span></p>
         </div>
       </div>
-    </div>          
+    </div>
+    <!-- button -->  
+    <div class="mt-4 flex items-center justify-end space-x-2.5">
+      <!-- 取消订单 -->
+      <button
+        v-if="item.orderstate === '待付款'" 
+        class="text-gray-600 border border-gray-500 text-xs rounded-2xl" 
+        style="width: 70px; height: 22px"
+        :disabled="cancelDisabled"
+        @click="cancelOrders(item.id)"
+      >
+        取消订单
+      </button>
+      <!-- 查看订单 -->
+      <button
+        class="text-red-400 border border-red-400 text-xs rounded-2xl" 
+        style="width: 70px; height: 22px"
+        @click="toOrderDetail(item.id)"
+      >
+        查看订单
+      </button>
+      <!-- 去支付 -->
+      <button 
+        v-if="item.orderstate === '待付款'" 
+        class="text-red-400 border border-red-400 text-xs rounded-2xl" 
+        style="width: 70px; height: 22px"
+        :disabled="payDisabled"
+        @click="toPay(item.id)"
+      >
+        去支付
+      </button>
+    </div>    
   </div>
 </template>
 
 <script>
+import { ref } from 'vue'
+import api from '/src/api/index.js'
+import { useRouter, useRoute } from 'vue-router'
+import { Dialog, Toast } from 'vant'
 export default {
   props: {
     list: {
       type: Array,
       required: true
+    }
+  },
+  setup() {
+    const router = useRouter()
+    // const route = useRoute()
+    const cancelDisabled = ref(false)
+    const payDisabled = ref(false)
+    return {
+      // 取消订单
+      cancelDisabled,
+      cancelOrders(id) {
+        cancelDisabled.value = true
+        Dialog.confirm({ 
+          title: '确定要取消该订单吗?',
+          confirmButtonText: '确定取消', 
+          cancelButtonText: '暂不取消'
+        }).then(() => {
+          api.delete("/order/delete",{ orderid: id }).then((res)=>{  
+            if(res.data.code === 20000) {
+              Toast.success('取消成功') 
+              router.go(0)  
+            }
+          })
+        }).catch(() => {cancelDisabled.value = false })
+      },
+      // 查看订单
+      toOrderDetail(id) {
+        router.push({ path: '/myorder/detail', query: { id: id } })
+      },
+      // 去支付 
+      payDisabled,
+      toPay(id) {
+        payDisabled.value = true
+        api.post("/pay/orderinfo",{ orderid: id }, true).then((res) => {
+          window.location.href = res.data.data.alipayurl
+          payDisabled.value = false
+        })
+      }
     }
   }
 }
