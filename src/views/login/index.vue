@@ -188,11 +188,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .van-tab {
-    font-size: 1rem;
-    padding-bottom: 8px;
-    border-bottom: solid 1px #E6E6E6;
-  }
-</style>

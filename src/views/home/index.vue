@@ -124,6 +124,8 @@ export default {
       brandList: []
     })
 
+    console.log(active.value)
+
     // 获取banners
     api.get("/open/home/get_banner").then((res)=>{ data.banners = res.data.data })
 

@@ -4,5 +4,6 @@
     "vite",
     "vitejs"
   ],
-  "totvsLanguageServer.welcomePage": false
+  "totvsLanguageServer.welcomePage": false,
+  "liveServer.settings.port": 5501
 }
