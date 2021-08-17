@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 
 const router = new createRouter({
-	history:createWebHistory('/mobile/'),
-	// history:createWebHashHistory(),
+	// history:createWebHistory('/mobile/'),
+	// history:createWebHistory('/'),
+	history:createWebHashHistory(),
 	routes:[
 
 		// ----------主页----------
