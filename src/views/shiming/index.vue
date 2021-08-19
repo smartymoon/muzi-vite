@@ -27,6 +27,7 @@
           clearable 
           label-width="4rem" 
           label="身份证号" 
+          readonly
           placeholder="请输入您的身份证号"
           @focus="getIdFocus" 
         />

@@ -5,9 +5,9 @@
       <p class="text-red-400 font-semibold text-2xl">
         {{ info.iprice }}<span class="text-sm ml-1">港币 (约{{ (info.iprice * 0.83).toFixed(1) }}元)</span>
       </p>
-      <div class="flex items-center justify-between text-gray-600 text-sm">
+      <div class="flex justify-between text-gray-600 text-sm">
         <p>{{ info.brand }}</p>
-        <p>已售{{ info.icount }}件</p>
+        <p class="flex-shrink-0 ml-2">已售{{ info.icountsale }}件</p>
       </div>
       <div class="w-full text-sm flex items-center justify-between px-1 pt-3">
         <!-- 正品承诺 -->

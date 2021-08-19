@@ -34,7 +34,7 @@
     </main>
 
     <!-- footer -->
-    <dtl-footer :iscollect="data.info.iscollect" />
+    <dtl-footer :iscollect="data.info.iscollect" :hasOrder="!!data.info.icount" />
 
   </div>
 </template>
@@ -42,6 +42,7 @@
 <script>
 import { reactive, ref, watch, onMounted } from 'vue';
 import api from '../../api/index.js'
+import { Toast } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import SectionInfo from './component/SectionInfo.vue'
@@ -62,12 +63,9 @@ export default {
     const swipeRef = ref(null)
     const router = useRouter()
     const route = useRoute()
-    onMounted(() => {
-      sessionStorage.removeItem('orderList')
-      sessionStorage.removeItem('addressId')
-    })
+    onMounted(() => { sessionStorage.removeItem('addressId') })
     watch(() => route.params, async newParams => { 
-      if(newParams.id){
+      if(newParams.id) {
         getDetail()
         swipeRef.value.swipeTo(0)
       } 
@@ -84,7 +82,7 @@ export default {
     const getDetail = function() {
       api.get("/open/product_detail/get_product_images",{ id: route.params.id }).then((res)=>{ data.banners = res.data.data })
       api.get("/open/product_detail/get_product_info",{ id: route.params.id }).then((res)=>{ 
-        console.log(res.data.data)
+        if (res.data.data.icount === 0) { Toast.fail('暂无库存') }
         data.info = res.data.data 
       })
       api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ data.comments = res.data.data })

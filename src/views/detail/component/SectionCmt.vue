@@ -18,7 +18,13 @@
               <van-rate v-model="item.irank" :size="10" color="##f23030" />
             </div>
           </div>
-          <div v-if="item.smemo" class="mt-2 text-sm">{{ item.smemo }}</div>
+          <p
+             v-if="item.smemo"
+            class="mt-2 h-10 overflow-hidden overflow-ellipsis text-sm" 
+            style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
+          >
+            {{ item.smemo }}  
+          </p>
           <div v-else class="mt-2 text-sm">非常满意的一次购物，开心！</div>
         </div>
       </div>

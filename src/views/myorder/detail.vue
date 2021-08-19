@@ -1,6 +1,7 @@
 <template>
   <div class="relative py-12 min-h-screen">
     <muzi-header title="订单详情" />
+
     <!-- top -->
     <div class="w-full h-24 bg-red-400 px-4 flex items-center space-x-4">
       <van-image width="45" height="45" :src="carImg" lazy-load class="flex-shrink-0">
@@ -13,6 +14,7 @@
         <p class="text-xs">{{ text }}</p>
       </div>
     </div>
+
     <main class="space-y-3.5">
       <!-- address -->
       <section class="p-4 bg-white rounded-b-2xl">
@@ -21,7 +23,7 @@
         </div>
         <div 
           class="max-h-9 overflow-hidden overflow-ellipsis" 
-          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size:13px; line-height:18px"
+          style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-size:13px; line-height: 18px"
         >
           {{ list.address }} {{ list.sdetail }}
         </div>
@@ -52,12 +54,12 @@
             </div>
           </div>
         </div>
-        <!-- button -->  
+        <!-- button -->
         <div class="mt-4 flex items-center justify-end space-x-2.5">
           <!-- 取消订单 -->
           <button
-            v-if="list.orderstate === '待付款'" 
-            class="text-gray-600 border border-gray-500 text-xs rounded-2xl" 
+            v-if="list.orderstate === '待付款'"
+            class="text-gray-600 border border-gray-500 text-xs rounded-2xl"
             style="width: 70px; height: 22px"
             :disabled="cancelDisabled"
             @click="cancelOrders()"
@@ -66,7 +68,7 @@
           </button>
           <!-- 去支付 -->
           <button 
-            v-if="list.orderstate === '待付款'" 
+            v-if="list.orderstate === '待付款'"
             class="text-red-400 border border-red-400 text-xs rounded-2xl" 
             style="width: 70px; height: 22px"
             :disabled="payDisabled"
@@ -86,6 +88,7 @@
         </div>
       </section>
     </main>
+
   </div>
 </template>
 
@@ -155,7 +158,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

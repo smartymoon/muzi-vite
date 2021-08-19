@@ -1,16 +1,18 @@
 <template>
   <div class="relative pb-28 min-h-screen">
     <!-- header -->
-    <div class="bg-white h-12 pr-4 pl-2 flex items-center justify-between z-50 rounded-b-2xl">
-      <div class="flex items-center">
-        <div class="p-2" @click="back">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
+    <div class="bg-white h-12 pr-4 pl-2 z-50 rounded-b-2xl">
+      <div class="w-full h-full flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="p-2" @click="back">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+          </div>
+          <h1 class="text-lg font-bold">购物车</h1>
         </div>
-        <h1 class="text-lg font-bold">购物车</h1>
+        <p class="text-sm" @click="edit">{{ editStatus ? '完成': cartList.length > 0 ? '编辑商品' : '' }}</p>
       </div>
-      <p class="text-sm" @click="editStatus = !editStatus">{{ editStatus ? '完成': cartList.length > 0 ? '编辑商品' : '' }}</p>
     </div>
     
     <div v-show="showLoading" class="text-center mt-8">
@@ -80,7 +82,7 @@
       :loading="submitLoading"
       @submit="onSubmit"
     >
-      <van-checkbox v-model="checked" checked-color="#f23030" @click="checkAll(checked)">全选</van-checkbox>
+      <van-checkbox v-show="editStatus" v-model="checked" checked-color="#f23030" @click="checkAll(checked)">全选</van-checkbox>
     </van-submit-bar>
     <!-- footer -->
     <muzi-footer :footerIndex="2" />
@@ -103,16 +105,13 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    onMounted(() => {
-      sessionStorage.removeItem('drugId')
-      sessionStorage.removeItem('addressId')
-    })
+    onMounted(() => { sessionStorage.removeItem('addressId') })
     const showLoading = ref(true)
     const editStatus = ref(false)
     const cartList = ref([])
     const checked = ref(false)
     const submitLoading = ref(false)
-    api.get("/cart/getList",{ userid: sessionStorage.getItem('id') }).then((res) => { 
+    api.get("/cart/getList",{ userid: sessionStorage.getItem('id') }).then((res) => {
       console.log('cartRes',res)
       showLoading.value = false
       if (res.data.code === 20000) {
@@ -165,6 +164,15 @@ export default {
         cartList.value.forEach((item) => { if(!item.checkcountry) c = false })
         checked.value = c
       },
+      edit() {
+        editStatus.value = !editStatus.value
+        if(!editStatus.value) {
+          cartList.value.forEach(item => {
+            item.checkcountry = false
+            item.productMain.forEach(i => i.check = false)
+          })
+        }
+      },
       // 全选
       checkAll(checked) {
         cartList.value.forEach(item => {
@@ -173,29 +181,38 @@ export default {
         })
       },
       // 步进器
-      changeStepper(id,count) {
-        api.put("/cart/putcount",{ cartid: id, count:count })
-      },
+      changeStepper(id,count) { api.put("/cart/putcount",{ cartid: id, count:count })},
+
       toDetail(id) { router.push({ path: '/detail/'+ id }) },
       // 去结算
       onSubmit() {
         submitLoading.value = true
         let choiceList = []
+        let arr = []
         cartList.value.forEach((item, index) => {
           item.productMain.forEach((i,idx) => {
-            if(i.check) { choiceList.push(cartList.value[index].productMain[idx].id) }
+            if(i.check) {
+              choiceList.push(i.id)
+              arr[index] = true
+            }
           })
         })
         if(editStatus.value) {
           Dialog.confirm({
-            message:'确认删除选中的商品吗？'
+            title:'确认删除选中的商品吗？'
           }).then(() => {
             api.delete("/cart/deleteBatch",{ cartids: choiceList.toString() }).then((res)=>{  router.go(0) })
             setTimeout( () => { submitLoading.value = false }, 200 )
           }).catch(() => { submitLoading.value = false })
         } else {
+          let selArr = arr.filter(item => item === true)
+          if(selArr.length > 1) {
+            Dialog.alert({ title: '不同国家的药品请分开结算哦' })
+            submitLoading.value = false
+            return
+          }
           if(sessionStorage.getItem('shiming') === '0') {
-            Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => {
+            Dialog.alert({ title: '您还未实名认证，请先认证喲~' }).then(() => {
               submitLoading.value = false
               sessionStorage.setItem('shimingFrom', route.path)  
               router.push({ path:'/shiming' })
@@ -203,7 +220,7 @@ export default {
           } else {
             sessionStorage.setItem('orderList', choiceList)
             setTimeout( () => { submitLoading.value = false }, 100 )
-            router.push({ path:'/confirmorder' })
+            router.push({ path:'/confirmorder', query:{ from:'cart' } })
           }
         }
       },

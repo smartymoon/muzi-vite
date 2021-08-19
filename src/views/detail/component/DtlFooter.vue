@@ -9,8 +9,8 @@
       :color="collected ? '#ff5000':'' "
       @click="collect" 
     />
-    <van-action-bar-button type="warning" text="加入购物车" :loading="cartLoading" @click="addCart" />
-    <van-action-bar-button type="danger" text="立即购买" @click="buy" />
+    <van-action-bar-button type="warning" text="加入购物车" :disabled="!hasOrder" :loading="cartLoading" @click="addCart" />
+    <van-action-bar-button type="danger" text="立即购买" :disabled="!hasOrder" @click="buy" />
   </van-action-bar>
 </template>
 
@@ -24,6 +24,10 @@ export default {
     iscollect: {
       type: Boolean,
       default: false
+    },
+    hasOrder: {
+      type: Boolean,
+      default: true
     }
   },
   setup(props) {
@@ -104,7 +108,7 @@ export default {
             })
           } else {
             sessionStorage.setItem('drugId', route.params.id)
-            router.push({ path:'/confirmorder' })
+            router.push({ path:'/confirmorder', query: { from: 'detail' } })
           }
         }
       }

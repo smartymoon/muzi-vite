@@ -1,11 +1,10 @@
 <template>
   <div class="relative py-12">
     <!-- header -->
-    <muzi-header showLogo :showBack="false">
-      <router-link to="/user/msg" class="ml-3 mt-1">
-        <van-image :src="noticeImg" width="19" height="22" lazy-load fit="cover" class="flex-shrink-0" />
-      </router-link>
-    </muzi-header>
+
+    <home-header></home-header>
+
+
     <!-- swiper -->
     <div class="absolute z-20 w-full" style="top:6.5rem">
       <div class="px-4">
@@ -90,17 +89,16 @@
 import { reactive, ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
-import noticeImg from '../../assets/images/user/notice.png'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import BasePagination from '../../components/global/BasePagination.vue'
-import MuziHeader from '../../components/MuziHeader.vue'
+import HomeHeader from './component/HomeHeader.vue'
 import MuziCard from '../../components/MuziCard.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
 export default {
   components: {
     BaseSquare,
     BasePagination,
-    MuziHeader,
+    HomeHeader,
     MuziCard,
     MuziFooter
   },
@@ -124,8 +122,6 @@ export default {
       brandList: []
     })
 
-    console.log(active.value)
-
     // 获取banners
     api.get("/open/home/get_banner").then((res)=>{ data.banners = res.data.data })
 
@@ -139,7 +135,6 @@ export default {
     api.get("/open/home/get_ziyou_pinpai",{num:2}).then((res)=>{ data.brandList = res.data.data})
 
     return {
-      noticeImg,
       active,
       tabTitles,
       url,

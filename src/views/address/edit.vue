@@ -25,6 +25,7 @@
           v-model="msg.id"
           maxlength="18"
           clearable
+          readonly
           label-width="3.5rem"
           label="身份证号" 
           placeholder="请输入您的身份证号"
@@ -170,7 +171,7 @@ export default {
         let data = {
           itype: itype.value,
           iuserid: sessionStorage.getItem('id'),
-          cityscode: msg.cityscode,
+          saddresscode: msg.cityscode,
           provincescode: msg.provincescode,
           scardno: msg.id,
           sdetail: msg.dtl,
@@ -179,7 +180,10 @@ export default {
         }
         if(isEdit) {
           data.id = route.query.addressId
-          api.put("/useraddress/put", data).then((res) => console.log(res.data))  // 不好用 ？？？
+          api.post("/useraddress/put", data).then((res) => {
+            router.replace(addressFrom)
+            router.go(-1)
+          })
         } else {
           api.post("/useraddress/post", data).then((res) => {
             if(res.data.code === 20000) {

@@ -1,28 +1,30 @@
 <template>
   <div class="relative py-12 bg-white">
     <!-- header -->
-    <muzi-header showLogo :showBack="false">
-      <p class="ml-2.5 text-sm flex-shrink-0">搜索</p>
-    </muzi-header>
+    <type-header />
     <!-- loading -->
-    <div v-show="showLoading" class="text-center py-4">
+    <div v-if="showLoading" class="text-center py-4">
       <van-loading size="30">加载中,请稍后...</van-loading>
     </div>
-    <div v-show="!showLoading">
+    <div v-if="!showLoading && content.length > 0" class="flex">
       <!-- nav -->
-      <div v-if="content.length > 0" class="fixed left-0 bg-gray-200 h-full overflow-y-hidden" style="width:30%">
-        <div v-for="i in content.length" :key="i">
-          <div 
-            class="w-full h-12 flex items-center justify-center text-sm"
-            :class="i-1 === sIndex ? 'font-bold bg-white' : 'font-medium'"
-            @click="sIndex = i-1"
-          >
-            {{content[i-1].sname}}
+      <div class="h-screen relative" style="width:30%">
+        <div class="py-4 space-y-8 fixed w-full" style="max-width:120px">
+          <div v-for="i in content.length" :key="i" class="flex items-center justify-center">
+            <img v-if="i-1 === sIndex" :src="selImg" class="w-6 h-6">
+            <p
+              class="text-center text-sm"
+              :class="i-1 === sIndex ? 'font-bold -ml-2' : 'font-medium'"
+              @click="sIndex = i-1"
+            >
+              {{content[i-1].sname}}
+            </p>
           </div>
         </div>
       </div>
+      <div class="w-1 min-h-screen flex-shrink-0" style="background: linear-gradient(90deg, rgba(230, 230, 230, 0.5) 0%, rgba(245, 245, 245, 0) 100%);" />
       <!-- content -->
-      <div v-if="content.length > 0" class="p-4 ml-auto" style="width:70%">
+      <div class="p-4 ml-auto" style="width:70%">
         <base-square ar="39">
           <van-image width="100%" height="100%" :src="countryImg[content[sIndex].scountry]" radius="7" lazy-load>
             <template v-slot:loading>
@@ -37,7 +39,7 @@
               <div v-for="(msg,idx) in item.content" :key="idx">
                 <div @click="toList(content[sIndex].scountry,msg.sfuncid)">
                   <base-square>
-                    <van-image width="100%" height="100%" :src="msg.simage" radius="7" lazy-load>
+                    <van-image width="100%" height="100%" :src="msg.simage" radius="7" fit="cover" lazy-load>
                       <template v-slot:loading>
                         <van-loading type="spinner" size="20" />
                       </template>
@@ -66,17 +68,20 @@ import { ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
-import japanImg from '../../assets/images/country/01.png'
-import koreaImg from '../../assets/images/country/02.png'
-import IndiaImg from '../../assets/images/country/03.png'
-import thailandImg from '../../assets/images/country/05.png'
-import singaporeImg from '../../assets/images/country/06.png'
+import japanImg from '../../assets/images/country/01.jpg'
+import koreaImg from '../../assets/images/country/02.jpg'
+import IndiaImg from '../../assets/images/country/03.jpg'
+import thailandImg from '../../assets/images/country/05.jpg'
+import singaporeImg from '../../assets/images/country/06.jpg'
+import selImg from '../../assets/images/sel.png'
+import TypeHeader from './component/TypeHeader.vue'
 import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
 export default {
   components: {
     BaseSquare,
     MuziHeader,
+    TypeHeader,
     MuziFooter
   },
   setup() {
@@ -99,6 +104,7 @@ export default {
     return {
       showLoading,
       countryImg,
+      selImg,
       sIndex,
       content,
       toList(countryId,sfuncid) {

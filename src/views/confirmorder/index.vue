@@ -19,7 +19,7 @@
               </van-image>
               <div class="ml-2.5">
                 <p
-                  class="h-10 overflow-hidden overflow-ellipsis text-sm" 
+                  class="h-10 overflow-hidden overflow-ellipsis text-sm"
                   style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
                   @click="toDetail(card.proid)"
                 >
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { computed, reactive, ref } from 'vue'
+import { computed, ref } from 'vue'
 import api from '../../api/index.js'
 import { Dialog } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
@@ -109,14 +109,13 @@ export default {
   setup() {
     const router = useRouter()
     const route = useRoute()
-    console.log(sessionStorage.getItem('orderList'))
     const submitDisbled = ref(true)
     setTimeout( () => { submitDisbled.value = false }, 200 )
     
     // 订单详情
     const orderList = ref({carts:[]})
     let orderObj = { url: '/pay/buynow', data: { userid: sessionStorage.getItem('id'), pid: sessionStorage.getItem('drugId') } }
-    if (sessionStorage.getItem('orderList')) {
+    if (route.query.from === 'cart') {
       orderObj.url = '/pay/confirmorder'
       orderObj.data = { userid: sessionStorage.getItem('id'), cartids: sessionStorage.getItem('orderList') }
     }
@@ -202,15 +201,13 @@ export default {
       toDetail(id) { router.push({ path: '/detail/'+ id }) },
       // 增减数量
       changeStepper(id, count) {
-        if (sessionStorage.getItem('orderList')) {
+        if (route.query.from === 'cart') {
           api.put("/cart/putcount",{ cartid: id, count:count })
         } else {
           api.get("/pay/buynowchange",{ 
             userid: sessionStorage.getItem('id'),
             pid: sessionStorage.getItem('drugId'),
             count: count
-          }).then((res) => { 
-            console.log('cartRes',res)
           })
         }
       },
@@ -246,6 +243,9 @@ export default {
             jifenused: 0,
             cartinfo: orderList.value.cartinfo,
             tprice: totalPrice.value/100
+          }
+          if(route.query.from === 'detail') { 
+            data.amount = orderList.value.carts[0].productMain[0].icount
           }
           api.post("/pay/submitorder", data, true).then((res) => { 
             if(res.data.code === 20000) {
