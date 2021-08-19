@@ -47,7 +47,8 @@ import {
   Picker,
   Popup,
   CouponList,
-  ActionSheet 
+  ActionSheet,
+  Badge 
 } from 'vant'
 
 app
@@ -83,4 +84,5 @@ app
   .use(Popup)
   .use(CouponList)
   .use(ActionSheet)
+  .use(Badge)
   .mount("#app");

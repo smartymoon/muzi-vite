@@ -15,7 +15,7 @@
             <p
               class="text-center text-sm"
               :class="i-1 === sIndex ? 'font-bold -ml-2' : 'font-medium'"
-              @click="sIndex = i-1"
+              @click="changeCountry(i-1)"
             >
               {{content[i-1].sname}}
             </p>
@@ -107,6 +107,10 @@ export default {
       selImg,
       sIndex,
       content,
+      changeCountry(index) {
+        sIndex.value = index
+        window.scrollTo(0,0)
+      },
       toList(countryId,sfuncid) {
         sessionStorage.setItem('searchFrom','/type')
         router.push({ path:'/search/list', query: { countryCode: countryId, secondClass: sfuncid } })

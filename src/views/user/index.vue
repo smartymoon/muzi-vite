@@ -61,7 +61,6 @@
         :waitSendCount="user.daifahuocount"
         :waitReceiptCount="user.daishouhuocount"
         :waitCommentsCount="user.daipingjiacount"
-        :waitRefundCount="user.daishouhuocount"
       />
       <!-- 菜单区域 -->
       <section-menu />

@@ -33,7 +33,7 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const showLoading = ref(true)
-    const active = ref(route.query.status === '5' ? '4' : route.query.status)
+    const active = ref(route.query.status)
     const list = ref([])
     const getList = () => {
       api.get('/order/getpages',{ userid: sessionStorage.getItem('id'), state: route.query.status }).then((res) => {

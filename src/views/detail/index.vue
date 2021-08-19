@@ -26,7 +26,7 @@
       <!-- info -->
       <section-info :info="data.info" />
       <!-- cmt -->
-      <section-cmt :list="data.comments" />    
+      <section-cmt :list="data.comments" />
       <!-- more -->
       <section-more :list="data.moreList" />
       <!-- detailImg -->
@@ -34,7 +34,7 @@
     </main>
 
     <!-- footer -->
-    <dtl-footer :iscollect="data.info.iscollect" :hasOrder="!!data.info.icount" />
+    <dtl-footer :iscollect="data.info.iscollect" :icount="data.info.icount" />
 
   </div>
 </template>

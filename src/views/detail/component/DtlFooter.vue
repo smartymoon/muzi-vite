@@ -9,8 +9,8 @@
       :color="collected ? '#ff5000':'' "
       @click="collect" 
     />
-    <van-action-bar-button type="warning" text="加入购物车" :disabled="!hasOrder" :loading="cartLoading" @click="addCart" />
-    <van-action-bar-button type="danger" text="立即购买" :disabled="!hasOrder" @click="buy" />
+    <van-action-bar-button type="warning" text="加入购物车" :disabled="cartDisabled" @click="addCart" />
+    <van-action-bar-button type="danger" text="立即购买" :disabled="buyDisabled" @click="buy" />
   </van-action-bar>
 </template>
 
@@ -25,9 +25,9 @@ export default {
       type: Boolean,
       default: false
     },
-    hasOrder: {
-      type: Boolean,
-      default: true
+    icount: {
+      type: Number,
+      default: 0,
     }
   },
   setup(props) {
@@ -38,7 +38,11 @@ export default {
       collected.value = value
     })
     const collectedLoading = ref(false)
-    const cartLoading = ref(false)
+    const cartDisabled = ref(true)
+    const buyDisabled = ref(true)
+    watch(() => props.icount,(value) => {
+      if(value > 0) { cartDisabled.value = buyDisabled.value = false }
+    })
     return {
       collected,
       // 收藏
@@ -67,15 +71,15 @@ export default {
       },
 
       // 加入购物车
-      cartLoading,
+      cartDisabled,
       addCart() {
-        cartLoading.value = true
+        cartDisabled.value = true
         if(!sessionStorage.getItem('token')) {
           Dialog.alert({
             message: '您还未登录，请先登录'
           }).then(() => {
             sessionStorage.setItem('loginFrom',route.path)
-            setTimeout( () => { cartLoading.value = false }, 500 )
+            cartDisabled.value = false
             router.push({ path:'/login' })
           });
         } else {
@@ -83,31 +87,35 @@ export default {
           api.post("/cart/post", data, true).then((res) => {
             if(res.data.code === 20000) { 
               Toast.success('加入成功') 
-              setTimeout( () => { cartLoading.value = false }, 500 )
+              setTimeout( () => { cartDisabled.value = false }, 500 )
             } else {
               Toast.fail('加入购物车失败')
-              setTimeout( () => { cartLoading.value = false }, 500 )
+              setTimeout( () => { cartDisabled.value = false }, 500 )
             }
           })
         }
       },
+      buyDisabled,
       buy() {
+        buyDisabled.value = true
         if(!sessionStorage.getItem('token')) {
           Dialog.alert({
             message: '您还未登录，请先登录'
           }).then(() => {
             sessionStorage.setItem('loginFrom',route.path)
-            setTimeout( () => { cartLoading.value = false }, 500 )
+            buyDisabled.value = false
             router.push({ path:'/login' })
           });
         } else {
           if(sessionStorage.getItem('shiming') === '0') {
             Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => {
               sessionStorage.setItem('shimingFrom', route.path) 
+              buyDisabled.value = false
               router.push({ path:'/shiming' }) 
             })
           } else {
             sessionStorage.setItem('drugId', route.params.id)
+            setTimeout( () => { buyDisabled.value = false }, 300 )
             router.push({ path:'/confirmorder', query: { from: 'detail' } })
           }
         }
