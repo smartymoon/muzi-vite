@@ -4,7 +4,6 @@
 
     <home-header></home-header>
 
-
     <!-- swiper -->
     <div class="absolute z-20 w-full" style="top:6.5rem">
       <div class="px-4">
@@ -18,7 +17,7 @@
     </div>
     <!-- tab -->
     <van-tabs 
-      v-model:active="active" 
+      v-model:active="active"
       background="#f23030" 
       color="#FFFFFF" 
       line-width="50"
@@ -69,7 +68,7 @@
               size="10"
             >
               <template v-slot:default="slotProps">
-                <div class="w-full grid grid-cols-2 gap-x-4 gap-y-3">
+                <div class="w-full grid grid-cols-2 gap-x-3 gap-y-3">
                   <div v-for="(msg,idx) in slotProps.list" :key="idx">
                     <muzi-card :msg="msg" @click="toDetail(msg.id)" />
                   </div>

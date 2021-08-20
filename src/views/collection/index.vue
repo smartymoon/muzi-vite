@@ -5,7 +5,7 @@
       <van-loading size="30">加载中,请稍后...</van-loading>
     </div>
     <div v-show="!showLoading && list.length > 0" class="p-4">
-      <div class="w-full grid grid-cols-2 gap-x-4 gap-y-3">
+      <div class="w-full grid grid-cols-2 gap-x-3 gap-y-3">
         <div v-for="(item, index) in list" :key="index">
           <muzi-card :msg="item.product" @click="toDetail(item.itargetid)" />
         </div>

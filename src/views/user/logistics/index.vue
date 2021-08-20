@@ -41,7 +41,7 @@ export default {
     const router = useRouter()
     return {
       toLogisticsDtl(title, content) {
-        router.push({ path: '/user/set/logisitics/dtl', query: { title: title, content: content} })
+        router.push({ path: '/user/logistics/dtl', query: { title: title, content: content} })
       }
     }
   }

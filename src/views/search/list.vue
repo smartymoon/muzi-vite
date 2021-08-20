@@ -36,7 +36,7 @@
         descriptionTips="暂无内容"
       >
         <template v-slot:default="slotProps">
-          <div class="w-full grid grid-cols-2 gap-x-4 gap-y-3">
+          <div class="w-full grid grid-cols-2 gap-x-3 gap-y-3">
             <div v-for="(msg,idx) in slotProps.list" :key="idx">
               <muzi-card :msg="msg"  @click="toDetail(msg.id)" />
             </div>
