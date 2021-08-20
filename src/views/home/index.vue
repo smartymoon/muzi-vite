@@ -19,7 +19,7 @@
     <van-tabs 
       v-model:active="active"
       background="#f23030" 
-      color="#FFFFFF" 
+      color="#FFFFFF"
       line-width="50"
       title-inactive-color="#FFFFFF"
       title-active-color="#FFFFFF"

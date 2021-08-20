@@ -14,7 +14,7 @@
         <p class="text-sm" @click="edit">{{ editStatus ? '完成': cartList.length > 0 ? '编辑商品' : '' }}</p>
       </div>
     </div>
-    
+    <!-- loading -->
     <div v-show="showLoading" class="text-center mt-8">
       <van-loading size="30">加载中,请稍后...</van-loading>
     </div>
@@ -58,7 +58,7 @@
                 >
                   {{ card.iprice }} <span class="text-xs">港币</span><span class="text-xs ml-0.5 text-gray-500">约{{ (card.iprice * 0.83).toFixed(1) }}元</span>
                 </p>
-                <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" @change="changeStepper(card.id, card.icount)" />
+                <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" :before-change="beforeChange" @change="changeStepper(card.id, card.icount)" />
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
-import { Dialog } from 'vant'
+import { Dialog, Toast } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
 import api from '../../api/index.js'
 import emptyImg from '../../assets/images/cart_empty.png'
@@ -181,6 +181,15 @@ export default {
         })
       },
       // 步进器
+      beforeChange() {
+        Toast.loading({ message: '修改中', forbidClick: true });
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            Toast.clear();
+            resolve(true);
+          }, 500);
+        });
+      },
       changeStepper(id,count) { api.put("/cart/putcount",{ cartid: id, count:count })},
 
       toDetail(id) { router.push({ path: '/detail/'+ id }) },

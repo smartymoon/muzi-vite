@@ -14,8 +14,8 @@
     <base-square>
       <div class="w-full h-full bg-white">
         <van-swipe ref="swipeRef" class="w-full h-full bg-gray-400" :autoplay="3000" indicator-color="#f23030" lazy-render>
-          <van-swipe-item v-for="image in data.banners" :key="image" class="w-full h-full">
-            <img :src="image" class="w-full h-full" />
+          <van-swipe-item v-for="(image, index) in data.banners" :key="index" class="w-full h-full">
+            <img :src="image" class="w-full h-full" @click="showPreview(index)" />
           </van-swipe-item>
         </van-swipe>
       </div>
@@ -42,7 +42,7 @@
 <script>
 import { reactive, ref, watch, onMounted } from 'vue';
 import api from '../../api/index.js'
-import { Toast } from 'vant'
+import { Toast, ImagePreview } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import SectionInfo from './component/SectionInfo.vue'
@@ -91,11 +91,18 @@ export default {
     }
 
     getDetail()
+    
 
     return {
       swipeRef,
       back() { router.go(-1) },
-      data
+      data,
+      showPreview(index) {
+        ImagePreview({
+          images: data.banners,
+          startPosition: index
+        })
+      }
     }
   }
 }

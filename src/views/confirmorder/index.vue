@@ -32,7 +32,7 @@
                   {{ card.iprice }}<span class="text-xs ml-0.5">港币</span>
                   <span class="text-xs ml-0.5 text-gray-500">约{{ (card.iprice * 0.83).toFixed(1) }}元</span>
                 </p>
-                <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" @change="changeStepper(card.id, card.icount)" />
+                <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" :before-change="beforeChange" @change="changeStepper(card.id, card.icount)" />
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@
 <script>
 import { computed, ref } from 'vue'
 import api from '../../api/index.js'
-import { Dialog } from 'vant'
+import { Dialog, Toast } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
 import MuziHeader from '../../components/MuziHeader.vue'
 import SelAddress from './component/SelAddress.vue'
@@ -199,7 +199,16 @@ export default {
       },
       orderList,
       toDetail(id) { router.push({ path: '/detail/'+ id }) },
-      // 增减数量
+      // 步进器
+      beforeChange() {
+        Toast.loading({ message: '修改中', forbidClick: true });
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            Toast.clear();
+            resolve(true);
+          }, 500);
+        });
+      },
       changeStepper(id, count) {
         if (route.query.from === 'cart') {
           api.put("/cart/putcount",{ cartid: id, count:count })
