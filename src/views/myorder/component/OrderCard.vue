@@ -53,6 +53,15 @@
       >
         去支付
       </button>
+      <!-- 再来一单 -->
+      <button
+        v-if="item.orderstate === '待评价'"
+        class="text-red-400 border border-red-400 text-xs rounded-2xl" 
+        style="width: 70px; height: 22px"
+        @click="toHome()"
+      >
+        再来一单
+      </button>
     </div>    
   </div>
 </template>
@@ -86,8 +95,8 @@ export default {
         }).then(() => {
           api.delete("/order/delete",{ orderid: id }).then((res)=>{  
             if(res.data.code === 20000) {
-              Toast.success('取消成功') 
-              router.go(0)  
+              Toast.success('取消成功')
+              router.go(0)
             }
           })
         }).catch(() => {cancelDisabled.value = false })
@@ -104,6 +113,10 @@ export default {
           window.location.href = res.data.data.alipayurl
           payDisabled.value = false
         })
+      },
+      // 再来一单
+      toHome() {
+        router.push({ path: '/' })
       }
     }
   }

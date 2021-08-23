@@ -34,7 +34,7 @@
     </main>
 
     <!-- footer -->
-    <dtl-footer :iscollect="data.info.iscollect" :icount="data.info.icount" />
+    <dtl-footer :iscollect="data.info.iscollect" :icount="data.info.icount" @collect="collect" />
 
   </div>
 </template>
@@ -64,7 +64,7 @@ export default {
     const router = useRouter()
     const route = useRoute()
     onMounted(() => { sessionStorage.removeItem('addressId') })
-    watch(() => route.params, async newParams => { 
+    watch(() => route.params, async newParams => {
       if(newParams.id) {
         getDetail()
         swipeRef.value.swipeTo(0)
@@ -80,15 +80,14 @@ export default {
     })
 
     const getDetail = function() {
-      api.get("/open/product_detail/get_product_images",{ id: route.params.id }).then((res)=>{ data.banners = res.data.data })
-      api.get("/open/product_detail/get_product_info",{ id: route.params.id }).then((res)=>{ 
-        console.log(res.data)
+      api.get("/open/product_detail/get_product_images", { id: route.params.id }).then((res)=>{ data.banners = res.data.data })
+      api.get("/open/product_detail/get_product_info", { id: route.params.id }).then((res)=>{ 
         if (res.data.data.icount === 0) { Toast.fail('暂无库存') }
         data.info = res.data.data 
       })
       api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ data.comments = res.data.data })
       api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res)=>{ data.moreList = res.data.data })
-      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ console.log(res.data); data.detailImg = res.data.data.simage })
+      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ data.detailImg = res.data.data.simage })
     }
 
     getDetail()
@@ -103,6 +102,9 @@ export default {
           images: data.banners,
           startPosition: index
         })
+      },
+      collect(value) {
+        data.info.iscollect = value
       }
     }
   }

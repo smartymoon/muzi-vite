@@ -33,9 +33,10 @@
         <div class="mt-4 space-y-4">
           <div v-for="(card, idx) in shop.productMain" :key="idx">
             <div class="flex items-stretch">
-              <van-checkbox 
-                v-model="card.check" 
-                checked-color="#f23030" 
+              <van-checkbox
+                v-model="card.check"
+                :disabled="card.productMaintbl.icount === 0 && !editStatus"
+                checked-color="#f23030"
                 class="flex-shrink-0"
                 @click="checkDrug(index,card.check)" 
               />
@@ -44,21 +45,34 @@
                   <van-loading type="spinner" size="20" />
                 </template>
               </van-image>
-              <div class="ml-2.5">
+              <div class="ml-2.5 flex-grow">
                 <p
-                  class="h-10 overflow-hidden overflow-ellipsis text-sm" 
+                  class="h-10 overflow-hidden overflow-ellipsis text-sm"
+                  :class="card.productMaintbl.icount === 0 ? 'text-gray-500':''"
                   style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
                   @click="toDetail(card.proid)"
                 >
                   {{ card.stitle }}
                 </p>
                 <p 
-                  class="mt-1 text-red-400 text-lg leading-5"  
+                  class="mt-1 text-lg leading-5" 
+                  :class="card.productMaintbl.icount === 0 ? 'text-red-300':'text-red-400'"
                   @click="toDetail(card.proid)"
                 >
                   {{ card.iprice }} <span class="text-xs">港币</span><span class="text-xs ml-0.5 text-gray-500">约{{ (card.iprice * 0.83).toFixed(1) }}元</span>
                 </p>
-                <van-stepper v-model="card.icount" button-size="25" max="999" class="mt-2" :before-change="beforeChange" @change="changeStepper(card.id, card.icount)" />
+                <div class="flex items-center">
+                  <van-stepper 
+                    v-model="card.icount" 
+                    button-size="25"
+                    max="999" 
+                    :disabled="card.productMaintbl.icount === 0"
+                    class="mt-2"
+                    :before-change="beforeChange" 
+                    @change="changeStepper(card.id, card.icount)"
+                  />
+                  <div v-if="card.productMaintbl.icount === 0" class="text-xs text-gray-600 mt-1.5 ml-auto">已售罄</div>
+                </div>
               </div>
             </div>
           </div>
@@ -112,12 +126,12 @@ export default {
     const checked = ref(false)
     const submitLoading = ref(false)
     api.get("/cart/getList",{ userid: sessionStorage.getItem('id') }).then((res) => {
-      console.log('cartRes',res)
       showLoading.value = false
       if (res.data.code === 20000) {
         cartList.value = res.data.data 
       }
     })
+    // 计算总价
     const totalPrice = computed(() => {
       let t = 0
       cartList.value.forEach((item) => {
@@ -127,6 +141,7 @@ export default {
       })
       return t * 100
     })
+    // 计算总数
     const totalNum = computed(() => {
       let n = 0
       cartList.value.forEach((item) => {
@@ -148,7 +163,9 @@ export default {
       submitLoading,
       // 选择店铺
       checkShop(sIdx,sValue) {
-        cartList.value[sIdx].productMain.forEach(item => item.check = sValue)
+        cartList.value[sIdx].productMain.forEach(item => {
+          if(item.productMaintbl.icount > 0 || editStatus.value) { item.check = sValue }
+        })
         let c = true
         cartList.value.forEach((item) => { if(!item.checkcountry) c = false })
         checked.value = c
@@ -197,12 +214,12 @@ export default {
       onSubmit() {
         submitLoading.value = true
         let choiceList = []
-        let arr = []
+        let selCountry = new Set()
         cartList.value.forEach((item, index) => {
           item.productMain.forEach((i,idx) => {
             if(i.check) {
               choiceList.push(i.id)
-              arr[index] = true
+              selCountry.add(item.countryname)
             }
           })
         })
@@ -214,8 +231,7 @@ export default {
             setTimeout( () => { submitLoading.value = false }, 200 )
           }).catch(() => { submitLoading.value = false })
         } else {
-          let selArr = arr.filter(item => item === true)
-          if(selArr.length > 1) {
+          if(selCountry.size > 1) {
             Dialog.alert({ title: '不同国家的药品请分开结算哦' })
             submitLoading.value = false
             return

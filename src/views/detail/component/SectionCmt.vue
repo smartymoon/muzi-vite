@@ -1,15 +1,19 @@
 <template>
-  <section class="p-4 rounded-2xl bg-white">
+  <section class="rounded-2xl bg-white" :class="showAll ? 'px-4 pt-4 pb-12' : 'p-4'">
     <!-- title -->
-    <div class="flex items-center space-x-1.5">
+    <div class="flex items-center">
       <div class="w-1 h-4 rounded bg-red-400"/>
-      <h2 class="font-bold">评价</h2>
-      <p v-if="list.length > 0" class="text-xs text-gray-600">({{list.length}}条)</p>
+      <h2 class="font-bold mx-1.5">评价</h2>s
+      <p v-if="list.length > 0" class="text-xs text-gray-600">(共{{list.length}}条)</p>
+      <div v-if="list.length > 2 && !showAll" class="ml-auto flex items-center text-sm text-gray-500" @click="toComment">
+        <p>查看更多</p>
+        <van-icon name="arrow" />
+      </div>
     </div>
     <!-- content -->
     <div class="mt-4">
-      <div v-if="list.length > 0" class="space-y-4">
-        <div v-for="(item, index) in list" :key="index">
+      <div v-if="cmtList.length > 0" :class="showAll ? 'space-y-8' : 'space-y-4'">
+        <div v-for="(item, index) in cmtList" :key="index">
           <div class="flex items-center space-x-2">
             <van-image width="35" height="35" :src="avatar" round lazy-load />
             <div>
@@ -19,12 +23,13 @@
             </div>
           </div>
           <p
-             v-if="item.smemo"
+            v-if="item.smemo && !showAll"
             class="mt-2 h-10 overflow-hidden overflow-ellipsis text-sm" 
             style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
           >
             {{ item.smemo }}  
           </p>
+          <p v-else-if="item.smemo && showAll" class="text-sm mt-2"> {{ item.smemo }} </p>
           <div v-else class="mt-2 text-sm">非常满意的一次购物，开心！</div>
         </div>
       </div>
@@ -34,17 +39,37 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import avatar from '../../../assets/images/avatar.png'
 export default {
   props: {
     list: {
       type: Array,
       required: true
+    },
+    showAll: {
+      type: Boolean,
+      default: false
     }
   },
-  setup() {
+  setup(props) {
+    const router = useRouter()
+    const route = useRoute()
+    const cmtList = ref([])
+    watch(() => props.list,(value) => {
+      if(value.length > 2 && !props.showAll) {
+        cmtList.value = value.slice(0,2)
+      } else {
+        cmtList.value = value
+      }
+    })
     return {
-      avatar
+      avatar,
+      cmtList,
+      toComment() {
+        router.push({ path:'/detail/comment/' + route.params.id })
+      }
     }
   }
 }

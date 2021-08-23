@@ -42,15 +42,26 @@
                 <van-loading type="spinner" size="20" />
               </template>
             </van-image>
-            <div class="text-xs flex flex-col justify-between py-1">
+            <div class="flex-grow text-xs flex flex-col justify-between py-1 relative">
               <p
                 class="mt-1 h-8 overflow-hidden overflow-ellipsis text-xs" 
-                style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
+                style="display
+                : -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"
               >
                 {{ msg.stitle }}
               </p>
               <p class="text-gray-500">x{{ msg.icount }}</p>
               <p class="text-lg text-red-400">{{ msg.iprice }} <span class="text-xs">港币</span> <span class="text-xs text-gray-500">约{{ (msg.iprice * 0.83).toFixed(1) }}元</span></p>
+              <button
+                v-if="list.orderstate === '待评价'"
+                class="absolute right-0 border text-xs rounded-2xl" 
+                :class="msg.evaluated ? 'text-gray-500 border-gray-500':'border-red-400 text-red-400'"
+                style="width: 70px; height: 22px; bottom: 7px"
+                :disabled="payDisabled"
+                @click="comment(msg.evaluated, msg.proid, msg.stitle, msg.simage1, id)"
+              >
+                {{ msg.evaluated ? '已评价' : '去评价' }}
+              </button>
             </div>
           </div>
         </div>
@@ -75,6 +86,16 @@
             @click="toPay()"
           >
             去支付
+          </button>
+          <!-- 查看物流 -->
+          <button
+            v-if="list.orderstate === '待发货' || list.orderstate === '待收货'"
+            class="text-red-400 border border-red-400 text-xs rounded-2xl"
+            style="width: 70px; height: 22px"
+            :disabled="cancelDisabled"
+            @click="ship(id,item.productMain[0].simage1, item.productMain.length, list.name, list.telephone, list.address, list.sdetail)"
+          >
+            查看物流
           </button>
         </div>   
         <p class="mt-4 text-right text-xs text-gray-600">{{ item.productMain.length }}件商品 共{{ list.totalprice }}元</p>
@@ -109,8 +130,8 @@ export default {
     const list = ref([])
     const id = route.query.id
     api.get("/order/get",{ orderid: id }).then((res) => {
+      console.log(res.data)
       if(res.data.code === 20000) {
-        console.log(res.data)
         list.value = res.data.data
       }
     })
@@ -136,6 +157,13 @@ export default {
       text,
       cancelDisabled,
       payDisabled,
+      // 去评价
+      comment(evaluated,id,title,img,orderId) {
+        if(!evaluated) {
+          router.push({ path:'/comments/' + id, query:{ title: title, img: img, orderId: orderId } })
+        }
+      },
+      // 取消订单
       cancelOrders() {
         cancelDisabled.value = true
         Dialog.confirm({ title: '确定要取消该订单吗?', confirmButtonText: '确定取消', cancelButtonText: '暂不取消'}).then(() => {
@@ -147,12 +175,17 @@ export default {
           })
         }).catch(() => { cancelDisabled.value = false })
       },
+      // 去支付
       toPay() {
         payDisabled.value = true
         api.post("/pay/orderinfo",{ orderid: id }, true).then((res) => {
           window.location.href = res.data.data.alipayurl
           payDisabled.value = false
         })
+      },
+      // 查看物流 list.name, list.telephone, list.address, list.sdetail
+      ship(id, img, sum, name, tel, address, sdetail) {
+        router.push({ path:'/ship/' + id, query:{ img: img, sum: sum, name: name, tel: tel, address: address, sdetail: sdetail } })
       }
     }
   }

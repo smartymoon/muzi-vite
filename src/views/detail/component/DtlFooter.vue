@@ -18,6 +18,7 @@
 import { ref, watch } from 'vue'
 import { Dialog,Toast } from 'vant'
 import api from '/src/api/index.js'
+import mitt from 'mitt'
 import { useRouter, useRoute } from 'vue-router'
 export default {
   props: {
@@ -30,20 +31,23 @@ export default {
       default: 0,
     }
   },
-  setup(props) {
+  emits: ['collect'],
+  setup(props, { slots, attrs, emit }) {
     const router = useRouter()
     const route = useRoute()
+    const DtlFooterMitt = mitt()
     const collected = ref(props.iscollect)
     watch(() => props.iscollect,(value) => {
       collected.value = value
     })
     const collectedLoading = ref(false)
-    const cartDisabled = ref(true)
+    const cartDisabled = ref(false)
     const buyDisabled = ref(true)
     watch(() => props.icount,(value) => {
-      if(value > 0) { cartDisabled.value = buyDisabled.value = false }
+      if(value > 0) { buyDisabled.value = false }
     })
     return {
+      DtlFooterMitt,
       collected,
       // 收藏
       collect() {
@@ -53,16 +57,18 @@ export default {
           if (!collected.value) {
             api.post("/myfavorite/postCollect", data, true).then((res) => { 
               if(res.data.code === 20000) { 
-                collected.value = true
+                // collected.value = true
                 Toast.success('收藏成功')
+                emit('collect', true)
               } else { Toast.fail('添加收藏失败')}
               setTimeout( () => { collectedLoading.value = false }, 500 )
             })
           } else {
             api.delete("/myfavorite/deleteCollect",data).then((res)=>{ 
               if(res.data.code === 20000) {
-                collected.value = false
-                Toast.success('取消收藏成功') 
+                // collected.value = false
+                Toast.success('取消收藏成功')
+                emit('collect', false)
               } else { Toast.fail('取消收藏失败')}
               setTimeout( () => { collectedLoading.value = false }, 500 )
             })

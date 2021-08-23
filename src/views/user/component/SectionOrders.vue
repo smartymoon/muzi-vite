@@ -10,7 +10,7 @@
 
     <!-- 待付款 -->
     <router-link to="/myorder?status=1" class="w-1/5 text-center">
-      <van-badge :content="waitPayCount">
+      <van-badge :content="waitPayCount" max="99" :show-zero="false">
         <van-image width="30" height="26" :src="waitPayImg" lazy-load></van-image>
       </van-badge>
       <p class="text-xs">待付款</p>
@@ -19,7 +19,7 @@
 
     <!-- 待发货 -->
     <router-link to="/myorder?status=2" class="w-1/5 text-center">
-      <van-badge :content="waitSendCount">
+      <van-badge :content="waitSendCount" max="99" :show-zero="false">
         <van-image width="30" height="30" :src="waitSendImg" lazy-load />
       </van-badge>
       <p class="text-xs">待发货</p>
@@ -28,7 +28,7 @@
 
     <!-- 待收货 -->
     <router-link to="/myorder?status=3" class="w-1/5 text-center">
-      <van-badge :content="waitReceiptCount">
+      <van-badge :content="waitReceiptCount" max="99" :show-zero="false">
         <van-image width="30" height="27" :src="waitReceiptImg" lazy-load />
       </van-badge>
       <p class="text-xs">待收货</p>
@@ -37,7 +37,7 @@
 
     <!-- 待评价 -->
     <router-link to="/myorder?status=5" class="w-1/5 text-center">
-      <van-badge :content="waitCommentsCount">
+      <van-badge :content="waitCommentsCount" max="99" :show-zero="false">
         <van-image width="27" height="23" :src="waitCommentsImg" lazy-load />
       </van-badge>
       <p class="text-xs">待评价</p>

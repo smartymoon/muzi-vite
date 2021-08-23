@@ -163,7 +163,6 @@ export default {
         }
         // 发起post登录请求
         api.post("/open/login", postData).then((res) => {
-          console.log(res.data)
           if(res.data.code === 20000 && res.data.msg === '成功') {
             sessionStorage.setItem('token', res.data.data.token)
             sessionStorage.setItem("id", res.data.data.user.id)

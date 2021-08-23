@@ -1,9 +1,7 @@
 <template>
   <div class="relative py-12">
     <!-- header -->
-
     <home-header></home-header>
-
     <!-- swiper -->
     <div class="absolute z-20 w-full" style="top:6.5rem">
       <div class="px-4">
@@ -46,8 +44,14 @@
           <!-- 热品套餐，自有品牌 -->
           <div v-if="index === 0" class="mt-3 w-full bg-white rounded-md p-3">
             <div class="grid grid-cols-4 gap-3">
-              <h2 class="col-span-2 leading-4">热品套餐</h2>
-              <h2 class="col-span-2 leading-4">自有品牌</h2>
+              <div class="col-span-2 leading-4 flex items-center">
+                <h2>热品套餐</h2>
+                <div class="text-xs text-gray-500 ml-auto" @click="clickNav(10)">查看更多></div>
+              </div>
+              <div class="col-span-2 leading-4 flex items-center">
+                <h2>自有品牌</h2>
+                <div class="text-xs text-gray-500 ml-auto"  @click="clickNav(2)">查看更多></div>
+              </div>
               <div v-for="(msg, idx) in data.hotList" :key="idx">
                 <base-square>
                   <van-image width="100%" height="100%" :src="msg.simage1" lazy-load radius="7" @click="toDetail(msg.id)" />

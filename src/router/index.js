@@ -80,6 +80,11 @@ const router = new createRouter({
 			path:'/detail/:id',
 			component:() => import('../views/detail/index.vue')
 		},
+		// --药品详情 -> 评论(详情)--
+		{
+			path:'/detail/comment/:id',
+			component:() => import('../views/detail/comment.vue')
+		},
 
 		// --------实名认证--------
 		{
@@ -135,6 +140,18 @@ const router = new createRouter({
 		{
 			path:'/myorder/detail',
 			component:() => import('../views/myorder/detail.vue')
+		},
+
+		// ----------评论----------
+		{
+			path:'/comments/:id',
+			component:() => import('../views/comments/index.vue')
+		},
+
+		// ----------物流信息----------
+		{
+			path:'/ship/:id',
+			component:() => import('../views/ship/index.vue')
 		},
 
 		// ----------登录----------

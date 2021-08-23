@@ -77,7 +77,6 @@ export default {
       loading,
       // 注册
       confirm() {
-        console.log(state)
         loading.value = true
         if(!state.oldpwd || !state.pwd || !state.pwd2 ) { Toast.fail('密码不能为空'); setTimeout( () => { loading.value = false }, 300 ); return }
         if(state.pwd !== state.pwd2 ) { Toast.fail('两次密码输入不一致'); setTimeout( () => { loading.value = false }, 500 ); return }

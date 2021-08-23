@@ -48,7 +48,9 @@ import {
   Popup,
   CouponList,
   ActionSheet,
-  Badge 
+  Badge,
+  Step,
+  Steps
 } from 'vant'
 
 app
@@ -85,4 +87,6 @@ app
   .use(CouponList)
   .use(ActionSheet)
   .use(Badge)
+  .use(Step)
+  .use(Steps)
   .mount("#app");

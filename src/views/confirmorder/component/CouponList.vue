@@ -13,7 +13,6 @@
       v-model:show="showCoupon"
       round
       position="bottom"
-      style="height: 90%;"
     >
       <van-coupon-list
         :coupons="coupon.list"

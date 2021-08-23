@@ -92,7 +92,6 @@ export default {
   setup() {
     const user = reactive({ userMaintbl: {} })
     api.get('/myhome/get', { userid: sessionStorage.getItem('id') }).then((res) => {
-      console.log('res',res.data.data)
       Object.assign(user, res.data.data)
     })
     return {

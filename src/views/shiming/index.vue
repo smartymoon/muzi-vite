@@ -28,8 +28,10 @@
           label-width="4rem" 
           label="身份证号" 
           readonly
+          :right-icon="state.id ? 'clear' : ''"
           placeholder="请输入您的身份证号"
-          @focus="getIdFocus" 
+          @focus="getIdFocus"
+          @click-right-icon="state.id = ''"
         />
         <van-number-keyboard
           v-model="state.id" 
@@ -105,7 +107,6 @@ export default {
           scardno: state.id,
           stelephone: state.tel,
         }).then((res) => {
-          console.log(res.data)
           if(res.data.code === 20000) {
             sessionStorage.setItem('shiming', 1)
             Toast.success('认证成功')

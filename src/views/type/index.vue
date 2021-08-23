@@ -90,7 +90,6 @@ export default {
     const sIndex = ref(0)
     const content = ref([])
     api.get("/open/home/get_nav_class").then((res)=>{
-      console.log(res.data.data)
       content.value = res.data.data
       showLoading.value = false
     })

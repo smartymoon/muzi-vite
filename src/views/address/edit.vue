@@ -27,9 +27,11 @@
           clearable
           readonly
           label-width="3.5rem"
+          :right-icon="msg.id ? 'clear' : ''"
           label="身份证号" 
           placeholder="请输入您的身份证号"
           :error-message="msg.showIdError ? '请输入正确的身份证号' : ''"
+          @click-right-icon="msg.id = ''"
           @focus="getIdFocus"
         />
         <van-number-keyboard
@@ -87,6 +89,7 @@ export default {
     const addressLength = +route.query.addressLength
     const showDelete = ref(true)
     const isEdit = !!(route.query.operation === 'edit')
+    const itype = ref(2)
     const info = reactive({
       name: '',
       tel: '',
@@ -108,7 +111,6 @@ export default {
     api.get("/open/common/get_address_select" ).then((res)=>{ msg.areaList = res.data.data })
     if(isEdit) {
       api.get('/useraddress/get', { addressid: route.query.addressId} ).then((res) => {
-        console.log(res.data)
         if(res.data.code === 20000) {
           info.name = res.data.data.slinkman
           info.tel = res.data.data.smobile
@@ -117,6 +119,7 @@ export default {
           msg.provincescode = res.data.data.provincescode
           msg.cityscode = res.data.data.saddresscode
           msg.dtl = res.data.data.sdetail
+          itype.value = res.data.data.itype
           info.isDefault = !!(res.data.data.itype === 2)
           if(res.data.data.itype === 2) {
             showDelete.value = false
@@ -126,7 +129,6 @@ export default {
       })
     }
     const showIdKeyboard = ref(false)
-    const itype = ref(2)
     const saving = ref(false)
     return {
       showLoading,
@@ -151,14 +153,12 @@ export default {
         msg.showArea = false
       },
       // 切换默认地址
-      changeDefault(value) {
-        value ? itype.value = 1 : itype.value = 2 
-      },
+      changeDefault(value) { value ? itype.value = 2 : itype.value = 1 },
       onDelete() {
         api.delete("/useraddress/delete",{ addressid: route.query.addressId }).then((res) => {
           if(sessionStorage.getItem('addressId') === route.query.addressId ) {
             sessionStorage.removeItem('addressId')
-          } 
+          }
           router.go(-1)
         })
       },
@@ -171,7 +171,7 @@ export default {
         let data = {
           itype: itype.value,
           iuserid: sessionStorage.getItem('id'),
-          saddresscode: msg.cityscode,
+          cityscode: msg.cityscode,
           provincescode: msg.provincescode,
           scardno: msg.id,
           sdetail: msg.dtl,
