@@ -3,10 +3,10 @@
     <div class="flex justify-between">
       <p class="text-sm">优惠券</p>
       <p 
-        :class="coupon.count > 0 ? 'text-sm':'text-gray-300 text-sm'" 
+        :class="coupon.count > 0 ? 'text-sm':'text-gray-400 text-sm'" 
         @click="clickCoupon"
       >
-        {{ couponText }} <van-icon name="arrow" />
+        {{ couponText }} <van-icon v-show="coupon.count > 0" name="arrow" />
       </p>
     </div>
     <van-popup
@@ -47,7 +47,9 @@ export default {
     const couponText = ref('暂无可用优惠券')
     api.get('/quan/getcount_Canuse', {userid: sessionStorage.getItem('id')}).then((res) => {
       coupon.count = res.data.data
-      couponText.value = res.data.data + '张可用'
+      if(res.data.data > 0) {
+        couponText.value = res.data.data + '张可用'
+      }
     })
     return {
       showCoupon,
