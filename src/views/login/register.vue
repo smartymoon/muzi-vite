@@ -48,7 +48,7 @@
       </form>
       <!-- loginButton -->
       <div class="p-12">
-        <van-button block round color="#F23030" :loading="registerLoading" @click="registered">注册</van-button>
+        <van-button block round color="#F23030" :loading="registerLoading" @click="registered">注册并登陆</van-button>
       </div>
     </main>
   </div>
@@ -95,12 +95,25 @@ export default {
         api.get("/open/register",{ mobile: state.tel, captcha: state.sms, password: state.pwd }).then((res)=>{ 
           if(res.data.code === 20000) {
             Toast.success('注册成功')
+            let postData = {}
+            Object.assign(postData,{ captcha: '', loginType: true, password: state.pwd, phone: state.tel })
+            api.post("/open/login", postData).then((res) => {
+              if(res.data.code === 20000 && res.data.msg === '成功') {
+                sessionStorage.setItem('token', res.data.data.token)
+                sessionStorage.setItem("id", res.data.data.user.id)
+                api.get("/myidcard/get",{ userid: res.data.data.user.id }).then((res)=>{
+                  res.data.code === 20000 ? sessionStorage.setItem('shiming', 1) : sessionStorage.setItem('shiming', 0)
+                })
+                Toast.success('登录成功')
+                router.push({ path: '/'})
+              }
+            })
           } else {
             Toast.fail(res.data.msg)
-          }
-          if(res.data.msg === '用户已存在，请直接登录' || res.data.msg === '成功'){ 
-            router.replace('/login')
-            router.go(-1)
+            if(res.data.msg === '用户已存在，请直接登录') { 
+              router.replace('/login')
+              router.go(-1)
+            }
           }
           setTimeout( () => { registerLoading.value = false }, 500 )
         })
