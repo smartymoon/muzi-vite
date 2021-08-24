@@ -129,6 +129,7 @@ export default {
     const checked = ref(false)
     const submitLoading = ref(false)
     api.get("/cart/getList",{ userid: sessionStorage.getItem('id') }).then((res) => {
+      console.log(res.data)
       showLoading.value = false
       if (res.data.code === 20000) {
         cartList.value = res.data.data 

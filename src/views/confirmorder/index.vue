@@ -197,6 +197,12 @@ export default {
         }).then(() => {
           // ……
         }).catch(() => {
+          if(route.query.from === 'detail') {
+            api.get("/pay/clearstorage",{
+              userid: sessionStorage.getItem('id'),
+              pid: sessionStorage.getItem('drugId'),
+            }).then((res) => console.log(res.data))
+          }
           router.go(-1)
         })
       },
