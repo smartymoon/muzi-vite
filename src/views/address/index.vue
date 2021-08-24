@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import api from '../../api/index.js'
 import { Dialog, AddressList } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
@@ -33,6 +33,9 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const switchable = ref(!!!route.query.switchable)
+    watch(() => route.query.switchable,(value) => {
+      switchable.value = !!!value
+    })
     const showLoading = ref(true)
     const list = ref([]) 
     const chosenAddressId = ref(sessionStorage.getItem('addressId') ? +sessionStorage.getItem('addressId') : null);

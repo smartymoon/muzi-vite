@@ -49,7 +49,7 @@ export default {
     const cartDisabled = ref(false)
     const buyDisabled = ref(true)
     watch(() => props.icount,(value) => {
-      if(value > 0) { buyDisabled.value = false }
+      buyDisabled.value = !!!(value > 0)
     })
     return {
       DtlFooterMitt,
