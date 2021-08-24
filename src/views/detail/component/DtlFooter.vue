@@ -16,11 +16,16 @@
 
 <script>
 import { ref, watch } from 'vue'
-import { Dialog,Toast } from 'vant'
+import { Dialog,Toast, ActionBar, ActionBarIcon, ActionBarButton } from 'vant'
 import api from '/src/api/index.js'
 import mitt from 'mitt'
 import { useRouter, useRoute } from 'vue-router'
 export default {
+  components: {
+    'van-action-bar':ActionBar,
+    'van-action-bar-icon':ActionBarIcon,
+    'van-action-bar-button':ActionBarButton
+  },
   props: {
     iscollect: {
       type: Boolean,

@@ -22,9 +22,14 @@
 <script>
 import mitt from 'mitt'
 import { onMounted, ref, watch } from 'vue'
+import { List, Empty } from 'vant'
 import { pickBy } from 'lodash'
 import api from '../../api/index.js'
 export default {
+  components: {
+    'van-list':List,
+    'van-empty':Empty
+  },
   props: {
     offset: {
       type: Number,

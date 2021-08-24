@@ -19,14 +19,18 @@
 </template>
 
 <script>
-import { reactive, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import api from '/src/api/index.js'
 import { useRouter, useRoute } from 'vue-router'
+import { Tab, Tabs, Empty } from 'vant'
 import MuziHeader from '/src/components/MuziHeader.vue'
 import OrderCard from './component/OrderCard.vue'
 export default {
   components: {
     MuziHeader,
+    'van-tab':Tab,
+    'van-tabs':Tabs,
+    'van-empty':Empty,
     OrderCard
   },
   setup() {

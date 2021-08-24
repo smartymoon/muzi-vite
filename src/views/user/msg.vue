@@ -6,14 +6,12 @@
 </template>
 
 <script>
+import { Empty } from 'vant'
 import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
-    MuziHeader
+    MuziHeader,
+    'van-empty':Empty
   }
 }
 </script>
-
-<style>
-
-</style>

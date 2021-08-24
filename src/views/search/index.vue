@@ -62,10 +62,13 @@
 
 <script>
 import { ref } from 'vue';
-import { Dialog } from 'vant'
+import { Dialog, Search } from 'vant'
 import { uniq } from 'lodash'
 import { useRouter } from 'vue-router'
 export default {
+  components: {
+    'van-search':Search
+  },
   setup() {
     const showHistory = ref(localStorage.getItem('history')? true:false)
     const historyList =  ref(localStorage.getItem('history') ? uniq(localStorage.getItem('history').split(',').reverse()) : [])

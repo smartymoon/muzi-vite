@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { Badge } from 'vant'
 import waitPayImg from '../../../assets/images/user/待付款.jpg'
 import waitSendImg from '../../../assets/images/user/待发货.jpg'
 import waitReceiptImg from '../../../assets/images/user/待收货.jpg'
@@ -54,6 +55,9 @@ import waitCommentsImg from '../../../assets/images/user/待评价.jpg'
 import waitRefundCountImg from '../../../assets/images/user/售后.jpg'
 import allOrderImg from '../../../assets/images/user/全部订单.jpg'
 export default {
+  components: {
+    'van-badge':Badge
+  },
   props: {
     waitPayCount: {
       type: Number,

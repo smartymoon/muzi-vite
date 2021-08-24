@@ -21,12 +21,13 @@
 <script>
 import { ref } from 'vue'
 import api from '../../api/index.js'
-import { Dialog } from 'vant'
+import { Dialog, AddressList } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
-    MuziHeader
+    MuziHeader,
+    'van-address-list': AddressList
   },
   setup() {
     const router = useRouter()

@@ -5,6 +5,15 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   base: './',
   plugins: [
-    vue()
+    vue(),
+    styleImport({
+      libs: [
+        {
+          libraryName: 'vant',
+          esModule: true,
+          resolveStyle: (name) => `vant/es/${name}/style`,
+        },
+      ],
+    })
   ]
 })

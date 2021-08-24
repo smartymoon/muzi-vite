@@ -68,10 +68,11 @@ import { ref, reactive } from 'vue'
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
 import { checkId, checkPhone } from '/src/until/index.js'
-import { Toast } from 'vant'
+import { Toast, NumberKeyboard } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
+    'van-number-keyboard':NumberKeyboard,
     MuziHeader
   },
   setup() {

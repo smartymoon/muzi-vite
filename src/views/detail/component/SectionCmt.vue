@@ -3,9 +3,9 @@
     <!-- title -->
     <div class="flex items-center">
       <div class="w-1 h-4 rounded bg-red-400"/>
-      <h2 class="font-bold mx-1.5">评价</h2>s
+      <h2 class="font-bold mx-1.5">评价</h2>
       <p v-if="list.length > 0" class="text-xs text-gray-600">(共{{list.length}}条)</p>
-      <div v-if="list.length > 2 && !showAll" class="ml-auto flex items-center text-sm text-gray-500" @click="toComment">
+      <div v-if="list.length > 0 && !showAll" class="ml-auto flex items-center text-sm text-gray-500" @click="toComment">
         <p>查看更多</p>
         <van-icon name="arrow" />
       </div>
@@ -41,8 +41,12 @@
 <script>
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { Rate } from 'vant'
 import avatar from '../../../assets/images/avatar.png'
 export default {
+  components: {
+    'van-rate': Rate
+  },
   props: {
     list: {
       type: Array,

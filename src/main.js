@@ -22,71 +22,19 @@ import {
   Dialog,
   Image as VanImage,
   Lazyload,
-  Tab,
-  Tabs,
-  Swipe,
-  SwipeItem,
   Sticky,
   Loading,
-  List,
-  Empty,
-  Search,
   Field,
-  CellGroup,
-  Rate,
-  ActionBar,
-  ActionBarIcon,
-  ActionBarButton,
-  SubmitBar,
-  Checkbox, 
-  CheckboxGroup,
-  Stepper,
-  NumberKeyboard,
-  AddressList,
-  AddressEdit,
-  Picker,
-  Popup,
-  CouponList,
-  ActionSheet,
-  Badge,
-  Step,
-  Steps
 } from 'vant'
 
 app
-  .use(Icon)
   .use(router)
+  .use(Icon)
   .use(Button)
   .use(Dialog)
   .use(VanImage)
   .use(Lazyload)
-  .use(Tab)
-  .use(Tabs)
-  .use(Swipe)
-  .use(SwipeItem)
   .use(Sticky)
   .use(Loading)
-  .use(List)
-  .use(Empty)
-  .use(Search)
   .use(Field)
-  .use(CellGroup)
-  .use(Rate)
-  .use(ActionBar)
-  .use(ActionBarIcon)
-  .use(ActionBarButton)
-  .use(SubmitBar)
-  .use(Checkbox)
-  .use(CheckboxGroup)
-  .use(Stepper)
-  .use(NumberKeyboard)
-  .use(AddressList)
-  .use(AddressEdit)
-  .use(Picker)
-  .use(Popup)
-  .use(CouponList)
-  .use(ActionSheet)
-  .use(Badge)
-  .use(Step)
-  .use(Steps)
   .mount("#app");

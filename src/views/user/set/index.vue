@@ -67,9 +67,11 @@
 <script>
 import { ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { ActionSheet } from 'vant'
 import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
+    'van-action-sheet':ActionSheet,
     MuziHeader
   },
   setup() {

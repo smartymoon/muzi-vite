@@ -53,7 +53,13 @@
           @click="msg.showArea = true"
         />
         <van-popup v-model:show="msg.showArea" position="bottom" round>
-          <van-picker title="选择地区" :columns="msg.areaList" :columns-field-names="{ text: 'label', values: 'values', children: 'children' }" @confirm="confirmArea" @cancel="msg.showArea = false" />
+          <van-picker 
+            title="选择地区" 
+            :columns="msg.areaList" 
+            :columns-field-names="{ text: 'label', values: 'values', children: 'children' }" 
+            @confirm="confirmArea" 
+            @cancel="msg.showArea = false" 
+          />
         </van-popup>
         <!-- 详细地址 -->
         <van-field
@@ -75,10 +81,14 @@ import { reactive, ref } from 'vue'
 import { checkId, checkPhone } from '/src/until/index.js'
 import api from '../../api/index.js'
 import { useRoute, useRouter } from 'vue-router'
-// import { Toast } from 'vant'
+import { NumberKeyboard, AddressEdit, Picker, Popup } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
+   'van-number-keyboard':NumberKeyboard,
+   'van-address-edit':AddressEdit,
+   'van-picker':Picker,
+   'van-popup':Popup,
     MuziHeader
   },
   setup() {

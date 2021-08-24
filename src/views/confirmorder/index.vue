@@ -95,13 +95,16 @@
 <script>
 import { computed, ref } from 'vue'
 import api from '../../api/index.js'
-import { Dialog, Toast } from 'vant'
+import { Dialog, Toast, SubmitBar, Checkbox, Stepper } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
 import MuziHeader from '../../components/MuziHeader.vue'
 import SelAddress from './component/SelAddress.vue'
 import CouponList from "./component/CouponList.vue"
 export default {
   components: {
+    'van-submit-bar':SubmitBar,
+    'van-checkbox':Checkbox,
+    'van-stepper':Stepper,
     MuziHeader,
     SelAddress,
     CouponList
@@ -206,7 +209,7 @@ export default {
           setTimeout(() => {
             Toast.clear();
             resolve(true);
-          }, 500);
+          }, 300);
         });
       },
       changeStepper(id, count) {

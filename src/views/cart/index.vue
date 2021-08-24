@@ -68,7 +68,7 @@
                     max="999" 
                     :disabled="card.productMaintbl.icount === 0"
                     class="mt-2"
-                    :before-change="beforeChange" 
+                    :before-change="beforeChange"
                     @change="changeStepper(card.id, card.icount)"
                   />
                   <div v-if="card.productMaintbl.icount === 0" class="text-xs text-gray-600 mt-1.5 ml-auto">已售罄</div>
@@ -105,7 +105,7 @@
 
 <script>
 import { ref, computed, onMounted } from 'vue';
-import { Dialog, Toast } from 'vant'
+import { Dialog, Toast, SubmitBar, Checkbox, Stepper } from 'vant'
 import { useRouter, useRoute } from 'vue-router'
 import api from '../../api/index.js'
 import emptyImg from '../../assets/images/cart_empty.png'
@@ -113,6 +113,9 @@ import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
 export default {
   components: {
+    'van-submit-bar':SubmitBar,
+    'van-checkbox':Checkbox,
+    'van-stepper':Stepper,
     MuziHeader,
     MuziFooter
   },
@@ -204,7 +207,7 @@ export default {
           setTimeout(() => {
             Toast.clear();
             resolve(true);
-          }, 500);
+          }, 300);
         });
       },
       changeStepper(id,count) { api.put("/cart/putcount",{ cartid: id, count:count })},

@@ -20,10 +20,12 @@
 import { ref } from 'vue'
 import api from '/src/api/index.js'
 import { useRouter } from 'vue-router'
+import { Empty } from 'vant'
 import MuziHeader from '/src/components/MuziHeader.vue'
 import MuziCard from '../../components/MuziCard.vue'
 export default {
   components: {
+    'van-empty':Empty,
     MuziHeader,
     MuziCard
   },

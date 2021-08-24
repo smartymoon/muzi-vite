@@ -49,13 +49,17 @@
 </template>
 
 <script>
-import MuziHeader from '/src/components/MuziHeader.vue'
-import api from '/src/api/index.js'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, reactive } from '@vue/reactivity'
+import { ref, reactive } from 'vue'
+import api from '/src/api/index.js'
+import { Empty, Step, Steps } from 'vant'
+import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
-    MuziHeader
+    MuziHeader,
+    'van-empty':Empty,
+    'van-steps':Steps,
+    'van-step':Step,
   },
   setup() {
     const router = useRouter()

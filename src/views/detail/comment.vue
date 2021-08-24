@@ -4,16 +4,16 @@
     <main class="space-y-3.5">
       <section class="bg-white py-5 px-1 rounded-b-2xl flex items-center">
         <div class="px-10 py-5 border-r border-gray-300 text-center flex-shrink-0">
-          <p class="text-5xl font-bold text-red-400">{{ avg.toFixed(1) }}</p>
-          <van-rate v-model="avg" :size="10" />
+          <p class="text-5xl font-bold text-red-400">{{ avg.toFixed(2) }}</p>
+          <van-rate v-model="avg" :size="10" allow-half />
         </div>
         <div class="flex-grow px-4 py-2.5 space-y-4 text-sm">
           <div v-for="(item, index) in score" :key="index" class="flex items-center space-x-2.5">
             <p class="flex-shrink-0">{{ item.title }}</p>
-            <div class="w-full h-3.5 border rounded-sm border-gray-300">
+            <div class="w-full h-3.5 border rounded-sm border-gray-300" style="max-width:130px">
               <div class="h-full bg-red-400" :style="{width: item.value + '%'}" />
             </div>
-            <p class="flex-shrink-0">{{ item.value }}%</p>
+            <p class="flex-shrink-0 w-10">{{ item.value }}%</p>
           </div>
         </div>
       </section>
@@ -26,10 +26,12 @@
 import { ref } from 'vue'
 import api from '../../api/index.js'
 import { useRoute, useRouter } from 'vue-router'
+import { Rate } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 import SectionCmt from './component/SectionCmt.vue'
 export default {
   components: {
+    'van-rate':Rate,
     MuziHeader,
     SectionCmt
   },
@@ -61,7 +63,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

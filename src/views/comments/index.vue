@@ -44,13 +44,15 @@
 </template>
 
 <script>
-import MuziHeader from '/src/components/MuziHeader.vue'
+import { reactive } from 'vue'
 import api from '/src/api/index.js'
 import { useRoute, useRouter } from 'vue-router'
-import { ref, reactive } from '@vue/reactivity'
+import { Rate } from 'vant'
+import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
-    MuziHeader
+    MuziHeader,
+    'van-rate':Rate
   },
   setup() {
     const router = useRouter()

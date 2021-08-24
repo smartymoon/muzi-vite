@@ -42,7 +42,7 @@
 <script>
 import { reactive, ref, watch, onMounted } from 'vue';
 import api from '../../api/index.js'
-import { Toast, ImagePreview } from 'vant'
+import { Toast, ImagePreview, Swipe, SwipeItem } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import SectionInfo from './component/SectionInfo.vue'
@@ -52,6 +52,8 @@ import SectionDtl from './component/SectionDtl.vue'
 import DtlFooter from './component/DtlFooter.vue'
 export default {
   components: {
+    'van-swipe':Swipe,
+    'van-swipe-item':SwipeItem,
     BaseSquare,
     SectionInfo,
     SectionCmt,

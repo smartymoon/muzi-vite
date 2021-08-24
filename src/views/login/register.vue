@@ -100,7 +100,7 @@ export default {
           }
           if(res.data.msg === '用户已存在，请直接登录' || res.data.msg === '成功'){ 
             router.replace('/login')
-            router.go(-1) 
+            router.go(-1)
           }
           setTimeout( () => { registerLoading.value = false }, 500 )
         })
