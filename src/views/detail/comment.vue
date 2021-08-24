@@ -47,7 +47,6 @@ export default {
     ])
     api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ 
       if ( res.data.code === 20000 ) {
-        console.log(res.data.data)
         list.value = res.data.data
         avg.value = res.data.data.reduce((sum, item) => sum + item.irank, 0) / res.data.data.length
         score.value[0].value = (res.data.data.filter(item => item.irank > 3).length / res.data.data.length).toFixed(2) * 100

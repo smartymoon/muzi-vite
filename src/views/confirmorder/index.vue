@@ -123,7 +123,6 @@ export default {
       orderObj.data = { userid: sessionStorage.getItem('id'), cartids: sessionStorage.getItem('orderList') }
     }
     api.get(orderObj.url, orderObj.data).then((res) => {
-      console.log(res.data) 
       if(res.data.code === 20000) {
         orderList.value = Object.assign(orderList.value, res.data.data)
       }
@@ -201,7 +200,7 @@ export default {
             api.get("/pay/clearstorage",{
               userid: sessionStorage.getItem('id'),
               pid: sessionStorage.getItem('drugId'),
-            }).then((res) => console.log(res.data))
+            })
           }
           router.go(-1)
         })

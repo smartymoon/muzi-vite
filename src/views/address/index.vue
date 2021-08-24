@@ -40,9 +40,7 @@ export default {
     const list = ref([]) 
     const chosenAddressId = ref(sessionStorage.getItem('addressId') ? +sessionStorage.getItem('addressId') : null);
     api.get("useraddress/getList",{ userid: sessionStorage.getItem('id') }).then((res) => {
-      console.log(res.data)
       if(res.data.code === 20000) {
-        console.log(res.data)
         for(let i = 0; i < res.data.data.length; i++) {
           list.value[i] = {}
           list.value[i].id = res.data.data[i].id

@@ -130,7 +130,6 @@ export default {
     const list = ref([])
     const id = route.query.id
     api.get("/order/get",{ orderid: id }).then((res) => {
-      console.log(res.data)
       if(res.data.code === 20000) {
         list.value = res.data.data
       }

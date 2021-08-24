@@ -89,7 +89,6 @@ export default {
     })
     api.get("/ship/getList", { orderid: route.params.id } ).then((res) => { 
       if(res.data.code === 20000 && res.data.data.length > 0) {
-        console.log(res.data)
         data.status = res.data.data[0].iwaybillstatus
         data.swaybillnum = res.data.data[0].swaybillnum
         list.value = res.data.data
