@@ -92,7 +92,7 @@
 import { reactive, ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
-import { Tab, Tabs, Swipe, SwipeItem } from 'vant'
+import { Swipe, SwipeItem } from 'vant'
 import BaseSquare from '../../components/global/BaseSquare.vue'
 import BasePagination from '../../components/global/BasePagination.vue'
 import HomeHeader from './component/HomeHeader.vue'
@@ -103,8 +103,6 @@ export default {
     BaseSquare,
     BasePagination,
     HomeHeader,
-    [Tab.name]:Tab,
-    [Tabs.name]:Tabs,
     [Swipe.name]:Swipe,
     [SwipeItem.name]:SwipeItem,
     MuziCard,

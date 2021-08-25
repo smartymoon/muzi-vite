@@ -28,11 +28,10 @@
 <script>
 import { ref, reactive } from 'vue'
 import api from '/src/api/index.js'
-import { Popup, CouponList } from 'vant'
+import { Popup } from 'vant'
 export default {
   components: {
-    'van-popup':Popup,
-    'van-coupon-list':CouponList
+    'van-popup':Popup
   },
   emits:['change', 'cancel'],
   setup(props, { slots, attrs, emit }) {

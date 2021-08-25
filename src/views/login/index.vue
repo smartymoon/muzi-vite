@@ -97,7 +97,6 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import api from '../../api/index.js'
 import logoImg from '../../assets/images/logo.png'
-import { Tab, Tabs } from 'vant'
 import { checkPhone } from '/src/until/index.js'
 import { Toast } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
@@ -105,9 +104,7 @@ import SmsButton from './component/SmsButton.vue'
 export default {
   components: {
     MuziHeader,
-    SmsButton,
-    [Tab.name]:Tab,
-    [Tabs.name]:Tabs
+    SmsButton
   },
   setup() {
     const router = useRouter()

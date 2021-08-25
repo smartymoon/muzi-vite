@@ -25,6 +25,10 @@ import {
   Sticky,
   Loading,
   Field,
+  SubmitBar,
+  CouponList,
+  Tab, 
+  Tabs
 } from 'vant'
 
 app
@@ -37,4 +41,8 @@ app
   .use(Sticky)
   .use(Loading)
   .use(Field)
+  .use(SubmitBar)
+  .use(CouponList)
+  .use(Tab)
+  .use(Tabs)
   .mount("#app");

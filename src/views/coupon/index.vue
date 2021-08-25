@@ -15,11 +15,9 @@
 <script>
 import { reactive } from 'vue'
 import api from '/src/api/index.js'
-import { CouponList } from 'vant'
 import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
-    'van-coupon-list':CouponList,
     MuziHeader
   },
   setup() {
