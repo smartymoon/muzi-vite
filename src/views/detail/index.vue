@@ -84,7 +84,7 @@ export default {
     const getDetail = function() {
       api.get("/open/product_detail/get_product_images", { id: route.params.id }).then((res)=>{ data.banners = res.data.data })
       api.get("/open/product_detail/get_product_info", { id: route.params.id }).then((res)=>{ 
-        if (res.data.data.icount === 0) { Toast.fail('暂时下架') }
+        if (res.data.data.icount === 0) { Toast.fail('库存为0') }
         data.info = res.data.data 
       })
       api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ data.comments = res.data.data })

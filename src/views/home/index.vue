@@ -1,7 +1,7 @@
 <template>
   <div class="relative py-12">
     <!-- header -->
-    <home-header></home-header>
+    <home-header />
     <!-- swiper -->
     <div class="absolute z-20 w-full" style="top:6.5rem">
       <div class="px-4">
@@ -14,7 +14,7 @@
       </div>
     </div>
     <!-- tab -->
-    <van-tabs 
+    <van-tabs
       v-model:active="active"
       background="#f23030" 
       color="#FFFFFF"
@@ -103,10 +103,10 @@ export default {
     BaseSquare,
     BasePagination,
     HomeHeader,
-    'van-tab':Tab,
-    'van-tabs':Tabs,
-    'van-swipe':Swipe,
-    'van-swipe-item':SwipeItem,
+    [Tab.name]:Tab,
+    [Tabs.name]:Tabs,
+    [Swipe.name]:Swipe,
+    [SwipeItem.name]:SwipeItem,
     MuziCard,
     MuziFooter
   },

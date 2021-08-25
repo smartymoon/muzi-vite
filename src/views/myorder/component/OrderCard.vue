@@ -53,15 +53,6 @@
       >
         去支付
       </button>
-      <!-- 再来一单 -->
-      <button
-        v-if="item.orderstate === '待评价'"
-        class="text-red-400 border border-red-400 text-xs rounded-2xl" 
-        style="width: 70px; height: 22px"
-        @click="toHome()"
-      >
-        再来一单
-      </button>
     </div>    
   </div>
 </template>
@@ -113,16 +104,8 @@ export default {
           window.location.href = res.data.data.alipayurl
           payDisabled.value = false
         })
-      },
-      // 再来一单
-      toHome() {
-        router.push({ path: '/' })
       }
     }
   }
 }
 </script>
-
-<style>
-
-</style>

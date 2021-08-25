@@ -13,7 +13,7 @@
     <!-- content -->
     <div class="mt-4">
       <div v-if="cmtList.length > 0" :class="showAll ? 'space-y-8' : 'space-y-4'">
-        <div v-for="(item, index) in cmtList" :key="index">
+        <div v-for="(item, index) in cmtList.reverse()" :key="index">
           <div class="flex items-center space-x-2">
             <van-image width="35" height="35" :src="avatar" round lazy-load />
             <div>

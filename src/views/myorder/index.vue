@@ -41,7 +41,8 @@ export default {
     const list = ref([])
     const getList = () => {
       api.get('/order/getpages',{ userid: sessionStorage.getItem('id'), state: route.query.status }).then((res) => {
-        if(res.data.code === 20000) { 
+        console.log(res.data)
+        if(res.data.code === 20000) {
           list.value = res.data.data
         }
         showLoading.value = false

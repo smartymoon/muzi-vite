@@ -258,7 +258,7 @@ export default {
             addressinfo: sessionStorage.getItem('addressId'),
             quaninfo:  couponId.value,
             jifenused: 0,
-            cartinfo: orderList.value.cartinfo,
+            cartinfo: orderList.value.cartinfo + ',',
             tprice: totalPrice.value/100
           }
           if(route.query.from === 'detail') { 

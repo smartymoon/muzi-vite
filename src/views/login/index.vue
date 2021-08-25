@@ -106,13 +106,13 @@ export default {
   components: {
     MuziHeader,
     SmsButton,
-    'van-tab':Tab,
-    'van-tabs':Tabs
+    [Tab.name]:Tab,
+    [Tabs.name]:Tabs
   },
   setup() {
     const router = useRouter()
     const active = ref(0)
-    const changeTab = function(index){
+    const changeTab = function(index) {
       if(index === 0) {
         state2.sms = ''
         localStorage.getItem('phone') ? state.tel = localStorage.getItem('phone')  : state2.tel = ''
