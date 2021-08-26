@@ -13,7 +13,6 @@
         placeholder="请输入您要搜索的药品、品牌"
         class="w-full"
         shape="round"
-        autofocus
         maxlength="15"
         @focus="getFocus"
         @search="onSearch"
