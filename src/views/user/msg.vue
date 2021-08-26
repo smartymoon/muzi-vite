@@ -11,7 +11,7 @@ import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
     MuziHeader,
-    'van-empty':Empty
+    [Empty.name]:Empty
   }
 }
 </script>

@@ -72,7 +72,7 @@ import { Toast, NumberKeyboard } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
-    'van-number-keyboard':NumberKeyboard,
+    [NumberKeyboard.name]:NumberKeyboard,
     MuziHeader
   },
   setup() {

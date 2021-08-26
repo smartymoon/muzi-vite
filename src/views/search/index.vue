@@ -67,7 +67,7 @@ import { uniq } from 'lodash'
 import { useRouter } from 'vue-router'
 export default {
   components: {
-    'van-search':Search
+    [Search.name]:Search
   },
   setup() {
     const showHistory = ref(localStorage.getItem('history')? true:false)

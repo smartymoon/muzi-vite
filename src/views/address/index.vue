@@ -27,7 +27,7 @@ import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
     MuziHeader,
-    'van-address-list': AddressList
+    [AddressList.name]: AddressList
   },
   setup() {
     const router = useRouter()

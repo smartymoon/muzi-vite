@@ -45,7 +45,7 @@ import { Rate } from 'vant'
 import avatar from '../../../assets/images/avatar.png'
 export default {
   components: {
-    'van-rate': Rate
+    [Rate.name]: Rate
   },
   props: {
     list: {

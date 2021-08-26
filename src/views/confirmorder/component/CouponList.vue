@@ -31,7 +31,7 @@ import api from '/src/api/index.js'
 import { Popup } from 'vant'
 export default {
   components: {
-    'van-popup':Popup
+    [Popup.name]:Popup
   },
   emits:['change', 'cancel'],
   setup(props, { slots, attrs, emit }) {

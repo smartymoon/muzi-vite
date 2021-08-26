@@ -25,7 +25,7 @@ import MuziHeader from '/src/components/MuziHeader.vue'
 import MuziCard from '../../components/MuziCard.vue'
 export default {
   components: {
-    'van-empty':Empty,
+    [Empty.name]:Empty,
     MuziHeader,
     MuziCard
   },

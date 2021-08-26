@@ -27,8 +27,8 @@ import { pickBy } from 'lodash'
 import api from '../../api/index.js'
 export default {
   components: {
-    'van-list':List,
-    'van-empty':Empty
+    [List.name]:List,
+    [Empty.name]:Empty
   },
   props: {
     offset: {

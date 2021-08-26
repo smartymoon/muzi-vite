@@ -85,10 +85,10 @@ import { NumberKeyboard, AddressEdit, Picker, Popup } from 'vant'
 import MuziHeader from '../../components/MuziHeader.vue'
 export default {
   components: {
-   'van-number-keyboard':NumberKeyboard,
-   'van-address-edit':AddressEdit,
-   'van-picker':Picker,
-   'van-popup':Popup,
+   [NumberKeyboard.name]:NumberKeyboard,
+   [AddressEdit.name]:AddressEdit,
+   [Picker.name]:Picker,
+   [Popup.name]:Popup,
     MuziHeader
   },
   setup() {

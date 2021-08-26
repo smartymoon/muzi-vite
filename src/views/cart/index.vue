@@ -113,8 +113,8 @@ import MuziHeader from '../../components/MuziHeader.vue'
 import MuziFooter from '../../components/MuziFooter.vue'
 export default {
   components: {
-    'van-checkbox':Checkbox,
-    'van-stepper':Stepper,
+    [Checkbox.name]:Checkbox,
+    [Stepper.name]:Stepper,
     MuziHeader,
     MuziFooter
   },

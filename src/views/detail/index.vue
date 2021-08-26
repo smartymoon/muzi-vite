@@ -52,8 +52,8 @@ import SectionDtl from './component/SectionDtl.vue'
 import DtlFooter from './component/DtlFooter.vue'
 export default {
   components: {
-    'van-swipe':Swipe,
-    'van-swipe-item':SwipeItem,
+    [Swipe.name]:Swipe,
+    [SwipeItem.name]:SwipeItem,
     BaseSquare,
     SectionInfo,
     SectionCmt,

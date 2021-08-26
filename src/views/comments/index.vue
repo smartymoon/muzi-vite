@@ -52,7 +52,7 @@ import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
     MuziHeader,
-    'van-rate':Rate
+    [Rate.name]:Rate
   },
   setup() {
     const router = useRouter()

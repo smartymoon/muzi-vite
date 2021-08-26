@@ -57,9 +57,9 @@ import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
     MuziHeader,
-    'van-empty':Empty,
-    'van-steps':Steps,
-    'van-step':Step,
+    [Empty.name]:Empty,
+    [Steps.name]:Steps,
+    [Step.name]:Step,
   },
   setup() {
     const router = useRouter()

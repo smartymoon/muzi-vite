@@ -22,9 +22,9 @@ import mitt from 'mitt'
 import { useRouter, useRoute } from 'vue-router'
 export default {
   components: {
-    'van-action-bar':ActionBar,
-    'van-action-bar-icon':ActionBarIcon,
-    'van-action-bar-button':ActionBarButton
+    [ActionBar.name]:ActionBar,
+    [ActionBarIcon.name]:ActionBarIcon,
+    [ActionBarButton.name]:ActionBarButton
   },
   props: {
     iscollect: {

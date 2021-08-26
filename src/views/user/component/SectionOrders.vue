@@ -56,7 +56,7 @@ import waitRefundCountImg from '../../../assets/images/user/售后.jpg'
 import allOrderImg from '../../../assets/images/user/全部订单.jpg'
 export default {
   components: {
-    'van-badge':Badge
+    [Badge.name]:Badge
   },
   props: {
     waitPayCount: {

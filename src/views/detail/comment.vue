@@ -31,7 +31,7 @@ import MuziHeader from '../../components/MuziHeader.vue'
 import SectionCmt from './component/SectionCmt.vue'
 export default {
   components: {
-    'van-rate':Rate,
+    [Rate.name]:Rate,
     MuziHeader,
     SectionCmt
   },

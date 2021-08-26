@@ -71,7 +71,7 @@ import { ActionSheet } from 'vant'
 import MuziHeader from '/src/components/MuziHeader.vue'
 export default {
   components: {
-    'van-action-sheet':ActionSheet,
+    [ActionSheet.name]:ActionSheet,
     MuziHeader
   },
   setup() {

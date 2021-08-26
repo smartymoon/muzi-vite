@@ -174,10 +174,7 @@ const router = new createRouter({
 			path:'/login/changepwd',
 			component:() => import('../views/login/changepwd.vue')
 		}
-	],
-	scrollBehavior() {
-		return { top: 0 }
-	}
+	]
 })
 
 // 路由守卫
@@ -189,6 +186,7 @@ router.beforeEach((to,from,next) => {
 			next('/login')
 		}
 	}
+	window.scrollTo(0, 0)
 	next()
 })
 

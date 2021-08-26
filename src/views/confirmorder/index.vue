@@ -102,8 +102,8 @@ import SelAddress from './component/SelAddress.vue'
 import CouponList from "./component/CouponList.vue"
 export default {
   components: {
-    'van-checkbox':Checkbox,
-    'van-stepper':Stepper,
+    [Checkbox.name]:Checkbox,
+    [Stepper.name]:Stepper,
     MuziHeader,
     SelAddress,
     CouponList
@@ -257,13 +257,15 @@ export default {
             addressinfo: sessionStorage.getItem('addressId'),
             quaninfo:  couponId.value,
             jifenused: 0,
-            cartinfo: orderList.value.cartinfo + ',',
             tprice: totalPrice.value/100
           }
           if(route.query.from === 'detail') { 
             data.amount = orderList.value.carts[0].productMain[0].icount
+            data.cartinfo = orderList.value.cartinfo
+          } else {
+            data.cartinfo = orderList.value.cartinfo + ','
           }
-          api.post("/pay/submitorder", data, true).then((res) => { 
+          api.post("/pay/submitorder", data, true).then((res) => {
             if(res.data.code === 20000) {
               api.post("/pay/orderinfo",{ orderid: res.data.data.orderid }, true).then((res) => {
                 window.location.href = res.data.data.alipayurl

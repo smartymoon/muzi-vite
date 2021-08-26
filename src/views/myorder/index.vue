@@ -28,7 +28,7 @@ import OrderCard from './component/OrderCard.vue'
 export default {
   components: {
     MuziHeader,
-    'van-empty':Empty,
+    [Empty.name]:Empty,
     OrderCard
   },
   setup() {
