@@ -91,8 +91,8 @@
       class="mb-12 border-t border-b max-w-md" 
       currency="HK$"
       :disabled="editStatus ? false : totalNum === 0 ? true : false"
-      :price="editStatus ? null : totalPrice" 
-      :button-text="editStatus ? '删除' : '去结算('+ totalNum +')'" 
+      :price="editStatus ? null : totalPrice"
+      :button-text="editStatus ? '删除' : '去结算('+ totalNum +')'"
       :loading="submitLoading"
       @submit="onSubmit"
     >
