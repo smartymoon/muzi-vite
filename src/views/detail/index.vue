@@ -99,15 +99,28 @@ export default {
     const collectedLoading = ref(false)
 
     const getDetail = function() {
-      api.get("/open/product_detail/get_product_images", { id: route.params.id }).then((res)=>{ msg.banners = res.data.data })
-      api.get("/open/product_detail/get_product_info", { id: route.params.id }).then((res)=>{ 
+      api.get("/open/product_detail/get_product_images", { id: route.params.id }).then((res) => {
+        console.log('banners', res.data) 
+        msg.banners = res.data.data 
+      })
+      api.get("/open/product_detail/get_product_info", { id: route.params.id }).then((res) => {
+        console.log('info', res.data)  
         if (res.data.data.icount === 0) { Toast.fail('库存为0') }
         msg.info = res.data.data
         buyDisabled.value = (res.data.data.icount === 0)
       })
-      api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res)=>{ msg.comments = res.data.data })
-      api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res)=>{ msg.moreList = res.data.data })
-      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ msg.detailImg = res.data.data.simage })
+      api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res) => {
+        console.log('comments', res.data) 
+        msg.comments = res.data.data 
+      })
+      api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res) => {
+        console.log('moreList', res.data)
+        msg.moreList = res.data.data 
+      })
+      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{
+        console.log('dtlImg', res.data)
+        msg.detailImg = res.data.data.simage 
+      })
     }
     // 获取详情页所有信息
     getDetail()
