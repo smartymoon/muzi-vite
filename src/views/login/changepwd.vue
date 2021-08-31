@@ -5,7 +5,7 @@
     <!-- main -->
     <main class="p-4 space-y-1.5">
       <!-- 输入旧密码 -->
-      <form class="border-b border-gray-300">
+      <div class="border-b border-gray-300">
         <van-field 
           v-model="state.oldpwd" 
           type="text"
@@ -17,9 +17,9 @@
           autocomplete=“off” 
           placeholder="请输入旧密码" 
         />
-      </form>
+      </div>
       <!-- 输入新密码 -->
-      <form class="border-b border-gray-300">
+      <div class="border-b border-gray-300">
         <van-field 
           v-model="state.pwd" 
           type="password"
@@ -31,9 +31,9 @@
           autocomplete=“off” 
           placeholder="请输入新密码" 
         />
-      </form>
+      </div>
       <!-- 再次输入新密码 -->
-      <form class="border-b border-gray-300">
+      <div class="border-b border-gray-300">
         <van-field 
           v-model="state.pwd2" 
           type="password"
@@ -45,7 +45,7 @@
           autocomplete=“off” 
           placeholder="请再次输入新密码" 
         />
-      </form>
+      </div>
       <!-- loginButton -->
       <div class="p-12">
         <van-button block round color="#F23030" :loading="loading" @click="confirm">确认修改</van-button>

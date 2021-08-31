@@ -35,7 +35,7 @@
             />
           </div>
           <!-- 输入密码 -->
-          <form class="border-b border-gray-300">
+          <div class="border-b border-gray-300">
             <van-field 
               v-model="state.pwd" 
               type="password"
@@ -47,7 +47,7 @@
               autocomplete=“off” 
               placeholder="请输入您的密码" 
             />
-          </form>
+          </div>
         </van-tab>
         <!-- 验证码登录 -->
         <van-tab title="验证码登录" class="w-full pt-8 space-y-4">

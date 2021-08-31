@@ -120,10 +120,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.van-field__label {
-  color: #333333;
-  font-weight: 700;
-}
-</style>

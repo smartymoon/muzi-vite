@@ -6,7 +6,7 @@ const baseURL = import.meta.env.VITE_APP_URL
 
 const http = axios.create({
   baseURL,
-  timeout: 8000,
+  timeout: 10000,
 })
 
 // 在发起请求时进行拦截，获取token

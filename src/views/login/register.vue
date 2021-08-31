@@ -33,7 +33,7 @@
         <sms-button :tel="state.tel" />
       </div>
       <!-- 输入密码 -->
-      <form class="border-b border-gray-300">
+      <div class="border-b border-gray-300">
         <van-field 
           v-model="state.pwd" 
           type="password"
@@ -45,7 +45,7 @@
           autocomplete=“off” 
           placeholder="请输入您的密码" 
         />
-      </form>
+      </div>
       <!-- loginButton -->
       <div class="p-12">
         <van-button block round color="#F23030" :loading="registerLoading" @click="registered">注册并登陆</van-button>
