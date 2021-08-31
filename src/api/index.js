@@ -51,7 +51,7 @@ api.post = function(url, params, useQs=false) {
 
 api.put = function(url, params) {
   return new Promise((resolve,reject) => {
-    http({ method: "put", url: url, contentType: "application/x-www-form-urlencoded", params:params }).then((res) => { resolve(res) })
+    http({ method: "put", url: url, contentType: "application/x-www-form-urlencoded", params: params }).then((res) => { resolve(res) })
   })
 }
 

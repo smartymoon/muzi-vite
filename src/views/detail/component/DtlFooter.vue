@@ -33,7 +33,7 @@ export default {
     },
     icount: {
       type: Number,
-      default: 0,
+      required:true
     }
   },
   emits: ['collect'],
@@ -51,33 +51,45 @@ export default {
     watch(() => props.icount,(value) => {
       buyDisabled.value = !!!(value > 0)
     })
+    const loginDialog = function() {
+      Dialog.alert({
+        message: '您还未登录，请先登录'
+      }).then(() => {
+        sessionStorage.setItem('loginFrom',route.path)
+        cartDisabled.value = buyDisabled.value = false
+        router.push({ path:'/login' })
+      });
+    }
     return {
       DtlFooterMitt,
       collected,
+      loginDialog,
       // 收藏
       collect() {
-        let data = {userid: sessionStorage.getItem('id'), productid: route.params.id} 
-        if (!collectedLoading.value) {
-          collectedLoading.value = true
-          if (!collected.value) {
-            api.post("/myfavorite/postCollect", data, true).then((res) => { 
-              if(res.data.code === 20000) { 
-                // collected.value = true
-                Toast.success('收藏成功')
-                emit('collect', true)
-              } else { Toast.fail('添加收藏失败')}
-              setTimeout( () => { collectedLoading.value = false }, 500 )
-            })
-          } else {
-            api.delete("/myfavorite/deleteCollect",data).then((res)=>{ 
-              if(res.data.code === 20000) {
-                // collected.value = false
-                Toast.success('取消收藏成功')
-                emit('collect', false)
-              } else { Toast.fail('取消收藏失败')}
-              setTimeout( () => { collectedLoading.value = false }, 500 )
-            })
-          }
+        if (!sessionStorage.getItem('token')) {
+          loginDialog()
+        } else {
+          let data = {userid: sessionStorage.getItem('id'), productid: route.params.id} 
+          if (!collectedLoading.value) {
+            collectedLoading.value = true
+            if (!collected.value) {
+              api.post("/myfavorite/postCollect", data, true).then((res) => {
+                if(res.data.code === 20000) { 
+                  Toast.success('收藏成功')
+                  emit('collect', true)
+                } else { Toast.fail('添加收藏失败')}
+                setTimeout( () => { collectedLoading.value = false }, 500 )
+              })
+            } else {
+              api.delete("/myfavorite/deleteCollect",data).then((res)=>{ 
+                if(res.data.code === 20000) {
+                  Toast.success('取消收藏成功')
+                  emit('collect', false)
+                } else { Toast.fail('取消收藏失败')}
+                setTimeout( () => { collectedLoading.value = false }, 500 )
+              })
+            }
+          } 
         }
       },
 
@@ -86,13 +98,7 @@ export default {
       addCart() {
         cartDisabled.value = true
         if(!sessionStorage.getItem('token')) {
-          Dialog.alert({
-            message: '您还未登录，请先登录'
-          }).then(() => {
-            sessionStorage.setItem('loginFrom',route.path)
-            cartDisabled.value = false
-            router.push({ path:'/login' })
-          });
+          loginDialog()
         } else {
           let data = {userid: sessionStorage.getItem('id'), productid: route.params.id} 
           api.post("/cart/post", data, true).then((res) => {
@@ -110,13 +116,7 @@ export default {
       buy() {
         buyDisabled.value = true
         if(!sessionStorage.getItem('token')) {
-          Dialog.alert({
-            message: '您还未登录，请先登录'
-          }).then(() => {
-            sessionStorage.setItem('loginFrom',route.path)
-            buyDisabled.value = false
-            router.push({ path:'/login' })
-          });
+          loginDialog()
         } else {
           if(sessionStorage.getItem('shiming') === '0') {
             Dialog.alert({ message: '您还未实名认证，请先认证喲~' }).then(() => {
