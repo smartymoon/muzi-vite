@@ -10,10 +10,7 @@ const router = new createRouter({
 		{
 			path:'/',
 			name:'home',
-			component:() => import('../views/home/index.vue'),
-			meta: {
-				keepAlive: true
-			}
+			component:() => import('../views/home/index.vue')
 		},
 
 		// ----------分类----------
