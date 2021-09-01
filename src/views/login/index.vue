@@ -94,7 +94,7 @@
 
 <script>
 import { reactive, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import api from '../../api/index.js'
 import logoImg from '../../assets/images/logo.png'
 import { checkPhone } from '/src/until/index.js'
@@ -108,6 +108,7 @@ export default {
   },
   setup() {
     const router = useRouter()
+    const route = useRoute()
     const active = ref(0)
     const changeTab = function(index) {
       if(index === 0) {
@@ -170,9 +171,13 @@ export default {
               res.data.code === 20000 ? sessionStorage.setItem('shiming', 1) : sessionStorage.setItem('shiming', 0)
             })
             Toast.success('登录成功')
-            if(sessionStorage.getItem('loginFrom')) {
-              router.replace(sessionStorage.getItem('loginFrom'))
-              router.go(-1)
+            if(route.query.from) {
+              if (['/cart', '/user'].includes(route.query.from)) { 
+                router.replace(route.query.from)
+              } else {
+                router.replace(route.query.from)
+                router.go(-1)
+              }
             } else {
               router.push({ path: '/home'})
             }

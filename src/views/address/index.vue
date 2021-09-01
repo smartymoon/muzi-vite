@@ -56,12 +56,10 @@ export default {
       showLoading.value = false
     })
     const onAdd = () => {
-      sessionStorage.setItem('addressFrom', route.path)
-      router.push({ path: '/address/edit', query: { operation: 'creat' } })
+      router.push({ path: '/address/edit', query: { operation: 'creat', from: route.path } })
     }
     const onEdit = (item, index) => {
-      sessionStorage.setItem('addressFrom', route.path)
-      router.push({ path: '/address/edit', query: { operation: 'edit', addressId: item.id, addressLength: list.value.length } })
+      router.push({ path: '/address/edit', query: { operation: 'edit', addressId: item.id, addressLength: list.value.length, from: route.path } })
     }
     const onSelect = (item, index) => {
       chosenAddressId.value = item.id

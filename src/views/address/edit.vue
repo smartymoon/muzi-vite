@@ -95,7 +95,7 @@ export default {
     const router = useRouter()
     const route = useRoute() 
     const showLoading = ref(true)
-    const addressFrom = sessionStorage.getItem('addressFrom')
+    const addressFrom = route.query.from
     const addressLength = +route.query.addressLength
     const showDelete = ref(true)
     const isEdit = !!(route.query.operation === 'edit')

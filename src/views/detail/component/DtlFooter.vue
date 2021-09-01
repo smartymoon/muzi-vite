@@ -55,9 +55,8 @@ export default {
       Dialog.alert({
         message: '您还未登录，请先登录'
       }).then(() => {
-        sessionStorage.setItem('loginFrom',route.path)
         cartDisabled.value = buyDisabled.value = false
-        router.push({ path:'/login' })
+        router.push({ path:'/login', query:{ from: route.path } })
       });
     }
     return {

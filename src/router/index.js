@@ -183,8 +183,7 @@ router.beforeEach((to,from,next) => {
 	if (!window.sessionStorage.getItem("token")) {
 		let blackRouter = ['/cart', '/user']
 		if (blackRouter.includes(to.path)) { 
-			sessionStorage.setItem('loginFrom',to.path)
-			next('/login')
+			next('/login?from=' + to.path)
 		}
 	}
 	window.scrollTo(0, 0)
