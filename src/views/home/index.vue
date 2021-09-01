@@ -83,13 +83,24 @@
         </div>
       </van-tab>
     </van-tabs>
+    <!-- toTop -->
+    <div
+      v-if="showTopIcon"
+      class="fixed h-11 w-11 rounded-full text-gray-200 p-2" 
+      style="bottom:6rem; right:1rem; background-color:rgba(0,0,0,0.6)"
+      @click="toTop"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7" />
+      </svg>
+    </div>
     <!-- footer -->
     <muzi-footer/>
   </div>
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import api from '../../api/index.js'
 import { useRouter } from 'vue-router'
 import { Swipe, SwipeItem } from 'vant'
@@ -111,6 +122,7 @@ export default {
   setup() {
     const router = useRouter()
     const active = ref(0)
+    const showTopIcon = ref(false)
     const tabTitles = [
       { title: '首页', id: '00' },
       { title: '日本药品馆', id: '01' },
@@ -126,6 +138,19 @@ export default {
       kingkong: [],
       hotList: [],
       brandList: []
+    })
+
+    const scrollHandle = function () {
+      showTopIcon.value = (window.scrollY > 1000) 
+    }
+
+    onMounted(() => {
+      //组件挂载时，添加scroll监听
+      window.addEventListener("scroll", scrollHandle, false);
+    })
+    onUnmounted(() => {
+      //组件卸载时，停止监听
+      window.removeEventListener("scroll", scrollHandle, false);
     })
 
     // 获取banners
@@ -146,6 +171,8 @@ export default {
       url,
       params,
       data,
+      showTopIcon,
+      toTop() { window.scrollTo(0, 0)},
       changeTab(name){
         if (name === '00') {
           url.value = '/open/home/guess_like'

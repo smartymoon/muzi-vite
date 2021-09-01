@@ -9,7 +9,11 @@ const router = new createRouter({
 		// ----------主页----------
 		{
 			path:'/',
-			component:() => import('../views/home/index.vue')
+			name:'home',
+			component:() => import('../views/home/index.vue'),
+			meta: {
+				keepAlive: true
+			}
 		},
 
 		// ----------分类----------
@@ -186,8 +190,19 @@ router.beforeEach((to,from,next) => {
 			next('/login')
 		}
 	}
-	window.scrollTo(0, 0)
+	if (from.path !== '/') {
+		window.scrollTo(0, 0)
+	}
 	next()
 })
 
+/**
+router.afterEach((to) => { 
+  if (window.history.state && window.history.state.forward) {
+    to.meta.isBack = true;
+  } else {
+  	to.meta.isBack = false;
+  }
+});
+*/
 export default router;
