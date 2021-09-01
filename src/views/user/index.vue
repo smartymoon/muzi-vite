@@ -15,10 +15,10 @@
           <div class="flex items-center space-x-2.5">
             <p class="text-sm text-white">{{ user.userMaintbl.iname }}</p>
             <van-image 
-              width="60" 
-              height="16" 
-              radius="2"
-              fit="cover"
+              width="60"
+              height="16"
+              radius="5"
+              fit="contain"
               :src="user.userMaintbl.ilevel === 1 ? vipYueImg : vipZunImg" 
               lazy-load 
             />

@@ -109,10 +109,12 @@ export default {
         msg.info = res.data.data
         buyDisabled.value = (res.data.data.icount === 0)
       })
+      /** 
       api.get("/open/product_detail/get_productdetail_comment",{ id: route.params.id }).then((res) => {
         console.log('comments', res.data.data)
         msg.comments = res.data.data 
       })
+      */
       api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res) => {
         console.log('moreList', res.data.data)
         msg.moreList = res.data.data 
