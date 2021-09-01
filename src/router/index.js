@@ -187,9 +187,12 @@ router.beforeEach((to,from,next) => {
 			next('/login')
 		}
 	}
+	window.scrollTo(0, 0)
+	/**
 	if (from.path !== '/') {
 		window.scrollTo(0, 0)
 	}
+	*/
 	next()
 })
 
