@@ -10,6 +10,9 @@ const router = new createRouter({
 		{
 			path:'/',
 			name:'home',
+			meta: {
+				keepAlive: true //设置页面是否需要使用缓存
+			},
 			component:() => import('../views/home/index.vue')
 		},
 
@@ -186,12 +189,10 @@ router.beforeEach((to,from,next) => {
 			next('/login?from=' + to.path)
 		}
 	}
-	window.scrollTo(0, 0)
-	/**
+	// window.scrollTo(0, 0)
 	if (from.path !== '/') {
 		window.scrollTo(0, 0)
 	}
-	*/
 	next()
 })
 
