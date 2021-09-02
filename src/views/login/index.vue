@@ -179,7 +179,7 @@ export default {
                 router.go(-1)
               }
             } else {
-              router.push({ path: '/home'})
+              router.push({ path: '/'})
             }
           } else {
             Toast.fail(res.data.msg)

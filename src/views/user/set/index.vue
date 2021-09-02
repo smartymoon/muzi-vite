@@ -1,5 +1,5 @@
 <template>
-  <div class="relative pt-12 min-h-screen">
+  <div class="relative pt-12 min-h-screen bg-white">
     <muzi-header title="账户设置" />
     <div class="px-4 py-2">
 

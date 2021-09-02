@@ -37,11 +37,21 @@
       </button>
       <!-- 查看订单 -->
       <button
+        v-if="item.orderstate !== '已评价' && item.orderstate !== '已取消'" 
         class="text-red-400 border border-red-400 text-xs rounded-2xl" 
         style="width: 70px; height: 22px"
         @click="toOrderDetail(item.id)"
       >
         查看订单
+      </button>
+      <!-- 确认收货 -->
+      <button
+        v-if="item.orderstate === '待收货'" 
+        class="text-red-400 border border-red-400 text-xs rounded-2xl" 
+        style="width: 70px; height: 22px"
+        @click="confirmReceipt(item.id)"
+      >
+        确认收货
       </button>
       <!-- 去支付 -->
       <button 
@@ -95,6 +105,14 @@ export default {
       // 查看订单
       toOrderDetail(id) {
         router.push({ path: '/myorder/detail', query: { id: id } })
+      },
+      // 确认收货
+      confirmReceipt(id) {
+        api.put("/order/putConfirmgetpro", { userid: sessionStorage.getItem('id'), orderid: id }).then((res) => {
+          if(res.data.code === 20000) {
+            router.push({ path: '/myorder', query: { status: 5 } })
+          }
+        })
       },
       // 去支付 
       payDisabled,
