@@ -164,7 +164,6 @@ export default {
 
     // 获取自有品牌
     api.get("/open/home/get_ziyou_pinpai",{num:2}).then((res)=>{ data.brandList = res.data.data})
-
     return {
       active,
       tabTitles,
