@@ -7,11 +7,13 @@
     </div>
     <!-- content -->
     <div class="mt-4">
-      <van-image width="100%" height="100%" :src="img" lazy-load>
-        <template v-slot:loading>
-          <van-loading type="spinner" size="20" />
-        </template>
-      </van-image>
+      <div v-for="(img, index) in imgs" :key="index">
+        <van-image width="100%" height="100%" :src="img" lazy-load>
+          <template v-slot:loading>
+            <van-loading type="spinner" size="20" />
+          </template>
+        </van-image>
+      </div>
     </div>
   </section>
 </template>
@@ -19,9 +21,9 @@
 <script>
 export default {
   props: {
-    img: {
-      type: String,
-      default: ''
+    imgs: {
+      type: Array,
+      required: true
     }
   }
 }

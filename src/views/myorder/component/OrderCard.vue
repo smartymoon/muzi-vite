@@ -105,6 +105,7 @@ export default {
       // 查看订单
       toOrderDetail(id) {
         router.push({ path: '/myorder/detail', query: { id: id } })
+        return
       },
       // 确认收货
       confirmReceipt(id) {

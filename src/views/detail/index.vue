@@ -30,7 +30,7 @@
       <!-- more -->
       <section-more :list="msg.moreList" />
       <!-- detailImg -->
-      <section-dtl :img="msg.detailImg" />
+      <section-dtl :imgs="msg.detailImg" />
     </main>
 
     <van-action-bar class="pl-2 pr-1" style="box-shadow: 0px -1px 0px 0px #E6E6E6;">
@@ -91,7 +91,7 @@ export default {
       info: {},
       comments: [],
       moreList: [],
-      detailImg: '',
+      detailImg: [],
     })
 
     const cmtTotal = ref(0)
@@ -115,7 +115,7 @@ export default {
         } else { msg.comments = res.data.data  }
       })
       api.get("/open/product_detail/get_product_comment",{ id: route.params.id }).then((res) => { msg.moreList = res.data.data })
-      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res)=>{ msg.detailImg = res.data.data.simage })
+      api.get("/open/product_detail/get_product_detail_image",{ productId: route.params.id }).then((res) => { msg.detailImg = res.data.data.images })
     }
     // 获取详情页所有信息
     getDetail()
